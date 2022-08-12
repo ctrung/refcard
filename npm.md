@@ -37,6 +37,8 @@ Background of package-lock.json
 - npm@5.1.0 : *package-lock.json* is modified when *package.json* changes
 - npm@5.4.2 : *package-lock.json* intended behaviour 
   https://github.com/npm/npm/issues/17979#issuecomment-332701215
+- npm@5.6.0 : fix a cross platform bug in npm@5.4.2 
+  https://github.com/npm/npm/issues/18712  
 - npm@5.7.0 : introducing *npm ci* for faster, more reliable builds
   https://docs.npmjs.com/cli/v8/commands/npm-ci
   https://blog.npmjs.org/post/171556855892/introducing-npm-ci-for-faster-more-reliable
