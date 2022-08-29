@@ -24,8 +24,11 @@ sh "commande" </dev/null
 ## Expansion de variables
 
 ```sh
-${VAR:-x} # retourne seulement
-${VAR:=x} # affecte et retourne
+${VAR:-x} # retourne si unset ou null
+${VAR-x}  # retourne si unset
+
+${VAR:=x} # affecte et retourne si unset ou null
+${VAR=x}  # affecte et retourne si unset
 ```
 
 ## Multi line text dans une variable
