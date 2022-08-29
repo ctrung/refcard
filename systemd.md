@@ -169,10 +169,25 @@ WantedBy=multi-user.target
 $ systemd-analyze verify service_name
 ```
 
-## Display logs
+## Journal
 ```sh
 # a unit logs
 $ journalctl -u service_name
+
 # follow
 $ journalctl -f
+
+# by PID
+$ journalctl _PID=123
+
+# time filters
+$ journalctl --since 1 hour
+$ journalctl --since today
+
+# by boot history (0=current, -1=previous, etc...)
+$ journalctl -b
+
+# by priority
+$ journalctl -p err
+
 ```
