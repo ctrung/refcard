@@ -1,8 +1,5 @@
-# refcard
+Useful commands.
 
-My should-know cards.
+## Linux
 
-# linux
-Personnal Linux commands used at work.
-
-Also @see https://tldr.ostera.io
+Website of command usage examples : https://tldr.ostera.io
