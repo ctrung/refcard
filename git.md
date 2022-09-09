@@ -35,6 +35,12 @@ host=example.org
 > git credential-manager-core erase
 ```
 
+**Credential helper preference**
+```sh
+git config --global credential.helper store|core|cache|manager-core
+```
+
+
 ## Repo migration
 
 Procedure : 
