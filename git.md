@@ -10,8 +10,10 @@ git config --list --show-origin
 
 https://git-scm.com/docs/gitcredentials
 
-In Windows, credential helpers are located in `%GIT_INSTALL_DIR%/mingw64/libexec/git-core/`. \
-Binary name is normalized : `git-credential-*.exe`.
+**Location of credential helpers (`git-credential-*`)** \
+Windows : `%GIT_INSTALL_DIR%/mingw64/libexec/git-core`. \
+Linux : `/usr/lib/git-core`
+
 
 *Git credential manager core* project \
 [Git Credential Manager Core: Building a universal authentication experience](https://github.blog/2020-07-02-git-credential-manager-core-building-a-universal-authentication-experience/#:~:text=GCM%20Core%20is%20a%20free,cross-host%20support%20in%20mind.) \
@@ -20,14 +22,17 @@ Binary name is normalized : `git-credential-*.exe`.
 ```sh
 # Credential helpers main interface
 # https://git-scm.com/docs/git-credential
-git credential fill     # store, retrieval
-git credential approve  # store
-git crendential reject  # erase
+> git credential fill     # store, retrieval
+protocol=https
+host=example.org
+(blankline)
+> git credential approve  # store
+> git crendential reject  # erase
 
 # Credential helper (ex. credential-manager-core)
-git credential-manager-core get
-git credential-manager-core store
-git credential-manager-core erase
+> git credential-manager-core get
+> git credential-manager-core store
+> git credential-manager-core erase
 ```
 
 ## Repo migration
@@ -47,7 +52,7 @@ Pick only some ref subset : https://www.atlassian.com/git/tutorials/git-move-rep
 
 Some ref types can't be pushed in the target repos (eg. read only pull request refs, etc...).
 ```sh
-$ git push new-remote --mirror
+> git push new-remote --mirror
 Enumerating objects: 13, done.
 Counting objects: 100% (13/13), done.
 Delta compression using up to 8 threads
