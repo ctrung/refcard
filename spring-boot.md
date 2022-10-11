@@ -1,9 +1,10 @@
 
 ## Présentation nouvelles releases
 
+2.0 : [Présentation par Phil Webb et Madhura Bhave](https://www.youtube.com/watch?v=TasMZsZxLCA) \
 2.3 : [Présentation par Phil Webb](https://www.youtube.com/watch?v=WL7U-yGfUXA) \
 2.4 : [Présentation par Phil Webb](https://www.youtube.com/watch?v=lgyO9C9zdrg) \
-2.6 : [Présentation par Dan Vega](https://www.youtube.com/watch?v=4L4LEnawcO8) \
+2.6 : [Présentation par Dan Vega](https://www.youtube.com/watch?v=4L4LEnawcO8)
 
 ## Tips
 
