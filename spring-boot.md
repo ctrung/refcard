@@ -19,3 +19,12 @@ SpringApplication springApplication = new SpringApplication(DemoApplication.clas
 springApplication.setApplicationStartup(new FlightRecorderApplicationStartup());
 springApplication.run(args);
 ```
+
+Ou encore d'attacher des properties programatiquement : 
+
+```java
+SpringApplication springApplication = new SpringApplication(DemoApplication.class);
+Properties properties = new Properties();
+properties.put("spring.batch.job.enabled", false);
+application.setDefaultProperties(properties);
+```
