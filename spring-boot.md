@@ -1,11 +1,11 @@
 
-## Useful links
+## Liens 
 
-https://spring.io/
-https://spring.io/blog
-https://start.spring.io/
+https://spring.io \
+https://spring.io/blog \
+https://start.spring.io
 
-[Chaîne YT SpringDeveloper](https://www.youtube.com/user/SpringSourceDev)
+[Chaîne YT SpringDeveloper](https://www.youtube.com/user/SpringSourceDev) \
 [Chaîne YT Spring I/O](https://www.youtube.com/c/SpringIOConference)
 
 ## Présentation nouvelles releases
