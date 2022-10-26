@@ -1,4 +1,13 @@
 
+## Useful links
+
+https://spring.io/
+https://spring.io/blog
+https://start.spring.io/
+
+[Chaîne YT SpringDeveloper](https://www.youtube.com/user/SpringSourceDev)
+[Chaîne YT Spring I/O](https://www.youtube.com/c/SpringIOConference)
+
 ## Présentation nouvelles releases
 
 2.0 : [Prez par Phil Webb et Madhura Bhave](https://www.youtube.com/watch?v=TasMZsZxLCA) \
