@@ -65,7 +65,8 @@ npm install <package_name>@<version>
 npm install <package_name> --save	# write to package.json
 npm install <package_name> --save-dev	# write to package.json
 
-npm list 				# list projetc packages
+npm list 				# list project packages
+npm list -g <package>			# list installed package info
 
 npm outdated 				# check updatable packages
 
@@ -76,11 +77,11 @@ npm set init.license "license"
 
 npm uninstall --save <package_name> # write to package.json
 
-npm update	# usecase 1 : checkout existing project
-		# usecase 2 : update packages
+npm update		# usecase 1 : checkout existing project
+			# usecase 2 : update packages
 
-npm view 	# package info
+npm view <package>	# package info
 
-npx cowsay Hi	# execute a package without install
+npx cowsay Hi		# execute a package without install
 ```
 
