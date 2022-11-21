@@ -40,6 +40,15 @@ EOF
 )
 ```
 
+## Propriétés du shell
+
+Interactif ? \
+`[[ $- == *i* ]] && echo 'Interactive' || echo 'Not interactive'`
+
+Login ? \
+`shopt -q login_shell && echo 'Login shell' || echo 'Not login shell'`
+
+
 ## Redirections
 
 ```sh
