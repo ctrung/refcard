@@ -1,0 +1,72 @@
+az login
+az logout
+
+az account show
+az account list-locations
+az account set --subscription <SUBSCRIPTION_ID>
+
+az configure --defaults group=${RESOURCE_GROUP_NAME}
+az configure --defaults spring=${SPRING_CLOUD_NAME}
+
+az connection create mysql-flexible \
+       --resource-group <RESOURCE_GROUP> \
+       --connection mysql_conn \
+       --target-resource-group <TARGET_RESOURCE_GROUP> \
+       --server <RESOURCE_NAME> \
+       --database <DATABASE_NAME> \
+       --user-account mysql-identity-id=/subscriptions/<SUBSCRIPTION_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<USER_ASSIGNED_MANAGED_IDENTITY_NAME> \
+       --query authInfo.userName \
+       --output tsv
+
+az extension add -n spring -y
+
+az group create --name $AZ_RESOURCE_GROUP \
+                --location $AZ_LOCATION | jq
+
+az mysql server create \
+    --resource-group $AZ_RESOURCE_GROUP \
+    --name $AZ_DATABASE_NAME \
+    --location $AZ_LOCATION \
+    --sku-name B_Gen5_1 \
+    --storage-size 5120 \
+    --admin-user $AZ_MYSQL_USERNAME \
+    --admin-password $AZ_MYSQL_PASSWORD \
+    | jq
+
+az mysql server firewall-rule create \
+    --resource-group $AZ_RESOURCE_GROUP \
+    --name $AZ_DATABASE_NAME-database-allow-local-ip \
+    --server-name $AZ_DATABASE_NAME \
+    --start-ip-address $AZ_LOCAL_IP_ADDRESS \
+    --end-ip-address $AZ_LOCAL_IP_ADDRESS \
+    | jq
+
+az mysql server firewall-rule create \
+    --resource-group $AZ_RESOURCE_GROUP \
+    --name allAzureIPs \
+    --server-name $AZ_DATABASE_NAME \
+    --start-ip-address 0.0.0.0 --end-ip-address 0.0.0.0 \
+    | jq
+    
+az mysql db create \
+    --name "todos" \
+    --server-name ${SPRING_CLOUD_NAME}-mysql
+    
+az spring create \
+    -g "$RESOURCE_GROUP_NAME" \
+    -n "$SPRING_CLOUD_NAME" \
+    --sku standard
+    
+ az spring app create --name todo-service \
+                      --resource-group "$RESOURCE_GROUP_NAME" \
+                      --service "$SPRING_CLOUD_NAME" \
+                      --runtime-version Java_11
+                      
+az spring app deploy --name todo-service \
+                     --service "$SPRING_CLOUD_NAME" \
+                     --resource-group "$RESOURCE_GROUP_NAME" \
+                     --artifact-path target/demo-0.0.1-SNAPSHOT.jar
+
+az spring app logs --name todo-service \
+                   --service "$SPRING_CLOUD_NAME" \
+                   --resource-group "$RESOURCE_GROUP_NAME" -f
