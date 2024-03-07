@@ -20,7 +20,12 @@ curl -d <JSON>  \
     --data-binary <data>
     --data-raw <data>  # v7.43.0+, alternative à --data pour ne pas interpréter le caractère @
 
+-f, --fail
+-F, --form <name=content>
+
 -H, --header <header/@file>
+
+-L, --location <URL>
 
 -o, --output <file> : Redirige la réponse de la requête dans un fichier au lieu de stdout
 -s, --silent     : N'affiche pas la proggression et les erreurs
