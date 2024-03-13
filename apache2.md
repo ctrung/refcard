@@ -50,6 +50,23 @@ grep -E "^User |^Group " /etc/httpd/conf/httpd.conf   # redhat
 grep -E "^User |^Group " /etc/apache2/httpd.conf      # debian
 ```
 
+## Commands
+
+(redhat)
+```sh
+vi /etc/httpd/conf/httpd.conf
+vi /etc/httpd/conf.d/mysite.conf
+apachectl configtest              # check config is ok
+systemctl reload httpd
+```
+
+(debian)
+```sh
+vi /etc/apache2/httpd.conf
+vi /etc/apache2/sites-available/mysite.conf
+apache2ctl configtest             # check config is ok
+systemctl reload apache2
+```
 
 ## Install mod_php
 
@@ -130,6 +147,8 @@ NameVirtualHost *:80
 
 </VirtualHost>
 ```
+
+Guide to mod_proxy for Jenkins : https://www.jenkins.io/doc/book/system-administration/reverse-proxy-configuration-with-jenkins/reverse-proxy-configuration-apache/#mod_proxy
 
 ## Update /var/www/html permissions 
 
