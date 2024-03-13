@@ -20,10 +20,14 @@ curl -d <JSON>  \
     --data-binary <data>
     --data-raw <data>  # v7.43.0+, alternative à --data pour ne pas interpréter le caractère @
 
+-e, --referer <URL>
+
 -f, --fail
 -F, --form <name=content>
 
 -H, --header <header/@file>
+
+-i, --include : Inclue les headers des réponses dans la sortie standard
 
 -L, --location <URL>
 
