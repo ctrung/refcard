@@ -58,6 +58,7 @@ vi /etc/httpd/conf/httpd.conf
 vi /etc/httpd/conf.d/mysite.conf
 apachectl configtest              # check config is ok
 systemctl reload httpd
+httpd -k graceful
 ```
 
 (debian)
