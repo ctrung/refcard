@@ -20,7 +20,7 @@ vi /var/www/your_domain/index.html
 
 sudo vi /etc/apache2/sites-available/your_domain.conf
 (content to paste)
-<VirtualHost *:80>
+<VirtualHost *:80>                           #  <--- IP or * if dynamic IP
     ServerAdmin webmaster@localhost
     ServerName your_domain
     ServerAlias www.your_domain
@@ -126,27 +126,17 @@ worker.worker4.port=8309
 
 Exemple pour une webapp JEE sous Tomcat (contexte `xxx`) hébergée sur `host`.
 
-`/etc/httpd/conf.d/xxx.conf`
+`/etc/httpd/conf.d/XXX.conf`
 ```
-NameVirtualHost *:80
+ProxyPass         /XXX  http://HOST:8080/XXX nocanon
+ProxyPassReverse  /XXX  http://HOST:8080/XXX
+ProxyRequests     Off
+AllowEncodedSlashes NoDecode
 
-<VirtualHost *:80>
-     ServerName host
-
-     ErrorLog /var/log/apache/apache.error_80.log
-     CustomLog /var/log/apache/apache_80.log combined
-
-     <Proxy *>
-       AddDefaultCharset Off
-       Order deny,allow
-     </Proxy>
-
-     ProxyPreserveHost on
-     ProxyRequests Off
-     ProxyPass /xxx http://host:8080/xxx
-     ProxyPassReverse /xxx http://host:8080/xxx
-
-</VirtualHost>
+<Proxy http://HOST:8080/XXX*>
+   Order deny,allow
+   Allow from all
+</Proxy>
 ```
 
 Guide to mod_proxy for Jenkins : https://www.jenkins.io/doc/book/system-administration/reverse-proxy-configuration-with-jenkins/reverse-proxy-configuration-apache/#mod_proxy
