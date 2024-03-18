@@ -50,6 +50,16 @@ grep -E "^User |^Group " /etc/httpd/conf/httpd.conf   # redhat
 grep -E "^User |^Group " /etc/apache2/httpd.conf      # debian
 ```
 
+## Check modules
+
+(redhat)
+```sh
+httpd -l  # list static modules
+
+httpd -M                  # list static and dynamic modules
+httpd -t -D DUMP_MODULES  # idem
+```
+
 ## Commands
 
 (redhat)
