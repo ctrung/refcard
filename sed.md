@@ -24,3 +24,11 @@ Example : supprimer le bloc *<jenkins.model.BuildDiscarderProperty/>* dans la co
 sed -i.bak '/<jenkins.model.BuildDiscarderProperty>/,/<\/jenkins.model.BuildDiscarderProperty>/d' config.xml
 # -i.bak : inline replace avec backup fichier original en .bak
 ```
+
+## Truncate
+
+```sh
+proj=https://dev.azure.com/ORG/xxx/_git/xyz-repo
+res="$(sed -e 's,https://dev.azure.com/ORG/.*/_git/,,' <<<"$proj")"
+# res ---> xyz-repo
+```
