@@ -8,6 +8,8 @@ Unit : entity managed by systemd.
 - /run/systemd/generator 	: place where systemd generates units automagically (eg. mount units based on /etc/fstab, cf man systemd.mount)
 - /etc/systemd/system		: admin custom unit files
 
+https://unix.stackexchange.com/questions/206315/whats-the-difference-between-usr-lib-systemd-system-and-etc-systemd-system
+
 Nice place to put service startup script ? /usr/local/sbin
 
 systemd-delta : identify and compare overriding unit files
