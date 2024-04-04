@@ -78,6 +78,15 @@ Usecase  : # https://stackoverflow.com/questions/13800225/while-loop-stops-readi
 sh "commande" </dev/null
 ```
 
+## Exécuter une commande après une commande en cours
+https://superuser.com/questions/35179/how-to-execute-command-after-current-running-command-in-bash
+
+Exemple : récupérer la date de fin de la commande en cours d'exécution
+```sh
+# ctrl+Z + bg pour passer la commande en cours en arrière plan
+wait; date
+```
+
 ## Expansion de variables
 
 ```sh
