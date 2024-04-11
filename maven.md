@@ -51,27 +51,58 @@ Before 3.3.0
 
 ## maven-deploy-plugin
 
-A savoir : option <skip> supportée par le goal deploy-file depuis la 3.1.0. 
+**A savoir** : L'option `<skip>` est supportée par le goal deploy-file depuis la version **3.1.0**. Si `<skip>` est défini au niveau de la `<configuration>` du plugin, il sera propagé au goal.
+
+Exemple : pour déployer plusieurs assembly, on désactive le goal par défaut et on active les goals de chaque assembly **explicitement** : 
 
 ```xml
-<execution>
-	<id>deploy-release-patch-tar.gz</id>
-	<phase>deploy</phase>
-	<goals>
-		<goal>deploy-file</goal>
-	</goals>
-	<configuration>
-		<url>http://.../nexus/content/repositories/...</url>
-		<repositoryId>nexus</repositoryId>
-		<file>target/${project.artifactId}-${project.version}-patch.tar.gz</file>
-		<groupId>${project.groupId}</groupId>
-		<artifactId>${project.artifactId}</artifactId>
-		<version>${project.version}</version>
-		<classifier>patch</classifier>
-		<packaging>tar.gz</packaging>
-		<generatePom>false</generatePom>
-	</configuration>
-</execution>
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-deploy-plugin</artifactId>
+  <configuration>
+    <skip>true</skip>
+  </configuration>
+  <executions>
+    <execution>
+      <id>deploy-release-full-tar.gz</id>
+      <phase>deploy</phase>
+      <goals>
+        <goal>deploy-file</goal>
+      </goals>
+      <configuration>
+        <url>http://HOST/nexus/content/repositories/REPO</url>
+        <repositoryId>nexus</repositoryId>
+        <file>target/${project.artifactId}-${project.version}-full.tar.gz</file>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>${project.artifactId}</artifactId>
+        <version>${project.version}</version>
+        <classifier>full</classifier>
+        <packaging>tar.gz</packaging>
+        <generatePom>true</generatePom>
+        <skip>false</skip>
+      </configuration>
+    </execution>
+    <execution>
+      <id>deploy-release-patch-tar.gz</id>
+      <phase>deploy</phase>
+      <goals>
+        <goal>deploy-file</goal>
+      </goals>
+      <configuration>
+        <url>http://HOST/nexus/content/repositories/REPO</url>
+        <repositoryId>nexus</repositoryId>
+        <file>target/${project.artifactId}-${project.version}-patch.tar.gz</file>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>${project.artifactId}</artifactId>
+        <version>${project.version}</version>
+        <classifier>patch</classifier>
+        <packaging>tar.gz</packaging>
+        <generatePom>false</generatePom>
+        <skip>false</skip>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
 ```
 
 ## maven-release-plugin
