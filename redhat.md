@@ -98,11 +98,73 @@ $ cat /etc/redhat-release
 CentOS Linux release 7.2.1511 (Core)
 ```
 
+## EPEL repo
+
+RHEL 8
+```sh
+$ sudo yum repolist
+Updating Subscription Management repositories.
+repo id                                                                         repo name
+docker-ce-stable                                                                Docker CE Stable - x86_64
+rhel-8-for-x86_64-appstream-rpms                                                Red Hat Enterprise Linux 8 for x86_64 - AppStream (RPMs)
+rhel-8-for-x86_64-baseos-rpms                                                   Red Hat Enterprise Linux 8 for x86_64 - BaseOS (RPMs)
+
+
+
+$ sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+Updating Subscription Management repositories.
+Last metadata expiration check: 2:36:11 ago on Wed 17 Apr 2024 02:21:46 PM CEST.
+epel-release-latest-8.noarch.rpm                                                                                                                        6.1 kB/s |  25 kB     00:04
+Dependencies resolved.
+========================================================================================================================================================================================
+ Package                                       Architecture                            Version                                      Repository                                     Size
+========================================================================================================================================================================================
+Installing:
+ epel-release                                  noarch                                  8-19.el8                                     @commandline                                   25 k
+
+Transaction Summary
+========================================================================================================================================================================================
+Install  1 Package
+
+Total size: 25 k
+Installed size: 35 k
+Downloading Packages:
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                                                                                                                                1/1
+  Installing       : epel-release-8-19.el8.noarch                                                                                                                                   1/1
+  Running scriptlet: epel-release-8-19.el8.noarch                                                                                                                                   1/1
+Many EPEL packages require the CodeReady Builder (CRB) repository.
+It is recommended that you run /usr/bin/crb enable to enable the CRB repository.
+
+  Verifying        : epel-release-8-19.el8.noarch                                                                                                                                   1/1
+Installed products updated.
+
+Installed:
+  epel-release-8-19.el8.noarch
+
+Complete!
+
+
+
+$ sudo yum repolist
+Updating Subscription Management repositories.
+repo id                                                                         repo name
+docker-ce-stable                                                                Docker CE Stable - x86_64
+epel                                                                            Extra Packages for Enterprise Linux 8 - x86_64
+rhel-8-for-x86_64-appstream-rpms                                                Red Hat Enterprise Linux 8 for x86_64 - AppStream (RPMs)
+rhel-8-for-x86_64-baseos-rpms                                                   Red Hat Enterprise Linux 8 for x86_64 - BaseOS (RPMs)
+```
+
 ## Repos
 
-[Software collections (SCL)](https://www.softwarecollections.org/en/) : versions récentes et alternatives des programmes dans un file system séparé\
 [Endpointdev](https://packages.endpointdev.com/) : versions récentes des programmes \
-[Remi repo](https://blog.remirepo.net/) : repo proposants des versions récentes de PHP
+[EPEL](https://www.redhat.com/sysadmin/install-epel-linux) : Extra Packages for Enterprise Linux \
+[Remi repo](https://blog.remirepo.net/) : repo proposants des versions récentes de PHP \
+[Software collections (SCL)](https://www.softwarecollections.org/en/) : versions récentes et alternatives des programmes dans un file system séparé
 
 
 ## SCL (Software Collections)
