@@ -1,4 +1,4 @@
-# Repos
+## Repos
 
 -	Fichier /etc/yum.conf
 -	Répertoire /etc/yum.repos.d (fichier .repo, attribut `enabled` pour activer)
@@ -12,7 +12,7 @@ yum --enablerepo remi,remi-php55 install php
 yum --disablerepo remi,remi-php55 install php
 ```
 
-# Commandes
+## Commandes
 
 ```
 yum list <package>   # liste un paquet déjà installé
@@ -27,4 +27,11 @@ yum-complete-transaction --cleanup-only  # nettoie l'état d'une précédente tr
 
 yum remove <paquet>
 yum erase <paquet>    # équivalent
+```
+
+## Lister le contenu d'un package rpm
+
+```sh
+# qu'il soit déjà installé ou non, commande unique
+dnf repoquery -l <package>
 ```
