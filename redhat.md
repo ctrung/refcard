@@ -159,6 +159,11 @@ rhel-8-for-x86_64-appstream-rpms                                                
 rhel-8-for-x86_64-baseos-rpms                                                   Red Hat Enterprise Linux 8 for x86_64 - BaseOS (RPMs)
 ```
 
+## Centraliser la gestion des certificats
+
+Cf. article [OpenJDK cacerts file is being overwritten](https://access.redhat.com/solutions/3076491)
+Man de [update-ca-trust](https://www.unix.com/man-page/centos/8/update-ca-trust/)
+
 ## Repos
 
 [Endpointdev](https://packages.endpointdev.com/) : versions récentes des programmes \
