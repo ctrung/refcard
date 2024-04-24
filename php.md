@@ -10,10 +10,38 @@ cat ca-certificate.crt >> /mon/chemin/ca-bundle-custom.crt
 # Renseigner la propriété **openssl.cafile**
 # avec /mon/chemin/ca-bundle-custom.crt dans eg. /etc/opt/remi/php81/php.ini
 ```
+## Infos fichiers de config ini
+
+````sh
+$ php --ini
+Configuration File (php.ini) Path: /etc
+Loaded Configuration File:         /etc/php.ini
+Scan for additional .ini files in: /etc/php.d
+Additional .ini files parsed:      /etc/php.d/curl.ini,
+/etc/php.d/dom.ini,
+/etc/php.d/fileinfo.ini,
+/etc/php.d/gd.ini,
+/etc/php.d/intl.ini,
+/etc/php.d/json.ini,
+/etc/php.d/mbstring.ini,
+/etc/php.d/pdo.ini,
+/etc/php.d/pdo_sqlite.ini,
+/etc/php.d/phar.ini,
+/etc/php.d/posix.ini,
+/etc/php.d/sqlite3.ini,
+/etc/php.d/sysvmsg.ini,
+/etc/php.d/sysvsem.ini,
+/etc/php.d/sysvshm.ini,
+/etc/php.d/wddx.ini,
+/etc/php.d/xmlreader.ini,
+/etc/php.d/xmlwriter.ini,
+/etc/php.d/xsl.ini,
+/etc/php.d/zip.ini
+```
 
 ## Installer de nouvelles extensions
 
-(RHEL + remi repo)
+(remi repo)
 ```sh
 sudo yum install php81-php-xml php81-php-gd php81-php-pdo php81-php-sodium
 ```
