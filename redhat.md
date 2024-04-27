@@ -159,10 +159,12 @@ rhel-8-for-x86_64-appstream-rpms                                                
 rhel-8-for-x86_64-baseos-rpms                                                   Red Hat Enterprise Linux 8 for x86_64 - BaseOS (RPMs)
 ```
 
-## Centraliser la gestion des certificats
+## Gestion des CA
 
-Cf. article [OpenJDK cacerts file is being overwritten](https://access.redhat.com/solutions/3076491)
-Man de [update-ca-trust](https://www.unix.com/man-page/centos/8/update-ca-trust/)
+[Making CA certificates available to Linux command-line tools](https://www.redhat.com/sysadmin/ca-certificates-cli) \
+[How to configure your CA trust list in Linux](https://www.redhat.com/sysadmin/configure-ca-trust-list) \
+[OpenJDK cacerts file is being overwritten](https://access.redhat.com/solutions/3076491) \
+[update-ca-trust man](https://www.unix.com/man-page/centos/8/update-ca-trust/)
 
 ## Repos
 
