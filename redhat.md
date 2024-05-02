@@ -94,8 +94,12 @@ $ hostnamectl
             Kernel: Linux 3.10.0-327.el7.x86_64
       Architecture: x86-64
 
-$ cat /etc/redhat-release
+$ cat /etc/redhat-release (centos output)
 CentOS Linux release 7.2.1511 (Core)
+
+$ cat /etc/redhat-release (rhel output)
+Red Hat Enterprise Linux Server release 7.9 (Maipo)
+
 ```
 
 ## EPEL repo
