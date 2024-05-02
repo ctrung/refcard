@@ -67,6 +67,7 @@ httpd -t -D DUMP_MODULES  # idem
 vi /etc/httpd/conf/httpd.conf
 vi /etc/httpd/conf.d/mysite.conf
 apachectl configtest              # check config is ok
+# Rechargement via l'une des deux commandes ci dessous 
 systemctl reload httpd
 httpd -k graceful
 ```
@@ -98,6 +99,21 @@ sudo systemctl reload apache2
 NB : chemins RHEL ci-dessous, à adapter sous debian (/etc/apache2/...)
 
 Plusieurs instances Tomcat servies par Apache.  
+
+`/etc/httpd/conf/httpd.conf`
+```
+Include conf/mod-jk.conf
+```
+
+`/etc/httpd/conf/mod-jk.conf`
+```
+LoadModule jk_module modules/mod_jk.so
+JkWorkersFile conf.d/workers.properties
+JkShmFile /var/log/httpd/mod_jk.shm
+JkLogFile /var/log/httpd/mod_jk.log
+JkLogLevel info
+```
+
 
 `/etc/httpd/conf.d/xxx.conf`
 ```
