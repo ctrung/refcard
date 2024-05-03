@@ -3,6 +3,7 @@
 
 Goal Maven
 ```
+# SQ >=10, sonar.login is replaced by sonar.token
 mvn sonar:sonar -Dsonar.host.url=... -Dsonar.login=... -Dsonar.password=...
 mvn sonar:sonar -Dsonar.host.url=... -Dsonar.token=...
 # Optionals : `-Dsonar.projectKey=...`, `-Dsonar.projectName=...`
