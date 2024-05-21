@@ -1,15 +1,21 @@
 
-## création et démarrage
+## Création, démarrage, statut, arrêt
 ```sh
 vagrant init <box, eg ubuntu/focal64>
 vagrant up
+
+vagrant status
+vagrant status <vm>
+
+vagrant halt
+vagrant halt <vm> 
 ```
 
-## connexion à la VM
+## Connexion à la VM
 ```sh
 vagrant ssh-config  # affiche les infos
 
-vagrant ssh
+vagrant ssh <vm>
 # ou
 ssh vagrant@127.0.0.1 -p 2222 -i .vagrant/machines/default/virtualbox/private_key 
 ```
