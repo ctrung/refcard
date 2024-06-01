@@ -25,10 +25,10 @@ Strong encapsulation (exported vs concealed packages)
 module-info.java
 ```java
 module java.base {
-	exports java.lang;
-	exports java.io;
-	exports java.net;
-	exports java.util;	
+  exports java.lang;
+  exports java.io;
+  exports java.net;
+  exports java.util;	
 }
 ```
 
@@ -40,8 +40,8 @@ module java.base {
 NB : Qualified exports -> exports to friend modules
 ```java
 module API {
-	exports P;
-	exports P.Helper to Impl1, Impl2; 
+  exports P;
+  exports P.Helper to Impl1, Impl2; 
 }
 ```
 
@@ -51,13 +51,35 @@ A module is also a set of packages exported by other modules
 
 ```java
 module hello.world {
-	exports com.example.hello;
-	requires java.base;	
+  exports com.example.hello;
+  requires java.base;	
 }
 ```
 
+Transitive exports to ease the number of requires by a consumer module
+```java
+module java.sql {
+  requires transitive java.logging; 
+  requires transitive java.xml;
+  ...
+}
+
+module hello.world {
+  ...
+  requires java.sql;   // modules java.logging and java.xml are automatically required by transitivity
+}
+```
+Rule : use `requires transitive` if these types appears in your exported package API signatures 
+
 3. Benefits of modules 
-* Run with java -p mods -m hello.world
+* Reliable configuration : dependencies are checked at compilation and runtime reducing runtime errors
+* Strong encapsulation : explicit exposition, internal are concealed  
+* Scalable development : explicit boundaries allow for maintanable and parallel work
+* Security : strong cncapsulation reduces surface attacks
+* Optimization : class loading is more performant during JVM startup 
+
+For examples : 
+* Run with `java -p mods -m hello.world`
 * No missing dependencies
 * No cyclic dependencies
 * No split packages
@@ -89,9 +111,133 @@ mylib.jar -> java.base
 For libraries maintainers : `jdeps -jdkinternals library.jar` on JDK 8 or 9 
 
 
-Automatic modules to ease migration and use non modular jars (yesterday's JARs are today's modules) : 
+**Scenario 1** : Modular app + un-modularized libs
+
+-> Automatic modules to ease migration and use non modular jars (yesterday's JARs are today's modules) : 
 * "Real" modules
 * No changes to someone else's JAR file
 * Module name derived from JAR file name (hyphens to dots, no version)
 * Exports all its packages
 * Requires all other modules
+
+**Scenario 2** : Un-modularized app
+
+-> Unnamed module to make not yet modular code (eg. our app) continue running on JDK 9. Unamed modules access all modules. 
+
+
+## Linking
+
+**New !!** : Optional phase between compilation and runtime. 
+
+A new tool called `jlink` can create a runtime image containing only the necessary modules to run an application.
+
+`jlink --module-path mods/:$JAVA_HOME/jmods --add-modules hello --launcher hello=hello --output hello-image`
+
+`jlink` options : 
+* `--module-path`
+* `--add-modules` : root module that needs to be runnable in the runtime image
+* `--launcher <name>=<module>[/<mainclass>]` : Add a launcher command (aka. script in the bin folder) of the given name for the module and the main class if specified
+
+What is produced ? 
+
+```
+hello-image/
+├── bin
+│   ├── hello    <<<< --launcher option
+│   ├── java     <<<< java and resolved modules are embedded  
+│   └── keytool
+├── conf
+│   ├── net.properties
+│   └── security
+│       ├── java.policy
+│       ├── java.security
+│       └── policy
+│           ├── limited
+│           │   ├── default_local.policy
+│           │   ├── default_US_export.policy
+│           │   └── exempt_local.policy
+│           ├── README.txt
+│           └── unlimited
+│               ├── default_local.policy
+│               └── default_US_export.policy
+├── include
+│   ├── classfile_constants.h
+│   ├── jni.h
+│   ├── jvmticmlr.h
+│   ├── jvmti.h
+│   └── linux
+│       └── jni_md.h
+├── legal
+│   └── java.base
+│       ├── ADDITIONAL_LICENSE_INFO
+│       ├── aes.md
+│       ├── asm.md
+│       ├── ASSEMBLY_EXCEPTION
+│       ├── cldr.md
+│       ├── c-libutl.md
+│       ├── icu.md
+│       ├── LICENSE
+│       ├── public_suffix.md
+│       └── unicode.md
+├── lib
+│   ├── classlist
+│   ├── jexec
+│   ├── jli
+│   │   └── libjli.so
+│   ├── jrt-fs.jar
+│   ├── jspawnhelper
+│   ├── jvm.cfg
+│   ├── libjava.so
+│   ├── libjimage.so
+│   ├── libjsig.so
+│   ├── libnet.so
+│   ├── libnio.so
+│   ├── libverify.so
+│   ├── libzip.so
+│   ├── modules
+│   ├── security
+│   │   ├── blocked.certs
+│   │   ├── cacerts
+│   │   ├── default.policy
+│   │   └── public_suffix_list.dat
+│   ├── server
+│   │   ├── libjsig.so
+│   │   ├── libjvm.so
+│   │   └── Xusage.txt
+│   └── tzdb.dat
+└── release
+```
+
+
+## Commands
+
+`javac` options :
+* `-d` : destination
+
+`jar` options :
+* `-c` : create
+* `-f` : file
+* `-e` : entry point (default main class)
+* `-C` : change
+
+`java` options :
+* `-p` : `--module-path`, module path
+* `-m` : `--module`, module name
+
+```
+java --list-modules   # list platform modules
+
+javac -d out/helloworld src/helloworld/com/javamodularity/helloworld/HelloWorld.java src/helloworld/module-info.java  # NB : module name must match with root folder name !
+
+jar -cfe mods/helloworld.jar com.javamodularity.helloworld.HelloWorld -C out/helloworld
+
+java -p out/ -m hello/com.hello.HelloWorld  # exploded module mode, module name option always comes last and has syntax `module-name`/`main class`
+java -p mods -m hello/com.hello.HelloWorld  # modular jar mode (explicit main class)
+java -p mods -m hello                       # modulat jar mode (implicit main class)
+
+java --show-module-resolution --limit-modules java.base -p mods -m hello                       # trace module resolution, --limit-modules prevents other platform modules from being resolved through service binding
+java -Xlog:module=debug --show-module-resolution --limit-modules java.base -p mods -m hello    # more verbose...
+
+
+
+```
