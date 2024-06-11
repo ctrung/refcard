@@ -69,7 +69,12 @@ module hello.world {
   requires java.sql;   // modules java.logging and java.xml are automatically required by transitivity
 }
 ```
-Rule : use `requires transitive` if these types appears in your exported package API signatures 
+
+**NB 1** : Use `requires transitive` if these types appears in your exported package API signatures (return types, argument types, exceptions, etc...).
+
+**NB 2** : When compiling with the `-Xlint:exports` flag, any types that are part of exported types which are not transitively required (but should be) result in a warning.
+
+
 
 3. Benefits of modules 
 * Reliable configuration : dependencies are checked at compilation and runtime reducing runtime errors
@@ -131,7 +136,12 @@ For libraries maintainers : `jdeps -jdkinternals library.jar` on JDK 8 or 9
 
 A new tool called `jlink` can create a runtime image containing only the necessary modules to run an application.
 
-`jlink --module-path mods/:$JAVA_HOME/jmods --add-modules hello --launcher hello=hello --output hello-image`
+```sh
+jlink --module-path mods/:$JAVA_HOME/jmods --add-modules hello --launcher hello=hello --output hello-image
+
+jlink --module-path mods/:$JAVA_HOME/jmods --add-modules easytext.cli --add-modules easytext.analysis.coleman --add-modules easytext.analysis.kincaid --add-modules easytext.analysis.naivesyllablecounter --output image  # adding optional service provider modules and its transitive deps
+
+```
 
 `jlink` options : 
 * `--module-path`
@@ -228,7 +238,8 @@ hello-image/
 * `-m` : `--module`, module name
 
 ```
-java --list-modules   # list platform modules
+java --list-modules              # list platform modules
+java --describe-module java.se   # show module descriptor
 
 javac -d out/helloworld src/helloworld/com/javamodularity/helloworld/HelloWorld.java src/helloworld/module-info.java  # NB : module name must match with root folder name !
 javac -d out --module-source-path src -m easytext.cli
@@ -298,4 +309,54 @@ Remarks :
 - Static provider method can be implemented in a separate class that need be declared in `module-info.java` (thus not the implementation that can be package private then) : `provides javamodularity.easytext.analysis.api.Analyzer with javamodularity.providers.factory.ExampleProviderFactory;`
 - No shutdown or service deregistration (deletion through garbage collection)
 - To avoid calling `ServiceLoader` API in consumer class, one can use the *factory pattern* by adding a java 8 static method in the service interface : `static Iterable<Analyzer> getAnalyzers() { return ServiceLoader.load(Analyzer.class); }` and declaring the `uses` constraint in the `module-info.java` file of the api  module : `uses javamodularity.easytext.analysis.api.Analyzer;`
-- Service type inspection is provided through the `Stream<ServiceLoader.Provider<S>> stream​()` API
+- Service type inspection is provided through the `public static Stream<ServiceLoader.Provider<S>> ServiceLoader.stream​()` API
+- Service providers are resolved during runtime startup based on the `provides` and `uses` clauses. If a required dependency of a provider module is not found, execution is stopped. No provider services is possible and does not bloc app execution.
+- `jlink` does not do automatic service binding for many reasons : it's optional, it depends on the consumer side configuration, and images built with jlink might become big since `java.base` relies a lot on services.
+
+## Aggregator module
+
+Module that only requires transitively other deps, no code exported. Example java.se :
+
+```sh
+java --describe-module java.se
+java.se@11.0.18
+requires java.management.rmi transitive
+requires java.sql.rowset transitive
+requires java.instrument transitive
+requires java.desktop transitive
+requires java.transaction.xa transitive
+requires java.security.jgss transitive
+requires java.management transitive
+requires java.prefs transitive
+requires java.security.sasl transitive
+requires java.rmi transitive
+requires java.naming transitive
+requires java.datatransfer transitive
+requires java.base mandated
+requires java.xml.crypto transitive
+requires java.xml transitive
+requires java.scripting transitive
+requires java.logging transitive
+requires java.compiler transitive
+requires java.net.http transitive
+requires java.sql transitive
+```
+
+## Requires static
+
+### Optional dependencies
+
+Modules that are optional at runtime (aka optional dependencies) can be implemented  with services through the `ServiceLoader` API or with the `requires static` clause.
+
+```java
+module framework {
+  requires static fastjsonlib;    <--- module system checks this at compile time, not at runtime
+}
+```
+
+**NB** : the `require static` does not add dependencies for resolution at runtime. For this, one need to have a direct `requires` clause or use `--add-modules` to add it as a root module. 
+
+### Reference compile time only annotations
+
+Example : checking @Nullable or @NonNull or generating code during compilation. 
+
