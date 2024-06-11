@@ -213,6 +213,9 @@ hello-image/
 
 `javac` options :
 * `-d` : destination
+* `-m` : `--module`, Compile only the specified module, check timestamps
+* `-p` : `--module-path`, Specify where to find application modules
+* `--module-source-path` : Specify where to find input source files for multiple modules
 
 `jar` options :
 * `-c` : create
@@ -228,6 +231,7 @@ hello-image/
 java --list-modules   # list platform modules
 
 javac -d out/helloworld src/helloworld/com/javamodularity/helloworld/HelloWorld.java src/helloworld/module-info.java  # NB : module name must match with root folder name !
+javac -d out --module-source-path src -m easytext.cli
 
 jar -cfe mods/helloworld.jar com.javamodularity.helloworld.HelloWorld -C out/helloworld
 
@@ -238,6 +242,60 @@ java -p mods -m hello                       # modulat jar mode (implicit main cl
 java --show-module-resolution --limit-modules java.base -p mods -m hello                       # trace module resolution, --limit-modules prevents other platform modules from being resolved through service binding
 java -Xlog:module=debug --show-module-resolution --limit-modules java.base -p mods -m hello    # more verbose...
 
+```
 
+### Services
+
+Optional feature for creating modular codebase, aka. decoupling modules. \
+The issue to solve is to program to interfaces without tight coupling to implementations. 
+
+This optional feature of the JPMS is based on the `ServiceLoader` API which provides implementation at runtime.
+
+`Provider side`
+
+```java
+
+// declaration inside module-info.java
+
+module easytext.analysis.coleman {
+
+  requires easytext.analysis.api;
+
+  provides javamodularity.easytext.analysis.api.Analyzer
+    with javamodularity.easytext.analysis.coleman.ColemanAnalyzer;     // <----
+}
+```
+
+`*Consumer side*`
+
+```java
+
+// step 1 : declaration inside module-info.java
+
+module easytext.cli {
+
+  requires easytext.analysis.api;
+
+  uses javamodularity.easytext.analysis.api.Analyzer;                   // <---- No Analyzer implementation need to be available at compile-time !
+}
+
+
+// step 2 : inside consumer code
+
+Iterable<Analyzer> analyzers = ServiceLoader.load(Analyzer.class);
+
+for (Analyzer analyzer: analyzers) {
+  System.out.println(analyzer.getName() + ": " + analyzer.analyze(sentences));
+}
 
 ```
+
+Remarks : 
+- Services retrieved through `ServiceLoader` are lazily fetched
+- Services retrieved through one same `ServiceLoader` instance are cached (use `reload()` to refresh)
+- `ServiceLoader`s are not singletons (aka shared inside the JVM)
+- Service provider methods : public no arg contructor or public static `provider()` method
+- Static provider method can be implemented in a separate class that need be declared in `module-info.java` (thus not the implementation that can be package private then) : `provides javamodularity.easytext.analysis.api.Analyzer with javamodularity.providers.factory.ExampleProviderFactory;`
+- No shutdown or service deregistration (deletion through garbage collection)
+- To avoid calling `ServiceLoader` API in consumer class, one can use the *factory pattern* by adding a java 8 static method in the service interface : `static Iterable<Analyzer> getAnalyzers() { return ServiceLoader.load(Analyzer.class); }` and declaring the `uses` constraint in the `module-info.java` file of the api  module : `uses javamodularity.easytext.analysis.api.Analyzer;`
+- Service type inspection is provided through the `Stream<ServiceLoader.Provider<S>> stream​()` API
