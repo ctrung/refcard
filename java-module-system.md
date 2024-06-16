@@ -232,6 +232,7 @@ hello-image/
 * `-f` : file
 * `-e` : entry point (default main class)
 * `-C` : change
+* `--module-version=<V>` : set module version
 
 `java` options :
 * `-p` : `--module-path`, module path
@@ -354,9 +355,55 @@ module framework {
 }
 ```
 
-**NB** : the `require static` does not add dependencies for resolution at runtime. For this, one need to have a direct `requires` clause or use `--add-modules` to add it as a root module. 
+**NB** : the `require static` does not add dependencies for resolution at runtime even if these are in the module path ! For this, one need to have a direct `requires` clause or use `--add-modules` to add it as a root module. 
 
 ### Reference compile time only annotations
 
 Example : checking @Nullable or @NonNull or generating code during compilation. 
 
+## Resources
+
+https://github.com/java9-modularity/examples/blob/master/chapter5/resource_encapsulation 
+
+With modules, resources within packages in a module are strongly encapsulated (opposite of java <= 8 with classpath).
+Resource encapsulation applies only to resources in packages...
+
+```java
+Class clazz = ResourcesInModule.class;
+InputStream cz_pkg = clazz.getResourceAsStream("resource_in_package.txt");
+URL cz_tl = clazz.getResource("/top_level_resource.txt");
+
+Module m = clazz.getModule();
+InputStream m_pkg = m.getResourceAsStream("javamodularity/firstresourcemodule/resource_in_package.txt");
+InputStream m_tl = m.getResourceAsStream("top_level_resource.txt");
+assert Stream.of(cz_pkg, cz_tl, m_pkg, m_tl)
+             .noneMatch(Objects::isNull);
+}
+```
+
+```java
+Optional<Module> otherModule = ModuleLayer.boot().findModule("secondresourcemodule"); //<1>
+
+otherModule.ifPresent(other -> {
+   try {
+      InputStream m_tl = other.getResourceAsStream("top_level_resource2.txt"); //<2>
+      InputStream m_pkg = other.getResourceAsStream(
+          "javamodularity/secondresourcemodule/resource_in_package2.txt"); //<3>
+      InputStream m_class = other.getResourceAsStream(
+          "javamodularity/secondresourcemodule/A.class"); //<4>
+      InputStream m_meta = other.getResourceAsStream("META-INF/resource_in_metainf.txt"); //<5>
+      InputStream cz_pkg =
+        Class.forName("javamodularity.secondresourcemodule.A")
+             .getResourceAsStream("resource_in_package2.txt"); //<6>
+
+      assert Stream.of(m_tl, m_class, m_meta)
+                   .noneMatch(Objects::isNull);
+      assert Stream.of(m_pkg, cz_pkg)
+                   .allMatch(Objects::isNull);
+```
+
+## ResourceBundles
+
+JDK 9+ relies on services to expose resource bundles.
+
+See https://github.com/java9-modularity/examples/tree/master/chapter5/resourcebundles for an example.
