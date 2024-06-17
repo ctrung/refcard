@@ -237,6 +237,7 @@ hello-image/
 `java` options :
 * `-p` : `--module-path`, module path
 * `-m` : `--module`, module name
+* `--add-opens <module>/<package>=<targetmodule>` : add opens
 
 ```
 java --list-modules              # list platform modules
@@ -410,8 +411,8 @@ See https://github.com/java9-modularity/examples/tree/master/chapter5/resourcebu
 
 ## Open modules and packages
 
-Form, Java 9+, the module system doesn't allow access to internal parts anymore (strong encapsulation principle). \
-In practice, accessing inner parts of reflective objects with `setAccessible()` is forbidden when it was allowed before java 9. 
+From Java 9+, the module system doesn't allow access to internal parts at runtime (strong encapsulation principle). \
+In practice, accessing inner parts of reflective objects with `setAccessible()` is forbidden whereas it was allowed before java 9. 
 
 Problem : reflection based frameworks and libraries (eg. serialisation API, Spring dependencies injection, Hibernate ORM, etc...) need this feature for backward compatibility. \
 Two aspects here : 
@@ -441,3 +442,47 @@ module deepreflection {
   opens internal to library;
 }
 ```
+
+To open a third party or platform module, the `java` command supports the `--add-opens <module>/<package>=<targetmodule>` option.
+
+**NB** : Java 9 offers a better alternative ([JEP 193](https://openjdk.org/jeps/193)) : MethodHandles and VarHandles, which is a more principled and
+performance-friendly approach to access application internals. Int ime, frameworks and libraries will migrate and use this alternative in the future. 
+
+
+## `Module` API
+
+### Instrospection
+
+ ```java
+
+// Access to the Module class through the Class class
+Module module = String.class.getModule();
+
+String name1 = module.getName(); // Name as defined in module-info.java
+Set<String> packages1 = module.getPackages(); // Lists all packages in the module
+
+ModuleDescriptor descriptor = module.getDescriptor();
+
+String name2 = descriptor.name(); // Same as module.getName();
+Set<String> packages2 = descriptor.packages(); // Same as module.getPackages();
+
+// Through ModuleDescriptor, all information from module-info.java is exposed:
+Set<Exports> exports = descriptor.exports(); // All exports, possibly qualified
+Set<String> uses = descriptor.uses(); // All services used by this module
+```
+
+### Modifying a module
+
+```java
+Module target = ...; // Somehow obtain the module you want to export to
+Module module = getClass().getModule(); // Get the module of the current class
+module.addExports("javamodularity.export.atruntime", target);
+```
+
+Adding a module export from another module is not possible by the java module system (no escalation).
+
+Four methods : 
+- `addExports(String packageName, Module target)` : Expose previously nonexported packages to another module.
+- `addOpens(String packageName, Module target)`   : Opens a package for deep reflection to another module.
+- `addReads(Module other)`                        : Adds a reads relation from the current module to another module.
+- `addUses(Class<?> serviceType)`                 : Indicates that the current module wants to use additional service types with ServiceLoader.
