@@ -407,3 +407,37 @@ otherModule.ifPresent(other -> {
 JDK 9+ relies on services to expose resource bundles.
 
 See https://github.com/java9-modularity/examples/tree/master/chapter5/resourcebundles for an example.
+
+## Open modules and packages
+
+Form, Java 9+, the module system doesn't allow access to internal parts anymore (strong encapsulation principle). \
+In practice, accessing inner parts of reflective objects with `setAccessible()` is forbidden when it was allowed before java 9. 
+
+Problem : reflection based frameworks and libraries (eg. serialisation API, Spring dependencies injection, Hibernate ORM, etc...) need this feature for backward compatibility. \
+Two aspects here : 
+1. Access internal types without exporting packages
+1. Allow reflective access to all parts of these types
+
+Open modules and packages address the second point.
+
+`module-info.java`
+```java
+
+// open the whole module
+open module deepreflection {
+  exports api;
+}
+
+// open a package
+module deepreflection {
+  exports api;
+  opens internal;
+}
+
+
+// qualified open : open a package selectively
+module deepreflection {
+  exports api;
+  opens internal to library;
+}
+```
