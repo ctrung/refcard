@@ -446,7 +446,7 @@ module deepreflection {
 To open a third party or platform module, the `java` command supports the `--add-opens <module>/<package>=<targetmodule>` option.
 
 **NB** : Java 9 offers a better alternative ([JEP 193](https://openjdk.org/jeps/193)) : MethodHandles and VarHandles, which is a more principled and
-performance-friendly approach to access application internals. Int ime, frameworks and libraries will migrate and use this alternative in the future. 
+performance-friendly approach to access application internals. In time, frameworks and libraries will migrate and use this alternative in the future. 
 
 
 ## `Module` API
@@ -479,10 +479,26 @@ Module module = getClass().getModule(); // Get the module of the current class
 module.addExports("javamodularity.export.atruntime", target);
 ```
 
-Adding a module export from another module is not possible by the java module system (no escalation).
+Adding a module export **from another module** is not possible by the java module system (no escalation).
 
 Four methods : 
 - `addExports(String packageName, Module target)` : Expose previously nonexported packages to another module.
 - `addOpens(String packageName, Module target)`   : Opens a package for deep reflection to another module.
 - `addReads(Module other)`                        : Adds a reads relation from the current module to another module.
 - `addUses(Class<?> serviceType)`                 : Indicates that the current module wants to use additional service types with ServiceLoader.
+
+### Migration
+
+Classpath still cohabits with modulpath for non modularized applications and libraries.
+
+From Java 9+, classpath based apps will see messages like **WARNING: An illegal reflective access operation has occurred**. 
+Options to customize this behaviour (can't suppress) : 
+- --illegal-access=permit : only shows at the first access
+- --illegal-access=warn   : shows at each access
+- --illegal-access=debug  : add debug stacktraces
+- --illegal-access=deny   : forbids illegal access, default behaviour after JDK 17+
+
+**PS** : This only concerns old unencapsulated API before Java 9. New encapsulated API access are forbidden by default, whether on not on JDK 9~17. 
+
+To (exceptionnaly) allow illegal accesses, use : `java --add-opens java.base/java.lang=ALL-UNNAMED` (ALL-UNAMED represents the classpath).
+
