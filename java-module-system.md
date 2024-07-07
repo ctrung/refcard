@@ -551,3 +551,55 @@ All these modules are not present by default. Reason : java module system does n
 
 To mitigate : add `--add-modules` to both the javac and java invocation or better, add the custom implementation in the classpath. The former only works until removal of these modules in a future JDK.
 
+### Different scenarios
+
+#### Unmodularized app + unmodularized libs
+
+```bash
+CP=lib/jackson-annotations-2.8.8.jar:
+CP+=lib/jackson-core-2.8.8.jar:
+CP+=lib/jackson-databind-2.8.8.jar
+
+javac -cp $CP -d out -sourcepath src $(find src -name '*.java')
+
+java -cp $CP:out demo.Main
+```
+
+#### Automatic modules : ie. modularized app + lib jars as modules
+
+An automatic module has the following characteristics:
+- It does not contain module-info.class.
+- It has a module name specified in META-INF/MANIFEST.MF (Automatic-Module-Name field) or derived from its filename.
+- It requires transitive all other resolved modules.
+- It exports all its packages.
+- It reads the classpath (or more precisely, the unnamed module as discussed later).
+- It cannot have split packages with other modules.
+
+```bash
+
+CP=lib/jackson-annotations-2.8.8.jar:
+CP+=lib/jackson-core-2.8.8.jar
+
+javac -cp $CP --module-path mods -d out --module-source-path src -m books
+
+java -cp $CP --module-path mods:out -m books/demo.Main
+
+```
+Optionally, we may give access through export (compile+runtime) or open (runtime). For libraries like JPA implementations (Hibernate, EclipseLink) that only needs runtime access, opening is better. 
+
+```java
+module books { requires jackson.databind; exports demo to jackson.databind; }
+
+// or one of these
+module books { requires jackson.databind; opens demo; }
+module books { requires jackson.databind; opens demo to jackson.databind; }
+
+// or open everything (useful for migrating a large unfamiliar codebase) 
+open module books { requires jackson.databind; }
+```
+
+
+
+Some options (support by compilers may differ based on implemtations) :
+- `-Xlint:-requires-transitive-automatic` (opt out, minus after colon) to disable showing warnings for every requires transitive on an automatic module
+- `-Xlint:requires-automatic` (opt in) to enable showing warnings for every requires on an automatic module
