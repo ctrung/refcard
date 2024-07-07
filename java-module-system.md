@@ -104,7 +104,7 @@ For more details see the [Migration](#migration) chapter below.
 * Illegal access to JDK internals causes runtime warnings (use `--add-opens`)
 
 
-Running jdeps to identify dependencies : 
+Running jdeps on bytecode to identify dependencies : 
 ```sh
 $ jdeps -s lib/myapp.jar lib/mylib.jar
 myapp.jar -> lib/jackson-core-2.6.2.jar
@@ -129,7 +129,7 @@ For libraries maintainers : `jdeps -jdkinternals library.jar` on JDK 8 or 9
 
 **Scenario 2** : Un-modularized app
 
--> Unnamed module to make not yet modular code (eg. our app) continue running on JDK 9. Unamed modules access all modules. 
+-> Unnamed module to make not yet modular code (eg. our app) continue running on JDK 9. Unnamed modules access all modules. 
 
 
 ## Linking
@@ -504,7 +504,7 @@ Options to customize this behaviour (can't suppress) :
 
 **PS** : This only concerns old unencapsulated API before Java 9. New encapsulated API access are forbidden by default, whether on not on JDK 9~17. 
 
-To allow illegal accesses (and break encapsulation !), use : `java --add-opens java.base/java.lang=ALL-UNNAMED` (ALL-UNAMED represents the classpath).
+To allow illegal accesses (and break encapsulation !), use : `java --add-opens java.base/java.lang=ALL-UNNAMED` (ALL-UNNAMED represents the classpath).
 
 ## Compilation
 
@@ -565,7 +565,7 @@ javac -cp $CP -d out -sourcepath src $(find src -name '*.java')
 java -cp $CP:out demo.Main
 ```
 
-#### Automatic modules : ie. modularized app + lib jars as modules
+#### Automatic modules : ie. modularized app + lib jars as modules + libs jars in classpath
 
 An automatic module has the following characteristics:
 - It does not contain module-info.class.
@@ -598,8 +598,63 @@ module books { requires jackson.databind; opens demo to jackson.databind; }
 open module books { requires jackson.databind; }
 ```
 
-
-
 Some options (support by compilers may differ based on implemtations) :
 - `-Xlint:-requires-transitive-automatic` (opt out, minus after colon) to disable showing warnings for every requires transitive on an automatic module
 - `-Xlint:requires-automatic` (opt in) to enable showing warnings for every requires on an automatic module
+
+Automatic modules and the classpath : classpath forms the **unnamed module** which exports all code on the classpath and reads all other modules. The important restriction is that **only** automatic modules can read the unnamed module !
+
+##### Using jdeps to help understand the relations
+
+On the classpath version of the app (before migration) :
+```
+jdeps -recursive -summary -cp lib/*.jar out
+jdeps -verbose:class -cp lib/*.jar out        # more verbose : show class level dependencies
+```
+
+On the modularized version of the app :
+```
+jdeps --module-path out:mods -m books
+```
+
+PS : jdeps `-dotoutput` flag outputs dot files (see [DOT (graph description language)](https://en.wikipedia.org/wiki/DOT_(graph_description_language))) 
+
+
+#### Loading Code Dynamically (ex. JDBC drivers)
+
+Example of Java code : 
+
+```java
+package demo;
+
+public class Main {
+  public static void main(String... args) throws Exception {
+    Class<?> clazz = Class.forName("org.hsqldb.jdbcDriver");
+    System.out.println(clazz.getName());
+  }
+}
+```
+
+Nothing special to do during compilation since the driver is specified through a String but starting the application with `java --module-path mods:out -m runtime.loading.example/demo.Main` throws an exception :
+```
+Exception in thread "main" java.lang.ClassNotFoundException: org.hsqldb.jdbcDriver`
+``` 
+That is because all observable automatic modules are resolved when the application uses at least one of them (resolving happens at startup). 
+
+If we add an `--add-modules hsqldb`, another error is thrown : `java.sql` can't be resolved !
+
+The good way to approach this if to declare the sql module in our app : 
+
+```java
+module runtime.loading.example {
+  requires java.sql;
+}
+```
+
+and to remove `--add-modules hsqldb` because through service loading (HSQLDB.jar provides a service to the `java.sql.Driver` interface) there is an automatic module resolution !
+
+#### Split packages rules to know
+
+To relieve the pain when migrating large codebase, there is some exceptions to the rule that JPMS forbids split packages :
+- Since a lot of classpaths are incorrect, when both a (automatic) module and the unnamed module contain the same package, the package from the module will be used. The package in the unnamed module is ignored
+- This is also the case for packages that are part of the platform modules.
