@@ -506,7 +506,7 @@ Options to customize this behaviour (can't suppress) :
 
 To allow illegal accesses (and break encapsulation !), use : `java --add-opens java.base/java.lang=ALL-UNNAMED` (ALL-UNNAMED represents the classpath).
 
-## Compilation
+### Compilation
 
 Whereas illegal access is permitted at runtime from Java 9~17, encapsulation is enforced at compilation time by default. 
 You have to use `--add-exports` (compilation and runtime) and maybe `--add-opens` for deep reflection (runtime)
@@ -551,9 +551,7 @@ All these modules are not present by default. Reason : java module system does n
 
 To mitigate : add `--add-modules` to both the javac and java invocation or better, add the custom implementation in the classpath. The former only works until removal of these modules in a future JDK.
 
-### Different scenarios
-
-#### Unmodularized app + unmodularized libs
+### Migration path 1 : Unmodularized app + unmodularized libs
 
 ```bash
 CP=lib/jackson-annotations-2.8.8.jar:
@@ -565,7 +563,7 @@ javac -cp $CP -d out -sourcepath src $(find src -name '*.java')
 java -cp $CP:out demo.Main
 ```
 
-#### Automatic modules : ie. modularized app + lib jars as modules + libs jars in classpath
+### Migration path 2 : Automatic modules, ie. modularized app + lib jars as modules + libs jars in classpath
 
 An automatic module has the following characteristics:
 - It does not contain module-info.class.
@@ -604,7 +602,7 @@ Some options (support by compilers may differ based on implemtations) :
 
 Automatic modules and the classpath : classpath forms the **unnamed module** which exports all code on the classpath and reads all other modules. The important restriction is that **only** automatic modules can read the unnamed module !
 
-##### Using jdeps to help understand the relations
+#### Using jdeps to help understand the relations
 
 On the classpath version of the app (before migration) :
 ```
@@ -620,7 +618,7 @@ jdeps --module-path out:mods -m books
 PS : jdeps `-dotoutput` flag outputs dot files (see [DOT (graph description language)](https://en.wikipedia.org/wiki/DOT_(graph_description_language))) 
 
 
-#### Loading Code Dynamically (ex. JDBC drivers)
+### Loading Code Dynamically (ex. JDBC drivers)
 
 Example of Java code : 
 
@@ -653,7 +651,7 @@ module runtime.loading.example {
 
 and to remove `--add-modules hsqldb` because through service loading (HSQLDB.jar provides a service to the `java.sql.Driver` interface) there is an automatic module resolution !
 
-#### Split packages rules to know
+### More rules to split packages
 
 To relieve the pain when migrating large codebase, there is some exceptions to the rule that JPMS forbids split packages :
 - Since a lot of classpaths are incorrect, when both a (automatic) module and the unnamed module contain the same package, the package from the module will be used. The package in the unnamed module is ignored
