@@ -92,7 +92,7 @@ For examples :
 
 ## Migrating to Java 9 (quick)
 
-For more details see the (Migration)[#migration] chapter below.
+For more details see the [Migration](#migration) chapter below.
 
 * Java EE modules are deprecated for removal (use `--add-modules`)
   - java.activation
