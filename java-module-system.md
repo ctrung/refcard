@@ -90,7 +90,9 @@ For examples :
 * No split packages
 * Modules are not mandatory - classpath still exists !
 
-## Migrating to Java 9
+## Migrating to Java 9 (quick)
+
+For more details see the (Migration)[#migration] chapter below.
 
 * Java EE modules are deprecated for removal (use `--add-modules`)
   - java.activation
@@ -487,11 +489,13 @@ Four methods :
 - `addReads(Module other)`                        : Adds a reads relation from the current module to another module.
 - `addUses(Class<?> serviceType)`                 : Indicates that the current module wants to use additional service types with ServiceLoader.
 
-### Migration
+## Migration
+
+### Runtime
 
 Classpath still cohabits with modulpath for non modularized applications and libraries.
 
-From Java 9+, classpath based apps will see messages like **WARNING: An illegal reflective access operation has occurred**. 
+From Java 9+, classpath based apps will see messages like **WARNING: An illegal reflective access operation has occurred**, which violates strong encapsulation. 
 Options to customize this behaviour (can't suppress) : 
 - --illegal-access=permit : only shows at the first access
 - --illegal-access=warn   : shows at each access
@@ -500,5 +504,50 @@ Options to customize this behaviour (can't suppress) :
 
 **PS** : This only concerns old unencapsulated API before Java 9. New encapsulated API access are forbidden by default, whether on not on JDK 9~17. 
 
-To (exceptionnaly) allow illegal accesses, use : `java --add-opens java.base/java.lang=ALL-UNNAMED` (ALL-UNAMED represents the classpath).
+To allow illegal accesses (and break encapsulation !), use : `java --add-opens java.base/java.lang=ALL-UNNAMED` (ALL-UNAMED represents the classpath).
+
+## Compilation
+
+Whereas illegal access is permitted at runtime from Java 9~17, encapsulation is enforced at compilation time by default. 
+You have to use `--add-exports` (compilation and runtime) and maybe `--add-opens` for deep reflection (runtime)
+
+```bash
+javac --add-exports java.base/sun.security.x509=ALL-UNNAMED \
+   encapsulated/EncapsulatedTypes.java
+
+java --add-exports java.base/sun.security.x509=ALL-UNNAMED \ 
+   encapsulated.EncapsulatedTypes
+```
+
+PS : If too many options makes command line too long, use a file.
+
+```bash
+java @arguments.txt
+
+cat arguments.txt
+-cp application.jar:javassist.jar --add-opens java.base/java.lang=ALL-UNNAMED --add-exports java.base/sun.security.x509=ALL-UNNAMED -jar application.jar
+
+```
+
+### Removed types
+
+Example : `sun.misc.BASE64Encoder` doesn't exist anymore (replaced by `java.util.Base64`). 
+
+Find usages of removed or encapsulated JDK types, and suggest replacements : `jdeps -jdkinternals removed/RemovedTypes.class`
+
+### Java EE deprecated APIs
+
+From Java 9+, the following modules : 
+
+- java.activation
+- java.corba
+- java.transaction
+- java.xml.bindjava.xml.ws
+- java.xml.ws.annotation
+
+are @Deprecated annotated (new argument `forRemoval` in Java 9).
+
+All these modules are not present by default. Reason : java module system does not allow declaration of a same package from two modules, which happens eventually with JEE servers that embeds alternative versions.
+
+To mitigate : add `--add-modules` to both the javac and java invocation or better, add the custom implementation in the classpath. The former only works until removal of these modules in a future JDK.
 
