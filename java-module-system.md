@@ -617,6 +617,18 @@ jdeps --module-path out:mods -m books
 
 PS : jdeps `-dotoutput` flag outputs dot files (see [DOT (graph description language)](https://en.wikipedia.org/wiki/DOT_(graph_description_language))) 
 
+#### Using jdeps to generate module-info.java
+
+```
+# one jar
+jdeps --generate-module-info ./out mylibrary.jar
+
+# genrate an open module
+jdeps --generate-open-module ./out mylibrary.jar
+
+# multiple jars
+jdeps --generate-module-info ./out *.jar
+```
 
 ### Loading Code Dynamically (ex. JDBC drivers)
 
