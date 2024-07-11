@@ -2,7 +2,7 @@
 
 ### JEP 247 : release flag
 
-Equivalent to `--source N` + `--target N` + additional checks on Java API used.
+Equivalent to `--source N` + `--target N` + additional checks on new Java API used.
 
 Example
 ```java
