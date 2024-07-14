@@ -35,6 +35,38 @@ ansible --list-hosts all            # list host from inventory
 ansible --list-hosts localhost
 ```
 
+
+### Playbooks
+
+```yml
+---
+- hosts: all
+  become: yes
+
+  tasks:
+  - name: Ensure chrony (for time synchronization) is installed.
+    yum:
+      name: chrony
+      state: present
+
+  - name: Ensure chrony is running.
+    service:
+      name: chronyd
+      state: started
+      enabled: yes
+```
+
+Compact
+```yml
+---
+- hosts: all
+  become: yes
+  tasks:
+    - yum: name=chrony state=present
+    - service: name=chronyd state=started enabled=yes
+```
+
+
 ### Modules
 
 Options :
@@ -140,3 +172,4 @@ host_key_checking = false
 inventory   = hosts            # file based
 #inventory  = inventory/       # directory based
 ```
+
