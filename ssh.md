@@ -1,3 +1,9 @@
+## Recopier sa clé publique sur un serveur
+
+```sh
+ssh-copy-id sheena@192.168.0.11
+```
+
 ## Version de OpenSSH utilisée
 ```sh
 $ ssh -V
