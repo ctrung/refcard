@@ -1,21 +1,19 @@
 
 ## Création, démarrage, statut, arrêt
 ```sh
-vagrant init <box, eg ubuntu/focal64>
-vagrant up
+vagrant box add geerlingguy/centos7    # download vm image
+vagrant init geerlingguy/centos7       # load image in virtualbox and generate Vagrantfile
+vagrant up                             # start
+vagrant halt                           # stop
+vagrant destroy                        # delete
+
+vagrant ssh                 # ssh inside vm
+vagrant ssh-config          # display infos
+
+ssh vagrant@127.0.0.1 \     # ssh inside vm
+    -p 2222 \
+    -i .vagrant/machines/default/virtualbox/private_key 
 
 vagrant status
 vagrant status <vm>
-
-vagrant halt
-vagrant halt <vm> 
-```
-
-## Connexion à la VM
-```sh
-vagrant ssh-config  # affiche les infos
-
-vagrant ssh <vm>
-# ou
-ssh vagrant@127.0.0.1 -p 2222 -i .vagrant/machines/default/virtualbox/private_key 
 ```
