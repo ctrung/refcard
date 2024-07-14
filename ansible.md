@@ -1,13 +1,36 @@
+### Reference materials
+
+[Ansible for DevOps - Server and configuration management for humans - 2nd Ed.](https://www.ansiblefordevops.com/)
+
+
 ### Introduction
 
-- configuration management tool
-- idempotent
-- declarative config
-- agentless (ssh)
+- Configuration management tool
+- Idempotent
+- Declarative config
+- Agentless (SSH)
 
-### Commandes
+### Config file
+
+`/etc/ansible/hosts` : default
+
+### Commands
+
+`ansible` options : 
+  - `-a [ARGS]`   : args
+- `-i [INI_FILE]` : ini file
+- `-m [MODULE]`   : module
+- `-u [USER]`     : SSH login, assume passwordless (key-based) login for SSH
+- `--ask-pass ( -k )` : ask for SSH password (sshpass package has to be installed) - only use if key-based login for SSH is not setup
 
 ```sh
+# --- NB ---
+# example == group in ini file
+
+ansible -i hosts.ini example -m ping -u [username]         # exec module
+ansible -i hosts.ini example -a "free -h" -u [username]    # exec a command
+
+
 ansible --list-hosts all            # list host from inventory
 ansible --list-hosts localhost
 ```
