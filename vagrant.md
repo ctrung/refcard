@@ -1,5 +1,6 @@
 
 ## Commands
+```sh
 vagrant box add geerlingguy/centos7    # download vm image
 vagrant init geerlingguy/centos7       # load image in virtualbox and generate Vagrantfile
 vagrant up                             # start
