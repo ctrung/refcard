@@ -17,8 +17,10 @@
 ### Commands
 
 `ansible` options : 
-  - `-a [ARGS]`   : args
-- `-i [INI_FILE]` : ini file
+- `-a [ARGS]`   : args
+- `-b, --become` : sudo user 
+- `-i [INI_FILE]` : inventory file
+- `-f [NB_THREADS]` : fork threads
 - `-m [MODULE]`   : module
 - `-u [USER]`     : SSH login, assume passwordless (key-based) login for SSH
 - `--ask-pass ( -k )` : ask for SSH password (sshpass package has to be installed) - only use if key-based login for SSH is not setup
@@ -29,6 +31,56 @@
 
 ansible -i hosts.ini example -m ping -u [username]         # exec module
 ansible -i hosts.ini example -a "free -h" -u [username]    # exec a command
+
+ansible multi -a "hostname"
+ansible multi -a "hostname" -f 1                  # -f = fork threads (1 == sequentially)
+ansible multi -a "df -h"
+ansible multi -a "date"
+
+# check time daemon sync
+ansible multi -b -m yum -a "name=chrony state=present"                    # check package 
+ansible multi -b -m service -a "name=chronyd state=started enabled=yes"   # check service is up
+
+# provision django app env
+ansible app -b -m yum -a "name=python3-pip state=present"
+ansible app -b -m pip -a "name=django<4 state=present"
+ansible app -a "python -m django --version"
+
+# provision mariadb
+ansible db -b -m yum -a "name=mariadb-server state=present"
+ansible db -b -m service -a "name=mariadb state=started enabled=yes"
+ansible db -b -m yum -a "name=firewalld state=present"
+ansible db -b -m service -a "name=firewalld state=started enabled=yes"
+ansible db -b -m firewalld -a "zone=database state=present permanent=yes"
+ansible db -b -m firewalld -a "source=192.168.60.0/24 zone=database state=enabled permanent=yes"
+ansible db -b -m firewalld -a "port=3306/tcp zone=database state=enabled permanent=yes"
+ansible db -b -m yum -a "name=python3-PyMySQL state=present"  # mysql_* modules need python3-PyMySQL package installed on targeted hosts
+ansible db -b -m mysql_user -a "name=django host=% password=12345 priv=*.*:ALL state=present"
+
+ansible app -b -a "service chronyd restart" --limit "192.168.60.4"   # --limit : target specific hosts
+ansible app -b -a "service ntpd restart" --limit "*.4"               # target with a wildcard
+ansible app -b -a "service ntpd restart" --limit ~".*\.4"            # target with a regex
+
+# provision groups and users
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/group_module.html#ansible-collections-ansible-builtin-group-module
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/user_module.html#ansible-collections-ansible-builtin-user-module
+ansible app -b -m group -a "name=admin state=present"
+ansible app -b -m user -a "name=johndoe group=admin createhome=yes"  # additional params : generate_ssh_key=yes uid=[uid] shell=[shell] password=[encrypted-password]
+ansible app -b -m user -a "name=johndoe state=absent remove=yes"
+
+# generic package module that works for redhat, debian, etc...
+ansible app -b -m package -a "name=git state=present"
+
+# files and dirs management
+ansible multi -m stat -a "path=/etc/environment"           # read file info
+
+ansible multi -m copy -a "src=/etc/hosts dest=/tmp/hosts"  # local copy on hosts
+
+ansible multi -b -m fetch -a "src=/etc/hosts dest=/tmp"    # fetch from hosts to controller (eg. /tmp/192.168.60.6/etc/hosts, etc...)
+
+ansible multi -m file -a "dest=/tmp/test mode=644 state=directory"       # create dir
+ansible multi -m file -a "src=/src/file dest=/dest/symlink state=link"   # create link
+ansible multi -m file -a "dest=/tmp/test state=absent"                   # delete
 
 
 ansible --list-hosts all            # list host from inventory
