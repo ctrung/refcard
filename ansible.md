@@ -119,22 +119,70 @@ ansible --list-hosts localhost
 
 ### Playbooks
 
+#### Usage
+
+```sh
+ansible-playbook playbook.yml
+
+ansible-playbook playbook.yml --limit webservers      # --limit : CLI limit option, eq. to hosts directive in the playbook file
+ansible-playbook playbook.yml --list-hosts            # print hosts only
+
+ansible-playbook playbook.yml --user=johndoe
+ansible-playbook playbook.yml --become --become-user=janedoe --ask-become-pass
+
+# other options :
+#  --inventory=PATH ( -i PATH ),
+#  --verbose ( -v )
+#  --extra-vars=VARS ( -e VARS ) : "key=value,key=value" format
+#  --forks=NUM ( -f NUM )
+#  --connection=TYPE ( -c TYPE )
+#  --check : dry run mode, tasks are checked but not run
+
+```
+
+**Multilines string**
+Use `command: >` syntax
+```yml
+    - name: Copy configuration files.
+      command: >
+        cp httpd.conf /etc/httpd/conf/httpd.conf
+```
+
+**Variables**
+Use `with_items` directive with `{{ item. }}` synatax
+```yml
+    - name: Copy configuration files.
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: root
+        group: root
+        mode: 0644
+      with_items:
+        - src: httpd.conf
+          dest: /etc/httpd/conf/httpd.conf
+        - src: httpd-vhosts.conf
+          dest: /etc/httpd/conf/httpd-vhosts.conf
+```
+
+#### Examples
+
 ```yml
 ---
 - hosts: all
   become: yes
 
   tasks:
-  - name: Ensure chrony (for time synchronization) is installed.
-    yum:
-      name: chrony
-      state: present
+    - name: Ensure chrony (for time synchronization) is installed.
+      yum:
+        name: chrony
+        state: present
 
-  - name: Ensure chrony is running.
-    service:
-      name: chronyd
-      state: started
-      enabled: yes
+    - name: Ensure chrony is running.
+      service:
+        name: chronyd
+        state: started
+        enabled: yes
 ```
 
 Compact
