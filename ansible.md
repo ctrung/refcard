@@ -190,17 +190,20 @@ Eg. hosts file :
 ```ini
 [group_1]
 host-001.local
-host-002        ansible_host=192.168.xxx.xxx ansible_port=22      # host variables
-host-0[01:10]                                                     # regex
+host-002        ansible_host=192.168.xxx.xxx ansible_port=22   # define alias to host-002.local with host variables 
+host-0[01:10]                                                  # regex
 
+# DRY : using inventory alias
 [group2]
-host-002                                                          # using inventory hostname allows for DRY
+host-002
 
-[group3:children]                                                 # group of groups with the :children header
+# :children header > group of groups
+[group3:children]
 group1
 group2
 
-[group3:vars]                                                     # setting attributes to a group with the :vars header
+# :vars header > attributes of a group
+[group3:vars]
 http_port=8080
 ```
 
