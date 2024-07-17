@@ -1,20 +1,28 @@
-### Reference materials
-
-[Ansible for DevOps - Server and configuration management for humans - 2nd Ed.](https://www.ansiblefordevops.com/)
-
-
 ### Introduction
 
+About Ansible :
 - Configuration management tool
 - Idempotent
 - Declarative config
 - Agentless (SSH)
 
+Reading : \
+[Ansible for DevOps - Server and configuration management for humans - 2nd Ed.](https://www.ansiblefordevops.com/)
+
 ### Config file
 
-`/etc/ansible/hosts` : default
+`/etc/ansible/hosts` : default inventory file
 
-### Commands
+`ansible.cfg` : default config file
+```ini
+[defaults]
+host_key_checking = false
+inventory   = hosts            # file based
+#inventory  = inventory/       # directory based
+```
+
+
+### Usage
 
 `ansible` options : 
 - `-a [ARGS]`   : args
@@ -25,28 +33,38 @@
 - `-u [USER]`     : SSH login, assume passwordless (key-based) login for SSH
 - `--ask-pass ( -k )` : ask for SSH password (sshpass package has to be installed) - only use if key-based login for SSH is not setup
 
-```sh
-# --- NB ---
-# example == group in ini file
+#### Inventory file (explicit)
 
+```sh
+# example = group in inventory file
 ansible -i hosts.ini example -m ping -u [username]         # exec module
 ansible -i hosts.ini example -a "free -h" -u [username]    # exec a command
+```
 
+#### Commands (manual)
+```sh
 ansible multi -a "hostname"
 ansible multi -a "hostname" -f 1                  # -f = fork threads (1 == sequentially)
 ansible multi -a "df -h"
 ansible multi -a "date"
+```
 
-# check time daemon sync
+#### Check package and service
+```sh
 ansible multi -b -m yum -a "name=chrony state=present"                    # check package 
 ansible multi -b -m service -a "name=chronyd state=started enabled=yes"   # check service is up
+```
+Generic package module that works for redhat, debian, etc... : `ansible app -b -m package -a "name=git state=present"`
 
-# provision django app env
+#### Django env
+```sh
 ansible app -b -m yum -a "name=python3-pip state=present"
 ansible app -b -m pip -a "name=django<4 state=present"
 ansible app -a "python -m django --version"
+```
 
-# provision mariadb
+#### Mariadb
+```sh
 ansible db -b -m yum -a "name=mariadb-server state=present"
 ansible db -b -m service -a "name=mariadb state=started enabled=yes"
 ansible db -b -m yum -a "name=firewalld state=present"
@@ -56,33 +74,44 @@ ansible db -b -m firewalld -a "source=192.168.60.0/24 zone=database state=enable
 ansible db -b -m firewalld -a "port=3306/tcp zone=database state=enabled permanent=yes"
 ansible db -b -m yum -a "name=python3-PyMySQL state=present"  # mysql_* modules need python3-PyMySQL package installed on targeted hosts
 ansible db -b -m mysql_user -a "name=django host=% password=12345 priv=*.*:ALL state=present"
+```
 
+#### Limit hosts in a group
+```sh
 ansible app -b -a "service chronyd restart" --limit "192.168.60.4"   # --limit : target specific hosts
 ansible app -b -a "service ntpd restart" --limit "*.4"               # target with a wildcard
 ansible app -b -a "service ntpd restart" --limit ~".*\.4"            # target with a regex
+```
 
-# provision groups and users
-# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/group_module.html#ansible-collections-ansible-builtin-group-module
-# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/user_module.html#ansible-collections-ansible-builtin-user-module
-ansible app -b -m group -a "name=admin state=present"
-ansible app -b -m user -a "name=johndoe group=admin createhome=yes"  # additional params : generate_ssh_key=yes uid=[uid] shell=[shell] password=[encrypted-password]
-ansible app -b -m user -a "name=johndoe state=absent remove=yes"
+#### Groups and users
+https://docs.ansible.com/ansible/latest/collections/ansible/builtin/group_module.html#ansible-collections-ansible-builtin-group-module \
+https://docs.ansible.com/ansible/latest/collections/ansible/builtin/user_module.html#ansible-collections-ansible-builtin-user-module
+```sh
+ansible app -b -m group -a "name=admin state=present"                  # create group
 
-# generic package module that works for redhat, debian, etc...
-ansible app -b -m package -a "name=git state=present"
+# optional params : generate_ssh_key=yes uid=[uid] shell=[shell] password=[encrypted-password]
+ansible app -b -m user -a "name=johndoe group=admin createhome=yes"    # create user
 
-# files and dirs management
+ansible app -b -m user -a "name=johndoe state=absent remove=yes"       # delete user
+```
+
+#### File system management
+
+```sh
 ansible multi -m stat -a "path=/etc/environment"           # read file info
 
 ansible multi -m copy -a "src=/etc/hosts dest=/tmp/hosts"  # local copy on hosts
 
-ansible multi -b -m fetch -a "src=/etc/hosts dest=/tmp"    # fetch from hosts to controller (eg. /tmp/192.168.60.6/etc/hosts, etc...)
+# fetch from hosts to controller (eg. /tmp/192.168.60.6/etc/hosts, etc...)
+ansible multi -b -m fetch -a "src=/etc/hosts dest=/tmp"    
 
 ansible multi -m file -a "dest=/tmp/test mode=644 state=directory"       # create dir
 ansible multi -m file -a "src=/src/file dest=/dest/symlink state=link"   # create link
 ansible multi -m file -a "dest=/tmp/test state=absent"                   # delete
+```
 
-
+#### Config
+```sh
 ansible --list-hosts all            # list host from inventory
 ansible --list-hosts localhost
 ```
@@ -151,7 +180,7 @@ ansible --list-hosts host-*          # wildcard
 ansible '~^(web|lb)*' --list-hosts   # regex are prefixed with ~
 ```
 
-### Inventory
+### Inventory file syntax
 
 #### File 
 
@@ -207,21 +236,10 @@ europe:
 
 Utiliser l'option `-i` pour spécifier le fichier d'inventaire : `ansible -i hosts --list-hosts all`
 
-### Directory
+#### Directory
 
 Utiliser l'option `-i` pour spécifier le fichier d'inventaire : `ansible -i 'inventory/' --list-hosts all`
 
 A savoir : 
 - Tous les fichiers de l'arborescence sont parsés par ordre alphabétique.
 - La dernière définition l'emporte sur les précédentes.
-
-# Configuration 
-Fichier `ansible.cfg` 
-
-```ini
-[defaults]
-host_key_checking = false
-inventory   = hosts            # file based
-#inventory  = inventory/       # directory based
-```
-
