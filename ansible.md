@@ -148,8 +148,18 @@ Use `command: >` syntax
         cp httpd.conf /etc/httpd/conf/httpd.conf
 ```
 
-**Variables**
-Use `with_items` directive with `{{ item. }}` synatax
+**Variables (global)**
+Use `{{ item. }}` syntax to reference variable
+```yml
+- hosts: all
+  become: yes
+
+  vars:
+    node_apps_location: /usr/local/opt/node
+```
+
+**Variables (array in a task)**
+Use `with_items` directive with `{{ item. }}` syntax
 ```yml
     - name: Copy configuration files.
       copy:
@@ -164,6 +174,8 @@ Use `with_items` directive with `{{ item. }}` synatax
         - src: httpd-vhosts.conf
           dest: /etc/httpd/conf/httpd-vhosts.conf
 ```
+
+
 
 #### Examples
 
@@ -195,6 +207,24 @@ Compact
     - service: name=chronyd state=started enabled=yes
 ```
 
+Npm install dep
+```yml
+- name: Install Forever (to run our Node.js app).
+  npm: name=forever global=yes state=present
+```
+
+Npm install project
+```yml
+- name: Install app dependencies defined in package.json.
+  npm: path={{ node_apps_location }}/app 
+```
+
+Condition
+```yml
+- name: Start example Node.js app.
+  command: "forever start {{ node_apps_location }}/app/app.js"
+  when: "forever_list.stdout.find(node_apps_location + '/app/app.js') == -1"
+```
 
 ### Modules
 
