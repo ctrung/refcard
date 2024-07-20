@@ -9,6 +9,7 @@ About Ansible :
 Reading : \
 [Ansible for DevOps - Server and configuration management for humans - 2nd Ed.](https://www.ansiblefordevops.com/)
 
+
 ### Config file
 
 `/etc/ansible/hosts` : default inventory file
@@ -118,6 +119,11 @@ ansible --list-hosts localhost
 
 
 ### Playbooks
+
+See examples at : 
+
+- https://github.com/geerlingguy/ansible-for-devops
+
 
 #### Usage
 
@@ -407,7 +413,53 @@ handlers:                    # <--- handler
     creates=/usr/local/bin/composer     # <--- only run if the file doesn’t already exist
 ```
 
-#### Shell vs command vs script vs raw
+##### Create Drupal project with Composer 
+```yml
+- name: Ensure Drupal directory exists.
+  file:
+    path: "{{ drupal_core_path }}"
+    state: directory
+    owner: www-data
+    group: www-data
+
+- name: Check if Drupal project already exists.
+  stat:
+    path: "{{ drupal_core_path }}/composer.json"
+    register: drupal_composer_json
+
+# Equivalent to : composer create-project drupal/recommended-project /var/www/drupal --no-dev
+- name: Create Drupal project.
+  composer:
+    command: create-project
+    arguments: drupal/recommended-project "{{ drupal_core_path }}"
+    working_dir: "{{ drupal_core_path }}"
+    no_dev: true
+  become_user: www-data
+  when: not drupal_composer_json.stat.exists
+
+- name: Add drush to the Drupal site with Composer.
+  composer:
+    command: require
+    arguments: drush/drush:10.*
+    working_dir: "{{ drupal_core_path }}"
+  become_user: www-data
+  when: not drupal_composer_json.stat.exists
+
+- name: Install Drupal.
+  command: >
+    vendor/bin/drush si -y --site-name="{{ drupal_site_name }}"
+    --account-name=admin
+    --account-pass=admin
+    --db-url=mysql://{{ domain }}:1234@localhost/{{ domain }}
+    --root={{ drupal_core_path }}/web
+    chdir={{ drupal_core_path }}
+    creates={{ drupal_core_path }}/web/sites/default/settings.php
+  notify: restart apache
+  become_user: www-data
+```
+
+
+##### Shell vs command vs script vs raw
 
 - `command` : preferred option for running commands on a host (when an Ansible module won’t suffice)
 - `shell`   : overcomes command limitation to support options like < , > , | , and & and local environment variables like $HOME
@@ -415,6 +467,8 @@ handlers:                    # <--- handler
 - `raw`     : executes raw commands via SSH (only use at a last resort)
 
 Advice : avoid `script` and `raw` if possible.
+
+
 
 ### Modules
 
