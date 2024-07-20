@@ -158,21 +158,27 @@ Use `{{ item. }}` syntax to reference variable
     node_apps_location: /usr/local/opt/node
 ```
 
-**Variables (array in a task)**
+**Loop in a task**
 Use `with_items` directive with `{{ item. }}` syntax
 ```yml
-    - name: Copy configuration files.
-      copy:
-        src: "{{ item.src }}"
-        dest: "{{ item.dest }}"
-        owner: root
-        group: root
-        mode: 0644
-      with_items:
-        - src: httpd.conf
-          dest: /etc/httpd/conf/httpd.conf
-        - src: httpd-vhosts.conf
-          dest: /etc/httpd/conf/httpd-vhosts.conf
+- name: Copy configuration files.
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - src: httpd.conf
+      dest: /etc/httpd/conf/httpd.conf
+    - src: httpd-vhosts.conf
+      dest: /etc/httpd/conf/httpd-vhosts.conf
+
+- name: "Start Apache, MySQL, and PHP."
+  service: "name={{ item }} state=started enabled=yes"
+  with_items:
+    - apache2
+    - mysql
 ```
 
 
@@ -207,24 +213,208 @@ Compact
     - service: name=chronyd state=started enabled=yes
 ```
 
-Npm install dep
+##### Install a repo
+```yml
+
+# Yum
+- name: Install EPEL repo.
+  yum: name=epel-release state=present
+
+- name: Install Remi repo.
+  yum:
+    name: "https://rpms.remirepo.net/enterprise/remi-release-7.rpm"
+    state: present
+
+# Apt
+
+# Python libs are needed for apt_repository module to work
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_repository_module.html
+- name: Get software for apt repository management.
+  apt:
+    state: present
+    name:
+      - python3-apt
+      - python3-pycurl
+
+- name: Add ondrej repository for later versions of PHP.
+  apt_repository: repo='ppa:ondrej/php' update_cache=yes
+```
+
+##### Import repo key (RHEL)
+```yml
+- name: Import Remi GPG key.
+  rpm_key:
+    key: "https://rpms.remirepo.net/RPM-GPG-KEY-remi"
+    state: present
+```
+
+##### Install a package
+```yml
+# Yum
+- name: Install Node.js and npm.
+  yum: name=npm state=present enablerepo=epel
+
+# Apt
+- name: Get software for apt repository management.
+  apt:
+    state: present
+    name:
+      - python3-apt
+      - python3-pycurl
+```
+
+##### Install [Forever](https://www.npmjs.com/package/forever)
 ```yml
 - name: Install Forever (to run our Node.js app).
   npm: name=forever global=yes state=present
 ```
 
-Npm install project
+##### Build project (npm install)
 ```yml
 - name: Install app dependencies defined in package.json.
   npm: path={{ node_apps_location }}/app 
 ```
 
-Condition
+##### Condition
 ```yml
 - name: Start example Node.js app.
   command: "forever start {{ node_apps_location }}/app/app.js"
   when: "forever_list.stdout.find(node_apps_location + '/app/app.js') == -1"
 ```
+
+##### Variables file
+```yml
+---
+- hosts: all
+  become: yes
+  vars_files:
+    - vars.yml
+```
+
+##### Pre-tasks
+```yml
+pre_tasks:
+  - name: Update apt cache if needed.
+    apt: update_cache=yes cache_valid_time=3600
+```
+NB : see `post_tasks` too
+
+##### Handlers
+Run at the end of a play if task executes successfully
+```yml
+tasks:
+  - name: Enable Apache rewrite module (required for Drupal).
+    apache2_module: name=rewrite state=present
+    notify: restart apache   # <--- notify
+
+handlers:                    # <--- handler
+  - name: restart apache
+    service: name=apache2 state=restarted
+```
+
+##### Enable an apache module
+```yml
+- name: Enable Apache rewrite module (required for Drupal).
+  apache2_module: name=rewrite state=present
+  notify: restart apache
+```
+
+##### Add an apache virtualhost
+```yml
+- name: Add Apache virtualhost for Drupal.
+  template:
+    src: "templates/drupal.test.conf.j2"                            # <--- jinja template
+    dest: "/etc/apache2/sites-available/{{ domain }}.test.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache
+
+# drupal.test.conf.j2
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName {{ domain }}.test
+    ServerAlias www.{{ domain }}.test
+    DocumentRoot {{ drupal_core_path }}/web
+    <Directory "{{ drupal_core_path }}/web">
+        Options FollowSymLinks Indexes
+        AllowOverride All
+    </Directory>
+</VirtualHost>
+
+```
+
+##### Enable an apache virtualhost
+```yml
+- name: Enable the Drupal site.
+  command: >
+    a2ensite {{ domain }}.test
+    creates=/etc/apache2/sites-enabled/{{ domain }}.test.conf
+  notify: restart apache
+
+- name: Disable the default site.
+  command: >
+    a2dissite 000-default
+    removes=/etc/apache2/sites-enabled/000-default.conf
+  notify: restart apache
+```
+
+##### Check a line in a file
+```yml
+- name: Adjust OpCache memory setting.
+  lineinfile:
+    dest: "/etc/php/7.4/apache2/conf.d/10-opcache.ini"
+    regexp: "^opcache.memory_consumption"
+    line: "opcache.memory_consumption = 96"
+    state: present
+  notify: restart apache
+```
+
+##### Install a Mysql database
+```yml
+
+# MySQLdb Python package ( python3-mysqldb ) must be installed
+
+- name: Create a MySQL database for Drupal.
+  mysql_db: "db={{ domain }} state=present"
+
+- name: Create a MySQL user for Drupal.
+  mysql_user:
+    name: "{{ domain }}"
+    password: "1234"              # <--- add a .my.cnf file to remote user’s homedir or prompt to avoid leaking passwords in sources
+    priv: "{{ domain }}.*:ALL"
+    host: localhost
+    state: present
+```
+
+##### Install Composer
+```yml
+- name: Download Composer installer.
+  get_url:
+    url: https://getcomposer.org/installer
+    dest: /tmp/composer-installer.php
+    mode: 0755
+
+- name: Run Composer installer.
+  command: >
+    php composer-installer.php
+    chdir=/tmp
+    creates=/usr/local/bin/composer     # <--- only run if the file doesn’t already exist
+
+- name: Move Composer into globally-accessible location.
+  command: >
+    mv /tmp/composer.phar /usr/local/bin/composer
+    creates=/usr/local/bin/composer     # <--- only run if the file doesn’t already exist
+```
+
+#### Shell vs command vs script vs raw
+
+- `command` : preferred option for running commands on a host (when an Ansible module won’t suffice)
+- `shell`   : overcomes command limitation to support options like < , > , | , and & and local environment variables like $HOME
+- `script`  : executes shell scripts (though it’s almost always better to convert shell scripts into idempotent Ansible playbooks!)
+- `raw`     : executes raw commands via SSH (only use at a last resort)
+
+Advice : avoid `script` and `raw` if possible.
 
 ### Modules
 
