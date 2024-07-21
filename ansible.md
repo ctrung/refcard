@@ -316,7 +316,29 @@ tasks:
 handlers:                    # <--- handler
   - name: restart apache
     service: name=apache2 state=restarted
+
+# notify multiple handlers
+- name: Rebuild application configuration.
+  command: /opt/app/rebuild.sh
+  notify:
+    - restart apache
+    - restart memcached
+
+# chaining handlers
+handlers:
+  - name: restart apache
+    service: name=apache2 state=restarted
+    notify: restart memcached
+
+  - name: restart memcached
+    service: name=memcached state=restarted
+
 ```
+
+Handlers are run at the end of a playbook. To run handlers in the middle of a playbook, use the `meta` module to do so (e.g. - meta: flush_handlers)
+
+Use `--force-handlers` to run handlers even if a play failed.  
+
 
 ##### Enable an apache module
 ```yml
@@ -467,6 +489,112 @@ handlers:                    # <--- handler
 - `raw`     : executes raw commands via SSH (only use at a last resort)
 
 Advice : avoid `script` and `raw` if possible.
+
+
+##### Environement vars
+
+```yml
+- name: Add an environment variable to the remote user's shell.
+  lineinfile:
+    dest: ~/.bash_profile
+    regexp: '^ENV_VAR='
+    line: "ENV_VAR=value"
+
+- name: Get the value of the environment variable we just added.
+  shell: 'source ~/.bash_profile && echo $ENV_VAR'     # <--- only shell module understands env variables  
+  register: foo
+
+- name: Print the value of the environment variable.
+  debug:
+    msg: "The variable is {{ foo.stdout }}"
+
+- name: Add a global environment variable.
+  lineinfile:
+    dest: /etc/environment
+    regexp: '^ENV_VAR='
+    line: "ENV_VAR=value"
+  become: yes
+
+# env var defined at task scope
+- name: Download a file, using example-proxy as a proxy.
+  get_url:
+    url: http://www.example.com/file.tar.gz
+    dest: ~/Downloads/
+  environment:
+    http_proxy: http://example-proxy:80/
+
+# use variables to reuse env var definitions
+vars:
+  proxy_vars:
+    http_proxy: http://example-proxy:80/
+    https_proxy: https://example-proxy:443/
+    [etc...]
+
+tasks:
+- name: Download a file, using example-proxy as a proxy.
+  get_url:
+    url: http://www.example.com/file.tar.gz
+    dest: ~/Downloads/
+  environment: proxy_vars
+
+
+# System wide env var
+
+# In the 'vars' section of the playbook (set to 'absent' to remove):
+proxy_state: present
+# In the 'tasks' section of the playbook:
+- name: Configure the proxy.
+  lineinfile:
+    dest: /etc/environment
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: "{{ proxy_state }}"
+  with_items:
+    - regexp: "^http_proxy="
+    line: "http_proxy=http://example-proxy:80/"
+    - regexp: "^https_proxy="
+    line: "https_proxy=https://example-proxy:443/"
+    - regexp: "^ftp_proxy="
+    line: "ftp_proxy=http://example-proxy:80/"
+
+```
+
+To test a env var : `ansible test -m shell -a 'echo $TEST'` 
+
+To pass a variable on the CLI : `ansible-playbook example.yml --extra-vars "foo=bar"` (JSON or YAML file supported with `--extra-vars "@even_more_vars.json"` or `--extra-vars "@even_more_vars.yml` syntax)
+
+Playbook vars definition may come from a file using `vars_files` : 
+
+```yml
+---
+# Main playbook file.
+- hosts: example
+
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - debug:
+        msg: "Variable 'foo' is set to {{ foo }}"
+```
+
+Variable files can be imported conditionnally with `include_vars` + `with_first_found` 
+
+```sh
+---
+- hosts: example
+
+  pre_tasks:
+    - include_vars: "{{ item }}"
+      with_first_found:
+        - "apache_{{ ansible_os_family }}.yml"
+        - "apache_default.yml"
+  tasks:
+    - name: Ensure Apache is running.
+      service:
+        name: "{{ apache_service_name }}"
+        state: running
+```
 
 
 
