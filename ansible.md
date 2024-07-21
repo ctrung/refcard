@@ -696,3 +696,46 @@ Utiliser l'option `-i` pour spécifier le fichier d'inventaire : `ansible -i 'in
 A savoir : 
 - Tous les fichiers de l'arborescence sont parsés par ordre alphabétique.
 - La dernière définition l'emporte sur les précédentes.
+
+#### Variables
+
+```yml
+# Host-specific variables (defined inline).
+[washington]
+app1.example.com proxy_state=present
+app2.example.com proxy_state=absent
+
+# Variables defined for the entire group.
+[washington:vars]
+cdn_host=washington.static.example.com
+api_version=3.0.1
+```
+
+Ansible does not recommend storing variables within the inventory. \
+Instead, use group_vars and host_vars YAML variable files in the following paths (by precedence order) : 
+1. `/etc/ansible/[host|group]_vars` directory
+1. `<playbook's folder>/[host|group]_vars` directory
+
+In the code above, `/etc/ansible/host_vars/app1.example.com` would contain the host vars of `app1.example.com` and `/etc/ansible/group_vars/washington` the group vars of `washington`.
+
+#### Magic variables 
+
+```yml
+---
+[group]
+host1 admin_user=jane
+host2 admin_user=jack
+host3
+
+# From any host, returns "jane".
+{{ hostvars['host1']['admin_user'] }}
+```
+
+- `hostvars` : all the defined host variables (from inventory files and any discovered YAML files inside host_vars directories)
+- `groups` : list of all group names in the inventory
+- `group_names` : list of all the groups of which the current host is a part
+- `inventory_hostname` : hostname of the current host, according to the inventory (can differ from ansible_hostname, which is the hostname reported by the system)
+- `inventory_hostname_short` : first part of inventory_hostname , up to the first period
+- `play_hosts` : all hosts on which the current play will be run
+
+See [Magic Variables, and How To Access Information About Other Hosts](http://docs.ansible.com/playbooks_variables.html#magic-variables-and-how-to-access-information-about-other-hosts) for more details.
