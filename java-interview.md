@@ -1,3 +1,17 @@
+## Comparable vs Comparator
+
+Les deux sont des interfaces.
+
+[`Comparable`](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Comparable.html)
+- Interface à appliquer à une classe si ses instances sont comparables
+- `null` n'étant une instance d'aucune classe, `e.compareTo(null)` doit lancer un NPE
+- Méthode à implémenter : `compareTo(T o)`
+
+[`Comparator`](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/Comparator.html)
+- Fonction en charge de comparer deux objets
+- Possibilité de comparer des objets `null`
+- Méthode à implémenter : `compare(T o1, T o2)`
+
 ## Iterator vs Iteratable
 
 Les deux sont des interfaces.
@@ -12,16 +26,6 @@ Les deux sont des interfaces.
 - Depuis Java 1.5
 - Introduit avec la boucle améliorée, communémment appelée la for-each-loop
 
-## Comparable vs Comparator
+## Précédence des opérateurs
 
-Les deux sont des interfaces.
-
-[`Comparable`](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/lang/Comparable.html)
-- Interface à appliquer à une classe si ses instances sont comparables
-- `null` n'étant une instance d'aucune classe, `e.compareTo(null)` doit lancer un NPE
-- Méthode à implémenter : `compareTo(T o)`
-
-[`Comparator`](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/Comparator.html)
-- Fonction en charge de comparer deux objets
-- Possibilité de comparer des objets `null`
-- Méthode à implémenter : `compare(T o1, T o2)`
+![image](https://github.com/user-attachments/assets/ebc25d8d-a9c4-4d20-afea-ffe182886cde)
