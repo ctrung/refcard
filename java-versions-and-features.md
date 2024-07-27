@@ -100,6 +100,8 @@ if (obj instanceof First first) {
 }
 ```
 
+### [JEP 395](https://openjdk.org/jeps/395) : Records
+
 ## Java 17
 
 - [`java.util.HexFormat`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/HexFormat.html) class
