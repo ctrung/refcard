@@ -1,3 +1,7 @@
+
+Guide des versions Java et nouvelles fonctionnalités (Marco Behler) \
+https://www.marcobehler.com/guides/a-guide-to-java-versions-and-features
+
 ## Java 9
 
 ### JEP 247 : release flag
@@ -44,6 +48,26 @@ jar -uf mrlib.jar --release 9 -C mrlib/9 .                    # Update the JAR f
 - It’s a good idea to minimize the number of versioned classes. Factoring out the differences into a few classes decreases the maintenance burden. Versioning almost all classes in a JAR is undesirable
 - Any class appearing under versions must also appear at the top level
 - It’s fine to leave out Helper under versions/9, the fallback version is used
+
+## Java 14
+
+### [Switch expressions](https://openjdk.org/jeps/361)
+
+- *arrow syntax* pour éviter le *fall through*
+
+Exemple : 
+
+```java
+final Boolean answer = switch(ch) {
+    case 'T', 't' -> true;
+    case 'F', 'f' -> false;
+    default -> null;
+};
+```
+
+## Java 21
+
+- Méthode `List.reversed()` : évite de coder une boucle for en arrière
 
 ## Java 22
 
