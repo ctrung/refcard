@@ -4,7 +4,7 @@ https://www.marcobehler.com/guides/a-guide-to-java-versions-and-features
 
 ## Java 9
 
-### JEP 247 : release flag
+### [JEP 247](https://openjdk.org/jeps/247) : release flag
 
 Equivalent to `--source N` + `--target N` + additional checks on new Java API used.
 
@@ -49,9 +49,20 @@ jar -uf mrlib.jar --release 9 -C mrlib/9 .                    # Update the JAR f
 - Any class appearing under versions must also appear at the top level
 - It’s fine to leave out Helper under versions/9, the fallback version is used
 
+### `InputStream.readNBytes(byte[] b, int off, int len)`
+
+https://stackoverflow.com/questions/53754387/java-read-vs-readnbytes-of-the-inputstream-instance
+
+
+
+## Java 11
+
+- `String.repeat(int)`
+- 
+
 ## Java 14
 
-### [Switch expressions](https://openjdk.org/jeps/361)
+### [JEP 361](https://openjdk.org/jeps/361) : Switch expressions
 
 - *arrow syntax* pour éviter le *fall through*
 
@@ -65,13 +76,54 @@ final Boolean answer = switch(ch) {
 };
 ```
 
+## Java 15
+
+- `String.formatted(Object... args)` : more readable than concatenation but significantly slower, so might be undesirable on hot code paths
+
+### [JEP 378](https://openjdk.org/jeps/378) : Text blocks
+
+```java
+String text = """
+                Lorem ipsum dolor sit amet, consectetur adipiscing \
+                elit, sed do eiusmod tempor incididunt ut labore \
+                et dolore magna aliqua.\
+                """;
+```
+
+## Java 16
+
+### [JEP 394](https://openjdk.org/jeps/394) : Pattern matching for `instanceof`
+
+```java
+if (obj instanceof First first) {
+    return checkFirst(first);
+}
+```
+
+## Java 17
+
+- [`java.util.HexFormat`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/HexFormat.html) class
+-  
+
+
+
 ## Java 21
 
 - Méthode `List.reversed()` : évite de coder une boucle for en arrière
 
+### [JEP 441](https://openjdk.org/jeps/441) : Pattern matching for `switch`
+
+```java
+if (obj instanceof First first) {
+    return checkFirst(first);
+}
+```
+
+
+
 ## Java 22
 
-### JEP-447 : Déclarations avant super()
+### [JEP-447](https://openjdk.org/jeps/447) : Déclarations avant super()
 
 ```java
 public class A extends B {
@@ -86,7 +138,9 @@ public class A extends B {
 }
 ```
 
-### JEP 456 : Variables et modèles sans noms
+
+
+### [JEP 456](https://openjdk.org/jeps/456) : Variables et modèles sans noms
 
 Remplacé par un underscore si on ne compte pas utiliser la variable.
 
