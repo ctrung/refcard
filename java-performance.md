@@ -6,6 +6,8 @@ Books
 
 [Java Performance (Charlie Hunt, Binu John, 2011)](https://ptgmedia.pearsoncmg.com/images/9780137142521/samplepages/0137142528.pdf)
 
+[Java Performance Companion (2020)](https://a.co/d/5WrdqHo)
+
 Websites
 
 [Java -On Stack Replacement (OSR)](https://thangavel-blog.medium.com/java-on-stack-replacement-osr-b527ab3fff8c)
@@ -103,16 +105,18 @@ Columns description :
 
 ## Garbage collectors
 
-Different algorithms :
+### Algorithms
 - Serial
 - Parallel
 - Concurrent Mark and Sweep
-- G1 (Java 7)
-- ZGC (Java 11)
-- Shenandoah (Java 12)
+- G1 (experimental in Java 7) : Designed to offer superior performance and predictability compared to its predecessors
+- [Epsilon GC](https://blogs.oracle.com/javamagazine/post/epsilon-the-jdks-do-nothing-garbage-collector) (Java 11) : an experimental no-op GC designed to test the performance of applications with minimal GC interference
+- ZGC (Java 11) : A low-latency, scalable GC designed to handle large heaps with minimal pause times
+- Shenandoah (Java 12) : A low-latency, scalable GC designed to handle large heaps with minimal pause times
 
 
-Different characteristics of algorithms
+### Characteristics
+
 - Stop the World : Pause application threads, can result in longer pause time.
 - Concurrent : Minimize pause times (eg. CMS).
 - Incremental compacting algorithms : Introduced with G1 to deal with the fragmentation issue found in CMS.
