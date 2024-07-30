@@ -2,7 +2,58 @@
 Guide des versions Java et nouvelles fonctionnalités (Marco Behler) \
 https://www.marcobehler.com/guides/a-guide-to-java-versions-and-features
 
+## Java 1.2
+
+- Java: the Collections Framework
+- JIT compiler
+
+## Java 1.4
+
+- Java NIO (JSR 51)
+- Logging API
+
+## Java 5
+
+- Generics
+- Concurrent utils (JSR 166)
+- For-each-loop
+- Annotations
+- `java.lang.instrument` package
+
+## Java 6
+
+- Additions and enhancements to the Java API (JSR 270)
+- Parallel compaction for the use of multiple GC worker threads to perform compaction of the old generation
+- `javax.script` package for scripting support
+- Java Compiler API (JSR 199)
+- JAXB 2.0 and JAX-WS 2.0
+
+## Java 7
+
+See Project Coin.
+
+- Diamond op <>
+- NIO.2
+- fork/join framework (JSR 166)
+- parallel GC became NUMA-aware
+- Java SE 7 Update 4 introduced the Garbage First Garbage Collector (G1 GC)
+
+## Java 8
+
+- Lambdas, reference methods
+- Default methods in interface
+- Stream API
+- Removal of permgen space
+- String deduplication, feature designed for G1 (`-XX:+UseG1GC -XX:+UseStringDeduplication`)
+
 ## Java 9
+
+Project Jigsaw.
+
+- Java module system
+- JShell, an interactive Java REPL (read–evaluate–print loop)
+- Support for the Arm 64-bit architecture
+- Improve Contended Locking ([JEP 143](https://openjdk.org/jeps/143))
 
 ### [JEP 247](https://openjdk.org/jeps/247) : release flag
 
@@ -53,14 +104,35 @@ jar -uf mrlib.jar --release 9 -C mrlib/9 .                    # Update the JAR f
 
 https://stackoverflow.com/questions/53754387/java-read-vs-readnbytes-of-the-inputstream-instance
 
+## Java 10
+
+- Local Variable Type Inference (var, val)
+- Improved the G1 GC by enabling parallel full garbage collections
 
 
 ## Java 11
 
+- [Epsilon GC](https://blogs.oracle.com/javamagazine/post/epsilon-the-jdks-do-nothing-garbage-collector) : an experimental no-op GC designed to test the performance of applications with minimal GC interference
+  (`java -XX:+UnlockExperimentalVMOptions -XX:+UseEpsilonGC -jar myApplication.jar`)
 - `String.repeat(int)`
-- 
+- Introduction of the experimental Z Garbage Collector (ZGC) : a low-latency, scalable GC designed to handle large heaps with minimal pause times
+  (`java -XX:+UnlockExperimentalVMOptions -XX:+UseZGC -jar myApplication.jar`)
+- new HTTP client API that supports HTTP/2 and WebSocket
+
+## Java 12
+
+- Introduction of the experimental Shenandoah GC. Like ZGC, Shenandoah GC is designed for large heaps with low latency requirements.
+  (`java -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -jar myApplication.jar`)
+- Switch expressions (preview)
+
+## Java 13
+
+- Multiline strings (preview)
+- Enhancements to ZGC, eg. the new ZGC uncommit feature allowed unused heap memory to be returned to the operating system (OS) in a more timely and efficient manner
 
 ## Java 14
+
+- Pattern matching for `instanceof` (preview)
 
 ### [JEP 361](https://openjdk.org/jeps/361) : Switch expressions
 
@@ -79,6 +151,8 @@ final Boolean answer = switch(ch) {
 ## Java 15
 
 - `String.formatted(Object... args)` : more readable than concatenation but significantly slower, so might be undesirable on hot code paths
+- Sealed class (preview, [JEP 360](https://openjdk.org/jeps/360))
+- Hidden classes ([JEP 371](https://openjdk.org/jeps/371))
 
 ### [JEP 378](https://openjdk.org/jeps/378) : Text blocks
 
@@ -91,6 +165,9 @@ String text = """
 ```
 
 ## Java 16
+
+- Records (preview)
+- ZGC enhancements ([JEP 376](https://openjdk.org/jeps/376))
 
 ### [JEP 394](https://openjdk.org/jeps/394) : Pattern matching for `instanceof`
 
@@ -105,9 +182,11 @@ if (obj instanceof First first) {
 ## Java 17
 
 - [`java.util.HexFormat`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/HexFormat.html) class
--  
-
-
+- Enhanced Pseudo-Random Number Generators ([JEP 356](https://openjdk.org/jeps/356))
+- Strongly Encapsulate JDK Internals ([JEP 403](https://openjdk.org/jeps/403))
+- Pattern matching for switch (preview, [JEP 406](https://openjdk.org/jeps/406))
+- Foreign Function and Memory API (Incubator, [JEP 412](https://openjdk.org/jeps/412))
+- Applet API deprecated ([JEP 398](https://openjdk.org/jeps/398)), Security Manager deprecated for Removal ([JEP 411](https://openjdk.org/jeps/411))
 
 ## Java 21
 
