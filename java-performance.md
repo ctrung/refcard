@@ -4,9 +4,9 @@ Books
 
 [JVM Performance Engineering: Inside OpenJDK and the HotSpot Java Virtual Machine (Monica Beckwith, 2024)](https://www.pearson.com/en-us/subject-catalog/p/jvm-performance-engineering-inside-the-openjdk-hotspot-vm/P200000000120/9780134659879)
 
-[Java Performance (Charlie Hunt, Binu John, 2011)](https://ptgmedia.pearsoncmg.com/images/9780137142521/samplepages/0137142528.pdf)
-
 [Java Performance Companion (2020)](https://a.co/d/5WrdqHo)
+
+[Java Performance (Charlie Hunt, Binu John, 2011)](https://ptgmedia.pearsoncmg.com/images/9780137142521/samplepages/0137142528.pdf)
 
 Websites
 
