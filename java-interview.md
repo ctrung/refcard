@@ -29,3 +29,26 @@ Les deux sont des interfaces.
 ## Précédence des opérateurs
 
 ![image](https://github.com/user-attachments/assets/ebc25d8d-a9c4-4d20-afea-ffe182886cde)
+
+
+## Volatile (mot clé)
+
+```java
+volatile boolean aleesp;
+...
+while(!asleep) {
+  countSOmeSheeps();
+}
+```
+
+`volatile` s'utilise dans les programmes concurrents pour assurer la visibilité des variables. \
+C'est un mécanisme de synchronisation plus léger qu'une section critique puisqu'il ne bloque pas les threads. \
+Il est rendu nécessaire pour se prémunir des effets de visibilité rencontrés lors des optimisations de la JVM (caching, non atomicité des ops 64 bits, reordering). \
+
+> [!NOTE]
+> Une variable volatile a aussi un impact sur la visibilité des autres variable. \
+> La JVM garantit que lorsqu'un *thread A* écrit dans une variable volatile, puis qu'un *thread B* lit dans cette même variable, l'état de toutes les autres variables avant l'écriture du *thread A* est mis à jour dans le *thread B*. 
+
+See : 
+- Java Concurrency in Practice (p.36, 37)
+- [java-volatile sur baeldung.com ](https://www.baeldung.com/java-volatile)
