@@ -38,6 +38,9 @@ function multiply(num1, num2) {
 ```
 
 ### Objets
+
+https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Working_with_objects
+
 ```js
 
 // création : façon 1
