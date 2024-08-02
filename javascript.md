@@ -88,6 +88,11 @@ https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Working_with_objects#
 
 Objet dont on hérite des propriétés (attributs et méthodes). Non modifiable, fixé à la création d'un objet dans la propriété `prototype` du constructeur.
 
+### Promesses
+
+https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Using_promises
+
+
 
 ### Ajouter un élément au DOM
 ```js
