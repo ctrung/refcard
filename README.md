@@ -22,3 +22,11 @@ https://cheat.sh/
 * Arguments : `sftp://%Username%:%!Password%@%Hostname%`
 
 #### [MobaXterm](https://mobaxterm.mobatek.net/)
+
+
+## Veille techno
+
+- Kubernetes, Helm charts
+- Angular, Typescript
+- Python
+- 
