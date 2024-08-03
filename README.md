@@ -28,5 +28,11 @@ https://cheat.sh/
 
 - Kubernetes, Helm charts
 - Angular, Typescript
+- React JS
+- Vue JS
 - Python
-- 
+- Java 17, 21
+- Java performance (flight recorder, visual VM)
+- Elastic Search Kibana
+- Graphana
+- Kotlin
