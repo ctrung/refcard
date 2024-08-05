@@ -97,6 +97,27 @@ ${VAR:=x} # affecte et retourne si unset ou null
 ${VAR=x}  # affecte et retourne si unset
 ```
 
+## Globstar (**)
+
+https://askubuntu.com/questions/1010707/how-to-enable-the-double-star-globstar-operator
+
+```sh
+# the globstar shell option which was introduced in bash version 4.
+$ echo $BASH_VERSION
+4.4.12(1)-release
+
+# check if is enabled
+$ shopt globstar
+
+# if "off", we enable (set) it with
+$ shopt -s globstar
+
+# to disable it (unset)
+$ shopt -u globstar
+```
+
+See `help shopt` for details.
+
 ## Heredoc
 
 https://linuxize.com/post/bash-heredoc/
