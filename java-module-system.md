@@ -245,7 +245,7 @@ hello-image/
 java --list-modules              # list platform modules
 java --describe-module java.se   # show module descriptor
 
-javac -d out/helloworld src/helloworld/com/javamodularity/helloworld/HelloWorld.java src/helloworld/module-info.java  # NB : module name must match with root folder name !
+javac -d out/helloworld src/helloworld/com/javamodularity/helloworld/HelloWorld.java src/helloworld/module-info.java
 javac -d out --module-source-path src -m easytext.cli
 
 jar -cfe mods/helloworld.jar com.javamodularity.helloworld.HelloWorld -C out/helloworld
