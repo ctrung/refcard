@@ -15,6 +15,7 @@ public class Service {
     }
   }
 }
+```
 
 (automatic way)
 ```java
@@ -25,7 +26,6 @@ public class Service {
       ...
   }
 }
-```
 ```
 
 ## Unit testing
