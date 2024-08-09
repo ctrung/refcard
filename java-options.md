@@ -28,7 +28,7 @@ https://stackoverflow.com/questions/46845251/java-trust-unix-certificate-store
 
 ## `-X` (non standard)
 
-### `-Xlog`
+### `-Xlog` (Java 9+)
 
 Introduced in Java 9, see [JEP 158: **Unified JVM Logging**](https://openjdk.org/jeps/158) and [JEP 271: **Unified GC Logging**](https://openjdk.org/jeps/271).
 
@@ -78,9 +78,9 @@ java -Xlog:async ...
 
 ## `-XX:` (experimental)
 
-### –XX:+PrintFlagsFinal
+### `–XX:+PrintFlagsFinal`
 To check which options are enabled by default.
 
-### –XX:+UseCompressedOops
+### `–XX:+UseCompressedOops`
 This option has been enabled by default since Java 6, update 23. 
 
