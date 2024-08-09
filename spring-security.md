@@ -1,3 +1,6 @@
+
+[Spring Tips: Spring Security method security with special guest Rob Winch](https://youtu.be/JYZHp5eqS2I?si=_Y3BuRshWnTJlUCL)
+
 ## Authorization
 
 ### For domain objects (since spring security 6.3)
@@ -54,6 +57,8 @@ public class MyAPplication {
 
 ### Handlers
 
+Example of a masked data if insufficient access 
+
 ```java
 // entity
 public class Entity {
@@ -63,8 +68,6 @@ public class Entity {
     ...
   }
 }
-
-
 
 @Component
 public class MaskMethodAuthorizationDeniedHandler implements MethodAuthorizationDeniedHandler {
