@@ -78,6 +78,12 @@ java -Xlog:async ...
 
 ## `-XX:` (experimental)
 
+### `-XX:NativeMemoryTracking`
+`-XX:NativeMemoryTracking=[off | summary | detail]`
+
+For real-time insights, jcmd can be used to grab the runtime `summary` or `detail` : `jcmd <pid> VM.native_memory summary`
+
+
 ### `–XX:+PrintFlagsFinal`
 To check which options are enabled by default.
 
