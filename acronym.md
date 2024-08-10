@@ -1,5 +1,6 @@
 ```
 DM   : Direct Message (eg. sur Slack)
+NMT  : Native Memory Tracking
 RACI : Responsability / Accountable / Consulted / Informed
 RBVM : Risk Based Vulnerability Management
 SLA  : Service Level Agreement
