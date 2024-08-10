@@ -1,3 +1,7 @@
+
+Tutorial mis à jour : https://docs.oracle.com/javase/tutorial/java/generics/index.html
+Tutorial de 2005 quand Java 5 est sorti : https://docs.oracle.com/javase/tutorial/extra/generics/index.html
+
 ## Concepts
 
 ### Types génériques (classes)
@@ -86,6 +90,37 @@ public static void faultyMethod(List<String>... l) {
   String s = l[0].get(0);       // ClassCastException thrown here
 }
 ```
+
+Dans le cas de l'utilisation de generic varargs, si l'on est assuré que la méthode ne produit pas de `ClassCastException` au runtime, on peut utiliser l'annotation `@SafeVarargs`.
+```java
+@SafeVarargs
+public static void safeVarargsMethod(List<String>... l) {
+  Object[] objectArray = l;     // Valid
+  objectArray[0] = Arrays.asList("hello");
+  String s = l[0].get(0);       // pas de ClassCastException ici
+}
+```
+Il est aussi possible d'utiliser `@SuppressWarnings({"varargs"})`, mais les avertissements depuis les points d'appel à la méthode ne seront pas supprimés. 
+
+### Intéropérabilité avec le legacy code
+
+https://docs.oracle.com/javase/tutorial/extra/generics/morefun.html \
+https://docs.oracle.com/javase/tutorial/extra/generics/convert.html
+
+Voir l'exemple de la méthode `public static <T extends Object & Comparable<? super T>> T Collections.max(Collection<? extends T> coll)` !
+
+## Restrictions
+
+Voir la page https://dev.java/learn/generics/restrictions pour les explications
+
+- Les generics ne supportent pas les types primitifs : usage de l'autoboxing pour contourner
+- Pas d'instanciation (directe) d'une variable d'un type paramétré : contournement possible via la reflexion
+- Pas de champs `static` avec un type paramétré
+- Pas de instanceof sur les generics : les unbounded types sont autorisés cependant
+- Pas de création de tableau de generics
+- Pas d'héritage d'un généric à partir de la classe `Throwable`
+- Pas de generic dans la clause `catch`
+- Pas d'overloading de méthodes avec les generics (à cause du type erasure)  
 
 ## Flag `-Xlint:unchecked`, annotation `@SuppressWarnings("unchecked")`
 
