@@ -4,6 +4,8 @@ https://www.techtarget.com/whatis/
 
 ```
 DM   : Direct Message (eg. sur Slack)
+IAM  : Identity Access Management
+IAG  : Identity Access Governance
 NMT  : Native Memory Tracking
 NUMA : Non-Uniform Memory Access
 PSO  : Partial Store Ordering (processor architecture), see [link](https://docs.oracle.com/cd/E26502_01/html/E29051/hwovr-15.html))
