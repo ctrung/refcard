@@ -7,8 +7,19 @@ dev.java tutorial : https://dev.java/learn/api/streams
 - Declarative and functional
 - Chainer les opérations sur les streams au lieu de stocker le résultat dans une variable intermédiaire car ils ne sont "consommables" qu'une seule fois (cf. l'erreur `stream has already been operated upon or closed`)
 - 4 classes de streams : `Stream` pour les objets et `IntStream`, `LongStream` et `DoubleStream` pour les types primitifs (plus performant car pas d'autoboxing)
-- Opérations intermédiaires : `map()`, `filter()`
-- Opérations finales : `collect()`
+
+## Opérations intermédiaires
+
+- `map()`
+- `flatMap()`, `mapMulti()`
+- `filter()`
+- `dropWhile()`, `takeWhile()`
+- `skip()`, `limit()`
+- `distinct()`, `sorted()`
+
+## Opérations finales
+
+- `collect()`
 
 ## Avancé
 
