@@ -21,14 +21,16 @@ Old tutorial from Java 8 : https://docs.oracle.com/javase/tutorial/collections/s
 
 ## Opérations finales
 
-- `reduce()`
-- `collect()`
+- `reduce()` ： bas niveau, à utiliser en dernier ressort car l'opération doit être associative
+- `collect()` : 
+- `min()`, `max()`, `count()`, etc...
 
 ## Fonctions
 
 Fonctions courantes du package `java.util.function` utilisées dans l'API des streams : 
 - Consumer<T> : utilise un objet mais ne renvoit rien
 - Function<T,R> : transforme un objet en un autre
+- IntFunction<R> : spécialisation de Function, très utile pour instancier un tableau (eg. `stream.toArray(String[]::new)`)
 - Predicate<T> : teste un objet (renvoie un booléen)
 - Bi<XXX> : même chose que `Consumer`, `Function` et `Predicate` mais qui prend deux objets en entrée au lieu d'un seul
 - Supplier<T> : fournit un objet
@@ -63,7 +65,39 @@ int result = strings.reduce(0, accumulator, combiner);
 System.out.println("sum = " + result);
 ```
 
-## Bonne pratiques
+## Collection
+
+Plusieurs patterns :
+
+- `collect(Collectors.toList())`
+- `collect(Collectors.toUnmodifiableList())` ou  `toList()` à partir de Java 16 
+- `collect(Collectors.toSet()`
+- `collect(Collectors.toUnmodifiableSet())`
+- `collect(Collectors.toCollection(LinkedList::new))`
+- `toArray(String[]::new)`
+
+### max
+
+Pour les streams d'objets, il faut fournir un `Comparator` pour définir l'algorithme de tri.
+
+Exemple 1 : 
+```java
+Stream<String> strings = Stream.of("one", "two", "three", "four");
+String longest =
+     strings.max(Comparator.comparing(String::length))
+            .orElseThrow();
+System.out.println("longest = " + longest);
+```
+
+Exemple 2 : 
+```java
+Stream<Person> persons = ...
+Person first = persons.min(Comparator.comparing(Person::getLastName, String.CASE_INSENSITIVE_ORDER))
+                orElseThrow();
+System.out.println("first = " + first);
+```
+
+## Bonnes pratiques
 
 ### Utiliser `mapMulti(BiConsumer<? super T,? super Consumer<R>> mapper)` au lieu de `flatMap()` lors des validations (Java 16)
 
@@ -110,6 +144,9 @@ Depuis Java 10, une meilleure alternative est `orElseThrow()` au lieu de `get()`
 ### Utiliser `toList()` au lieu de `collect(Collectors.toList())` (Java 16)
 
 Alternative plus courte.
+
+> [!NOTE]
+> Il y a une subtilité : `toList()` retourne une collection immuable tandis que `collect(Collectors.toList())` utilise une `ArrayList`.
 
 ## Avancé
 
