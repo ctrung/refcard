@@ -10,6 +10,16 @@ Old tutorial from Java 8 : https://docs.oracle.com/javase/tutorial/collections/s
 - Chainer les opérations sur les streams au lieu de stocker le résultat dans une variable intermédiaire car ils ne sont "consommables" qu'une seule fois (cf. l'erreur `stream has already been operated upon or closed`)
 - 4 classes de streams : `Stream` pour les objets et `IntStream`, `LongStream` et `DoubleStream` pour les types primitifs (plus performant car pas d'autoboxing)
 
+## Fonctions
+
+Fonctions courantes du package `java.util.function` à maîtriser pour apréhender l'API des streams : 
+- Consumer<T> : utilise un objet mais ne renvoit rien
+- Function<T,R> : transforme un objet en un autre
+- IntFunction<R> : spécialisation de Function, très utile pour instancier un tableau (eg. `stream.toArray(String[]::new)`)
+- Predicate<T> : teste un objet (renvoie un booléen)
+- Bi<XXX> : même chose que `Consumer`, `Function` et `Predicate` mais qui prend deux objets en entrée au lieu d'un seul
+- Supplier<T> : fournit un objet
+
 ## Opérations intermédiaires
 
 - `map()`
@@ -25,34 +35,24 @@ Old tutorial from Java 8 : https://docs.oracle.com/javase/tutorial/collections/s
 - `collect()` : 
 - `min()`, `max()`, `count()`, etc...
 
-## Fonctions
-
-Fonctions courantes du package `java.util.function` utilisées dans l'API des streams : 
-- Consumer<T> : utilise un objet mais ne renvoit rien
-- Function<T,R> : transforme un objet en un autre
-- IntFunction<R> : spécialisation de Function, très utile pour instancier un tableau (eg. `stream.toArray(String[]::new)`)
-- Predicate<T> : teste un objet (renvoie un booléen)
-- Bi<XXX> : même chose que `Consumer`, `Function` et `Predicate` mais qui prend deux objets en entrée au lieu d'un seul
-- Supplier<T> : fournit un objet
-
-## Réduction
+### Réduction
 
 Opération finale avec trois formes proposées par l'API :
 
-### `T reduce(T identity, BinaryOperator<T> accumulator)`
+#### `T reduce(T identity, BinaryOperator<T> accumulator)`
 Forme simplifiée avec l'élément identité
 ```java
 Integer sum = integers.reduce(0, (a, b) -> a+b);
 Integer sum = integers.reduce(0, Integer::sum);
 ```
 
-### `Optional<T> reduce(BinaryOperator<T> accumulator)`
+#### `Optional<T> reduce(BinaryOperator<T> accumulator)`
 Forme simplifiée sans l'élément identité
 ```java
 Optional<Integer> min = integers.reduce(Integer::min);
 ```
 
-### `<U> U reduce(U identity, BiFunction<U,? super T,U> accumulator, BinaryOperator<U> combiner)`
+#### `<U> U reduce(U identity, BiFunction<U,? super T,U> accumulator, BinaryOperator<U> combiner)`
 Forme générale
 ```java
 Stream<String> strings = Stream.of("one", "two", "three", "four");
@@ -65,16 +65,31 @@ int result = strings.reduce(0, accumulator, combiner);
 System.out.println("sum = " + result);
 ```
 
-## Collection
+### Collection
 
-Plusieurs patterns :
+#### Stream
 
-- `collect(Collectors.toList())`
-- `collect(Collectors.toUnmodifiableList())` ou  `toList()` à partir de Java 16 
-- `collect(Collectors.toSet()`
-- `collect(Collectors.toUnmodifiableSet())`
-- `collect(Collectors.toCollection(LinkedList::new))`
+Méthodes :
+- `<R> R collect(Supplier<R> supplier, BiConsumer<R,? super T> accumulator, BiConsumer<R,R> combiner)`
+- `<R,A> R collect(Collector<? super T,A,R> collector)`
 - `toArray(String[]::new)`
+
+##### L'API `Collector`
+
+Plusieurs `Collector` "prêt à l'emploi" via la classe utilitaire `Collectors` :
+
+- `Collectors.toList()` : collecte dans une `ArrayList`
+- `Collectors.toUnmodifiableList()` : collecte dans une liste non mutable, éq. à `stream.toList()` à partir de Java 16
+- `Collectors.toSet()` et `Collectors.toUnmodifiableSet()`
+- `Collectors.toCollection(LinkedList::new)`
+- `Collectors.counting()` : éq. à `stream.count()`
+- `Collectors.joining()` : seulement supporté pour les streams de strings
+- `Collectors.partitioningBy()` : collecte dans une `Map`
+- `Collectors.groupingBy()` : collecte dans une `Map` 
+
+
+
+
 
 ### max
 
