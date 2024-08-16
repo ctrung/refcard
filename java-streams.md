@@ -92,6 +92,8 @@ Plusieurs `Collector` "prêt à l'emploi" via la classe utilitaire `Collectors` 
 - `Collectors.partitioningBy()` : collecte dans une `Map<Boolean, T>`
 - `Collectors.groupingBy()` : collecte dans une `Map<R, T>` (plusieurs valeurs autorisées par clé)
 - `Collectors.toMap()`, `Collectors.toConcurrentMap()` : collecte dans une `Map` (une seule valeur autorisée par clé)
+- `Collectors.mapping()`, `Collectors.filtering()`, `Collectors.flatMapping()` : opération intermédiaire avant de déléguer à un deuxième downstream collector, utile en combinaison avec `Collectors.groupingBy()`
+- `Collectors.maxBy()/minBy()`, `Collectors.summingInt()/summingLong()/summingDouble()`, `Collectors.averagingInt()/averagingLong()/averagingDouble()`
 
 #### Downstream collector
 
