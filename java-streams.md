@@ -10,7 +10,7 @@ Old tutorial from Java 8 : https://docs.oracle.com/javase/tutorial/collections/s
 - Chainer les opérations sur les streams au lieu de stocker le résultat dans une variable intermédiaire car ils ne sont "consommables" qu'une seule fois (cf. l'erreur `stream has already been operated upon or closed`)
 - 4 classes de streams : `Stream` pour les objets et `IntStream`, `LongStream` et `DoubleStream` pour les types primitifs (plus performant car pas d'autoboxing)
 
-## Fonctions
+## Interfaces fonctionnelles courantes utilisées par l'API des streams 
 
 Fonctions courantes du package `java.util.function` à maîtriser pour apréhender l'API des streams : 
 - Consumer<T> : utilise un objet mais ne renvoit rien
@@ -19,6 +19,13 @@ Fonctions courantes du package `java.util.function` à maîtriser pour apréhend
 - Predicate<T> : teste un objet (renvoie un booléen)
 - Bi<XXX> : même chose que `Consumer`, `Function` et `Predicate` mais qui prend deux objets en entrée au lieu d'un seul
 - Supplier<T> : fournit un objet
+
+
+## Comparateurs courants utilisés par l'API des streams
+
+- `Comparator.comparing(Person::getLastName, String.CASE_INSENSITIVE_ORDER)`
+- `Map.Entry.comparingByValue()`
+- 
 
 ## Opérations intermédiaires
 
@@ -67,14 +74,12 @@ System.out.println("sum = " + result);
 
 ### Collection
 
-#### Stream
-
 Méthodes :
 - `<R> R collect(Supplier<R> supplier, BiConsumer<R,? super T> accumulator, BiConsumer<R,R> combiner)`
 - `<R,A> R collect(Collector<? super T,A,R> collector)`
 - `toArray(String[]::new)`
 
-##### L'API `Collector`
+#### L'API `Collector`
 
 Plusieurs `Collector` "prêt à l'emploi" via la classe utilitaire `Collectors` :
 
@@ -84,12 +89,43 @@ Plusieurs `Collector` "prêt à l'emploi" via la classe utilitaire `Collectors` 
 - `Collectors.toCollection(LinkedList::new)`
 - `Collectors.counting()` : éq. à `stream.count()`
 - `Collectors.joining()` : seulement supporté pour les streams de strings
-- `Collectors.partitioningBy()` : collecte dans une `Map`
-- `Collectors.groupingBy()` : collecte dans une `Map` 
+- `Collectors.partitioningBy()` : collecte dans une `Map<Boolean, T>`
+- `Collectors.groupingBy()` : collecte dans une `Map<R, T>` (plusieurs valeurs autorisées par clé)
+- `Collectors.toMap()`, `Collectors.toConcurrentMap()` : collecte dans une `Map` (une seule valeur autorisée par clé)
 
+#### Downstream collector
 
+Fonctionnalité permettant de créer des histogrammes en combinant les valeurs d'une map issu d'un premier `Collector` avec un deuxième `Collector`.
 
+Exemple 1 : 
 
+```java
+Collection<String> strings =
+        List.of("one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+                "ten", "eleven", "twelve");
+
+Map<Integer, Long> map =
+    strings.stream()
+           .collect(
+               Collectors.groupingBy(
+                   String::length, 
+                   Collectors.counting()));
+```
+
+Exemple 2 : 
+
+```java
+Collection<String> strings =
+        List.of("one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+                "ten", "eleven", "twelve");
+
+Map<Integer, String> map =
+        strings.stream()
+                .collect(
+                        Collectors.groupingBy(
+                                String::length,
+                                Collectors.joining(", ")));
+```
 
 ### max
 
