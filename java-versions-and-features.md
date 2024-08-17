@@ -196,6 +196,8 @@ https://blogs.oracle.com/javamagazine/post/the-hidden-gems-in-java-16-and-java-1
 
 ## Java 21
 
+https://blogs.oracle.com/javamagazine/post/java-21-now-available
+
 - Méthode `List.reversed()` : évite de coder une boucle for en arrière
 
 ### [JEP 441](https://openjdk.org/jeps/441) : Pattern matching for `switch`
