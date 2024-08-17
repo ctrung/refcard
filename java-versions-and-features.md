@@ -124,6 +124,7 @@ https://stackoverflow.com/questions/53754387/java-read-vs-readnbytes-of-the-inpu
 - Introduction of the experimental Shenandoah GC. Like ZGC, Shenandoah GC is designed for large heaps with low latency requirements.
   (`java -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -jar myApplication.jar`)
 - Switch expressions (preview)
+- `Collectors.teeing()`
 
 ## Java 13
 
@@ -166,8 +167,11 @@ String text = """
 
 ## Java 16
 
+https://blogs.oracle.com/javamagazine/post/the-hidden-gems-in-java-16-and-java-17-from-streammapmulti-to-hexformat
+
 - Records (preview)
 - ZGC enhancements ([JEP 376](https://openjdk.org/jeps/376))
+- `Stream.mapMulti()`
 
 ### [JEP 394](https://openjdk.org/jeps/394) : Pattern matching for `instanceof`
 
@@ -180,6 +184,8 @@ if (obj instanceof First first) {
 ### [JEP 395](https://openjdk.org/jeps/395) : Records
 
 ## Java 17
+
+https://blogs.oracle.com/javamagazine/post/the-hidden-gems-in-java-16-and-java-17-from-streammapmulti-to-hexformat
 
 - [`java.util.HexFormat`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/HexFormat.html) class
 - Enhanced Pseudo-Random Number Generators ([JEP 356](https://openjdk.org/jeps/356))
