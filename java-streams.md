@@ -94,6 +94,8 @@ Plusieurs `Collector` "prêt à l'emploi" via la classe utilitaire `Collectors` 
 - `Collectors.toMap()`, `Collectors.toConcurrentMap()` : collecte dans une `Map` (une seule valeur autorisée par clé)
 - `Collectors.mapping()`, `Collectors.filtering()`, `Collectors.flatMapping()` : opération intermédiaire avant de déléguer à un deuxième downstream collector, utile en combinaison avec `Collectors.groupingBy()`
 - `Collectors.maxBy()/minBy()`, `Collectors.summingInt()/summingLong()/summingDouble()`, `Collectors.averagingInt()/averagingLong()/averagingDouble()`
+- `Collectors.teeing()` (Java 12) : pour utiliser deux downstream collectors et merger le resultat
+- `Collectors.collectingAndThen()` : applique un finisher à un downstream collector
 
 #### Downstream collector
 
@@ -152,7 +154,7 @@ System.out.println("first = " + first);
 
 ## Bonnes pratiques
 
-### Utiliser `mapMulti(BiConsumer<? super T,? super Consumer<R>> mapper)` au lieu de `flatMap()` lors des validations (Java 16)
+### Utiliser `mapMulti(BiConsumer<? super T,? super Consumer<R>> mapper)` au lieu de `flatMap()` pour valider et filtrer (Java 16)
 
 https://dev.java/learn/api/streams/intermediate-operation/#flatmap-and-mapmulti
 
