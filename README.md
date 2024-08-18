@@ -24,7 +24,7 @@ https://cheat.sh/
 #### [MobaXterm](https://mobaxterm.mobatek.net/)
 
 
-## Veille techno
+## Technos à voir
 
 - Kubernetes, Helm charts
 - Angular, Typescript
