@@ -152,6 +152,13 @@ Person first = persons.min(Comparator.comparing(Person::getLastName, String.CASE
 System.out.println("first = " + first);
 ```
 
+## `Optional`
+
+Les `Optional` sont stream fluently.
+
+Exemple d'utilisation de `Stream.flatMap()` + `Optional.map()` pour filtrer les optionals vides : \
+https://dev.java/learn/api/streams/optionals/#processing
+
 ## Bonnes pratiques
 
 ### Utiliser `mapMulti(BiConsumer<? super T,? super Consumer<R>> mapper)` au lieu de `flatMap()` pour valider et filtrer (Java 16)
