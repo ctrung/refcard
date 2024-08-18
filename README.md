@@ -26,12 +26,12 @@ https://cheat.sh/
 
 ## Technos à voir
 
-- Kubernetes, Helm charts
-- Angular, Typescript
-- React JS
-- Vue JS
-- Python
-- Java
+- Angular
+- Ansible 📓
+- Elastic Search Kibana
+- Graphana
+- Helm charts
+- Java langage
   * Generics :white_check_mark:
   * Fork/Join API
   * Modules (JPMS) :white_check_mark: 
@@ -41,6 +41,10 @@ https://cheat.sh/
 - Java performance
   * JDK Flight Recorder / JDK Mission Control
   * Java Visual VM
-- Elastic Search Kibana
-- Graphana
 - Kotlin
+- Kubernetes
+- Python
+- React JS
+- Terraform
+- Typescript
+- Vue JS
