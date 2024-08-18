@@ -1,6 +1,6 @@
 
-dev.java website tutorial : https://dev.java/learn/api/streams
-Old tutorial from Java 8 : https://docs.oracle.com/javase/tutorial/collections/streams/index.html
+Tutorial de dev.java : https://dev.java/learn/api/streams \
+Vieux tutorial Java 8 du site d'Oracle : https://docs.oracle.com/javase/tutorial/collections/streams/index.html
 
 ## Concepts
 
