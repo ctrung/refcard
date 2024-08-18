@@ -33,9 +33,11 @@ https://cheat.sh/
 - Python
 - Java
   * Generics :white_check_mark:
+  * Fork/Join API
+  * Modules (JPMS) :white_check_mark: 
   * Stream API :white_check_mark:
-  * Virtual threads
   * Value types
+  * Virtual threads
 - Java performance
   * JDK Flight Recorder / JDK Mission Control
   * Java Visual VM
