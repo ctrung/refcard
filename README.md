@@ -31,8 +31,14 @@ https://cheat.sh/
 - React JS
 - Vue JS
 - Python
-- Java 17, 21
-- Java performance (flight recorder, visual VM)
+- Java
+  * Generics :white_check_mark:
+  * Stream API :white_check_mark:
+  * Virtual threads
+  * Value types
+- Java performance
+  * JDK Flight Recorder / JDK Mission Control
+  * Java Visual VM
 - Elastic Search Kibana
 - Graphana
 - Kotlin
