@@ -1,3 +1,14 @@
+## `jcmd`
+
+```sh
+# dynamic logging (since Java 11)
+jcmd <pid> VM.log what=gc*=trace decorators=uptimemillis,tid,hostname
+# current config and available options 
+jcmd <pid> help VM.log
+```
+
+See [`-Xlog`](/java-options.md#-xlog-java-9) option for details
+
 ## `jdeprscan`
 
 Analyzes the usage of deprecated APIs in modules.
