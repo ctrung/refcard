@@ -1,4 +1,52 @@
-## Detect deadlocks from within the code
+## Deadlocks
+
+### Example
+
+```java
+final Object lock1 = new Object();
+
+final Object lock2 = new Object();
+
+Runnable task1 = () -> {
+    synchronized (lock1) {
+	log("Thread 1: locked resource 1");
+
+	try {
+	    Thread.sleep(100);
+	} catch (InterruptedException e) {
+	    log(e.getMessage());
+	    Thread.currentThread().interrupt();
+	}
+
+	synchronized (lock2) {
+	    log("Thread 1: locked resource 2");
+	}
+    }
+};
+
+Runnable task2 = () -> {
+    synchronized (lock2) {
+	log("Thread 2: locked resource 2");
+
+	try {
+	    Thread.sleep(100);
+	} catch (InterruptedException e) {
+	    log(e.getMessage());
+	    Thread.currentThread().interrupt();
+	}
+
+	synchronized (lock1) {
+	    log("Thread 2: locked resource 1");
+	}
+    }
+};
+
+ExecutorService executorService = Executors.newFixedThreadPool(5);
+executorService.submit(task1);
+executorService.submit(task2);
+```
+
+### Detect deadlocks from within the code
 
 Spawn a periodic thread to run `ThreadMXBean.findDeadlockedThreads()`
 ```java
