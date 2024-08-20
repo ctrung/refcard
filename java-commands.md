@@ -13,6 +13,15 @@ Thread dump and deadlocks (if any), equivalent to [`jstack <pid>`](#jstack).
 jcmd <pid> Thread.print
 ```
 
+## `jconsole`
+
+Console java (client lourd) pour monitorer un process Java.
+
+```sh
+jconsole
+jconsole <pid>
+```
+
 ## `jdeprscan`
 
 Analyzes the usage of deprecated APIs in modules.
