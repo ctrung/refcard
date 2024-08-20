@@ -46,6 +46,12 @@ executorService.submit(task1);
 executorService.submit(task2);
 ```
 
+### Detect deadlocks outside the JVM
+
+With `jconsole <pid>`, there's a **Detect deadlocks** button.
+
+With `jstack <pid>` or `jcmd <pid> Thread.print` to output a thread dump.
+
 ### Detect deadlocks from within the code
 
 Spawn a periodic thread to run `ThreadMXBean.findDeadlockedThreads()`
