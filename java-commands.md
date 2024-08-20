@@ -1,5 +1,6 @@
 ## `jcmd`
 
+Logging, see [`-Xlog`](/java-options.md#-xlog-java-9) option for more details
 ```sh
 # dynamic logging (since Java 11)
 jcmd <pid> VM.log what=gc*=trace decorators=uptimemillis,tid,hostname
@@ -7,7 +8,11 @@ jcmd <pid> VM.log what=gc*=trace decorators=uptimemillis,tid,hostname
 jcmd <pid> help VM.log
 ```
 
-See [`-Xlog`](/java-options.md#-xlog-java-9) option for details
+Thread dump (and deadlocks if present)
+```sh
+# equivalent to jstack <pid>
+jcmd <pid> Thread.print
+```
 
 ## `jdeprscan`
 
@@ -75,7 +80,7 @@ $ jps
 
 ## `jstack`
 
-Display a process threads and deadlocks.
+Threads dump and deadlocks if presents (eq. to `jcmd <pid> Thread.print`).
 
 ```sh
 $ jstack 30918
