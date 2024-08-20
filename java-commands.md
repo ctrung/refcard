@@ -8,9 +8,8 @@ jcmd <pid> VM.log what=gc*=trace decorators=uptimemillis,tid,hostname
 jcmd <pid> help VM.log
 ```
 
-Thread dump (and deadlocks if present)
+Thread dump and deadlocks (if any), equivalent to [`jstack <pid>`](#jstack).
 ```sh
-# equivalent to jstack <pid>
 jcmd <pid> Thread.print
 ```
 
@@ -80,7 +79,7 @@ $ jps
 
 ## `jstack`
 
-Threads dump and deadlocks if presents (eq. to `jcmd <pid> Thread.print`).
+Threads dump and deadlocks (if any), equivalent to [`jcmd <pid> Thread.print`](#jcmd).
 
 ```sh
 $ jstack 30918
