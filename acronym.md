@@ -6,6 +6,7 @@ https://www.techtarget.com/whatis/
 DM   : Direct Message (eg. sur Slack)
 IAM  : Identity Access Management
 IAG  : Identity Access Governance
+IARD : Incendies, Accidents et Risques Divers (assurances)
 NMT  : Native Memory Tracking
 NUMA : Non-Uniform Memory Access
 PAM  : Privileged Access Management (security)
