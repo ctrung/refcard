@@ -1,3 +1,8 @@
+## Tailles en octets
+
+![image](https://github.com/user-attachments/assets/3835851b-9efb-4c39-a4de-f8ab02b1e09c)
+
+
 ## `char`
 
 > [!NOTE]
