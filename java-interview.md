@@ -1,12 +1,12 @@
-## Conversion des types primitifs
+## Conversion de types primitifs
 
-### Rappel écriture des types primitifs
+### Notation types primitifs (rappels)
 
 ```java
 int entier          = 1;
 float decimal       = 1.1f;  // f ou F
 long entierLong     = 1L;    // l (facilement confondu avec 1) ou L (recommandé)
-double decimalLong  = 1.1;   // d ou D facultatif si partie décimale présente
+double decimalLong  = 1.1d;   // d ou D facultatif si partie décimale présente
 
 // Autres notations 
 int entier   = 0744;         // notation octale                   = 484 en décimal
@@ -14,10 +14,11 @@ int entier   = 0x1E4;        // notation hexadécimale (0x ou 0X)  = 484 en déc
 int entier   = 0b111100100;  // notation binaire (0b ou 0B)       = 484 en décimal
 
 char a       = 'A';
+char a       = 65;           // UTF-16 codepoint 
 char a       = '\u0041'      // notation hexadecimale du codepoint 65 sur deux octets (unicode escape sequence) 
 ```
 
-### Automatique
+### Conversion automatique
 
 La règle est que passer d'un type plus "petit" à plus "grand" est automatique. \
 Dans quelques cas, il y a un risque de perte de précision (flêches en pointillé).
@@ -34,13 +35,21 @@ float f = n; // f vaut 1.2345679E8 et non 1.23456789E8 !
 > [!NOTE]
 > Quand deux valeurs sont combinées par un opérateur binaire, les deux opérandes sont converties dans un type commun selon la priorité suivante :
 > 1. si une opérande est un `double`, l'autre est converti en `double`
-> 1. sinon même règle avec `float`
-> 1. sinon même règle avec `long`
-> 1. sinon même règle avec `int`
+> 1. sinon même règle si un `float` est présent
+> 1. sinon même règle si un `long` est présent
+> 1. sinon même règle si un `int` est présent
 
-### Forcée (cast explicite)
+### Conversion forcée
 
+Pour forcer une conversion, il faut "caster". \
+Ne pas oublier qu'une perte de précision est à prévoir.
 
+Exemple : 
+
+```java
+short ss = 5;
+char aa = (char)ss;
+```
 
 ## Comparable vs Comparator
 
