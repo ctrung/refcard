@@ -20,7 +20,7 @@ char a       = '\u0041'      // notation hexadecimale du codepoint 65 sur deux o
 
 #### Convertir en tableau d'octets
 
-Exemple sur un caractère Unicode composé de deux codepoints 
+Exemple sur un caractère Unicode composé de deux codepoints : \
 `byte[] arr = "𝄞".getBytes(StandardCharsets.UTF_8);   // [-16, -99, -124, -98]`
 
 #### Convertir depuis la représentation binaire
@@ -30,6 +30,16 @@ int parseInt = Integer.parseInt(your_binary_string, 2);
 char c = (char)parseInt;
 ```
 
+#### Travailler sur les caractères d'une String
+
+En raison de la représentation interne des caractères Java en UTF-16, privilégier les méthodes sur les codepoints plutôt que les `char`.
+
+Cf. https://blog.jytou.fr/2021/04/13/never-use-char-in-java (paragraphe "Java code points instead of char").
+
+```java
+Integer[] integers = "𝄞".codePoints().boxed().toArray(Integer[]::new);
+System.out.println(Arrays.toString(integers));
+```
 
 ## Numériques
 
