@@ -1,0 +1,95 @@
+## `char`
+
+> [!NOTE]
+> Héritage des années 90, Java représente les caractères en UTF-16 (ie. sur deux octets).
+>
+> Lectures : \
+> [What are Unicode, UTF-8, and UTF-16 ?](https://stackoverflow.com/questions/2241348/what-are-unicode-utf-8-and-utf-16) (Stackoverflow) \
+> [What other script/character encodings exist other than the UTF variety ?](https://www.quora.com/What-other-script-character-encodings-exist-other-than-the-UTF-variety-UTF-8-UTF-16-and-UTF-32-all-have-drawbacks-Is-there-anything-else-inspiring-out-there-for-creative-encoding-ideas) (Quora)
+
+
+### Notation
+
+```java
+char a       = 'A';
+char a       = 65;           // UTF-16 codepoint 
+char a       = '\u0041'      // notation hexadecimale du codepoint 65 sur deux octets (unicode escape sequence) 
+```
+
+### API
+
+#### Convertir en tableau d'octets
+
+Exemple sur un caractère Unicode composé de deux codepoints 
+`byte[] arr = "𝄞".getBytes(StandardCharsets.UTF_8);   // [-16, -99, -124, -98]`
+
+#### Convertir depuis la représentation binaire
+
+```java
+int parseInt = Integer.parseInt(your_binary_string, 2);
+char c = (char)parseInt;
+```
+
+
+## Numériques
+
+### Ecriture
+
+```java
+int entier          = 1;
+float decimal       = 1.1f;  // f ou F
+long entierLong     = 1L;    // l (facilement confondu avec 1) ou L (recommandé)
+double decimalLong  = 1.1d;   // d ou D facultatif si partie décimale présente
+
+// Autres notations 
+int entier   = 0744;         // notation octale                   = 484 en décimal
+int entier   = 0x1E4;        // notation hexadécimale (0x ou 0X)  = 484 en décimal
+int entier   = 0b111100100;  // notation binaire (0b ou 0B)       = 484 en décimal
+```
+
+### Conversion automatique
+
+La règle est que passer d'un type plus "petit" à plus "grand" est automatique. \
+Dans quelques cas, il y a un risque de perte de précision (flêches en pointillé).
+
+![image](https://github.com/user-attachments/assets/868c143f-d678-46ad-92f4-cac0dc37fa98)
+
+Exemple
+
+```java
+int n = 123456789;
+float f = n; // f vaut 1.2345679E8 et non 1.23456789E8 !
+```
+
+> [!NOTE]
+> Quand deux valeurs sont combinées par un opérateur binaire, les deux opérandes sont converties dans un type commun selon la priorité suivante :
+> 1. si une opérande est un `double`, l'autre est converti en `double`
+> 1. sinon même règle si un `float` est présent
+> 1. sinon même règle si un `long` est présent
+> 1. sinon même règle si un `int` est présent
+
+### Conversion forcée
+
+Pour forcer une conversion, il faut "caster". \
+Ne pas oublier qu'une perte de précision est à prévoir.
+
+Exemple : 
+
+```java
+short ss = 5;
+char aa = (char)ss;
+```
+
+### API
+
+#### Conversion depuis binaire
+```java
+int i = Integer.parseInt("1001", 2);   // 9
+```
+
+#### Conversion vers binaire 
+```java
+String str = Integer.toBinaryString(65);   // "1000001"
+String str = Long.toBinaryString(65L);     // "1000001"
+```
+
