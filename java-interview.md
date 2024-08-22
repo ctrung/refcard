@@ -1,3 +1,47 @@
+## Conversion des types primitifs
+
+### Rappel écriture des types primitifs
+
+```java
+int entier          = 1;
+float decimal       = 1.1f;  // f ou F
+long entierLong     = 1L;    // l (facilement confondu avec 1) ou L (recommandé)
+double decimalLong  = 1.1;   // d ou D facultatif si partie décimale présente
+
+// Autres notations 
+int entier   = 0744;         // notation octale                   = 484 en décimal
+int entier   = 0x1E4;        // notation hexadécimale (0x ou 0X)  = 484 en décimal
+int entier   = 0b111100100;  // notation binaire (0b ou 0B)       = 484 en décimal
+
+char a       = 'A';
+char a       = '\u0041'      // notation hexadecimale du codepoint 65 sur deux octets (unicode escape sequence) 
+```
+
+### Automatique
+
+La règle est que passer d'un type plus "petit" à plus "grand" est automatique. \
+Dans quelques cas, il y a un risque de perte de précision (flêches en pointillé).
+
+![image](https://github.com/user-attachments/assets/868c143f-d678-46ad-92f4-cac0dc37fa98)
+
+Exemple
+
+```java
+int n = 123456789;
+float f = n; // f vaut 1.2345679E8 et non 1.23456789E8 !
+```
+
+> [!NOTE]
+> Quand deux valeurs sont combinées par un opérateur binaire, les deux opérandes sont converties dans un type commun selon la priorité suivante :
+> 1. si une opérande est un `double`, l'autre est converti en `double`
+> 1. sinon même règle avec `float`
+> 1. sinon même règle avec `long`
+> 1. sinon même règle avec `int`
+
+### Forcée (cast explicite)
+
+
+
 ## Comparable vs Comparator
 
 Les deux sont des interfaces.
