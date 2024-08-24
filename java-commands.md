@@ -2,9 +2,9 @@
 
 ```sh
 jar -­cvf myNewFile.jar .
-jar -­-­create -­-­verbose -­-­file myNewFile.jar .   # le dernier argument definit la racine des fichiers à mettre dans le jar
+jar -­-­create -­-­verbose -­-­file myNewFile.jar .   # dernier arg. : arborescence à mettre dans le jar
 
-jar -­cvf myNewFile.jar -­C dir .       # -C : change directory
+jar -­cvf myNewFile.jar -­C dir .                 # -C : change directory
 ```
 
 ## `java`
