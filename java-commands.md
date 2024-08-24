@@ -1,3 +1,30 @@
+## `jar`
+
+```sh
+jar -­cvf myNewFile.jar .
+jar -­-­create -­-­verbose -­-­file myNewFile.jar .   # le dernier argument definit la racine des fichiers à mettre dans le jar
+
+jar -­cvf myNewFile.jar -­C dir .       # -C : change directory
+```
+
+## `java`
+
+```sh
+# `Bronx Zoo` are two command line args to the Zoo program
+java Zoo      Bronx Zoo   # Executes Zoo.class
+java Zoo.java Bronx Zoo   # JEP 330: Launch Single-File Source-Code Programs
+
+java -­cp classes packageb.ClassB                                         # -cp, -classpath, --class-path are all equivalent
+java -­cp ".:/tmp/someOtherLocation:/tmp/myJar.jar" myPackage.MyClass
+```
+
+## `javac`
+
+```sh
+javac packagea/ClassA.java packageb/ClassB.java               # each compiled class is near its java file 
+javac -­d classes packagea/ClassA.java packageb/ClassB.java    # all compiled classes hierarchy in a same directory 
+```
+
 ## `jcmd`
 
 Logging, see [`-Xlog`](/java-options.md#-xlog-java-9) option for more details
