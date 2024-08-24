@@ -157,12 +157,16 @@ final Boolean answer = switch(ch) {
 
 ### [JEP 378](https://openjdk.org/jeps/378) : Text blocks
 
+* First line must be at next line after three double quotes (""")
+* Incidental spaces vs essential spaces
+* `\` at the end of a line to join with next line (ie. omits newline on that line)
+* `\"""` escapes a three double quotes (`\"\"\"` works too)
+
 ```java
 String text = """
                 Lorem ipsum dolor sit amet, consectetur adipiscing \
                 elit, sed do eiusmod tempor incididunt ut labore \
-                et dolore magna aliqua.\
-                """;
+                et dolore magna aliqua.""";
 ```
 
 ## Java 16
