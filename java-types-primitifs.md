@@ -87,6 +87,11 @@ float f = n; // f vaut 1.2345679E8 et non 1.23456789E8 !
 > 1. sinon même règle si un `long` est présent
 > 1. sinon même règle si un `int` est présent
 
+> [!WARNING]
+> Smaller data types, namely, byte , short , and char , are first promoted to int any time
+> they’re used with a Java binary arithmetic operator with a variable (as opposed to a
+> value), even if neither of the operands is int.
+
 ### Conversion forcée
 
 Pour forcer une conversion, il faut "caster". \
