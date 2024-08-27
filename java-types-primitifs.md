@@ -25,15 +25,19 @@ char a       = '\u0041'      // notation hexadecimale du codepoint 65 sur deux o
 
 #### Convertir en tableau d'octets
 
-Exemple sur un caractère Unicode composé de deux codepoints : \
+Exemple sur un caractère Unicode composé de deux codepoints (un codepoint est codé sur 2 octets) : \
 `byte[] arr = "𝄞".getBytes(StandardCharsets.UTF_8);   // [-16, -99, -124, -98]`
 
-#### Convertir depuis la représentation binaire
+#### Convertir depuis une binary string
 
 ```java
 int parseInt = Integer.parseInt(your_binary_string, 2);
 char c = (char)parseInt;
 ```
+
+#### Convertir vers une binary string
+
+`String s = Integer.toBinaryString('A');   // -> "1000001" (codepoint 65)`
 
 #### Travailler sur les caractères d'une String
 
@@ -97,14 +101,28 @@ char aa = (char)ss;
 
 ### API
 
-#### Conversion depuis binaire
+#### Conversion depuis une binary string
 ```java
 int i = Integer.parseInt("1001", 2);   // 9
 ```
 
-#### Conversion vers binaire 
+#### Conversion vers une binary string
+
+`int` -> binary string : `String str = Integer.toBinaryString(65);   // "1000001"`
+
+`long` -> binary string : `String str = Long.toBinaryString(65L);     // "1000001"`
+
+`byte` -> binary string : \
+https://stackoverflow.com/questions/12310017/how-to-convert-a-byte-to-its-binary-string-representation
 ```java
-String str = Integer.toBinaryString(65);   // "1000001"
-String str = Long.toBinaryString(65L);     // "1000001"
+byte b1 = (byte) 129;     // -127
+String s1 = String.format("%8s", Integer.toBinaryString(b1 & 0xFF)).replace(' ', '0');
+System.out.println(s1); // 10000001
 ```
 
+`short` -> binary string :
+```java
+short b1 = (short) (Short.MAX_VALUE + 1);     // 32768 == -32768
+String s1 = String.format("%16s", Integer.toBinaryString(b1 & 0xFFFF)).replace(' ', '0');
+System.out.println(s1); // 1000000000000000
+```
