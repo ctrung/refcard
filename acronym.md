@@ -26,7 +26,7 @@ SLO  : Service Level Objectives
 SMT  : Simultaneous Multithreading (processors hyper threading)
 SPA  : Single Page Application
 SRE  : Site Reliability Engineering
-TSO  : Total Store Ordering (processor architecture), see [link](https://docs.oracle.com/cd/E26502_01/html/E29051/hwovr-15.html)
+TSO  : Total Store Ordering (processor architecture), see https://docs.oracle.com/cd/E26502_01/html/E29051/hwovr-15.html
 QOS  : Quality of Service
 UMA  : Uniform Memory Access
 UX   : User eXperience
