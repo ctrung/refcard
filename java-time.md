@@ -78,3 +78,34 @@ var everyNano = Duration.ofNanos(1);            // PT0.000000001S
 var daily2 = Duration.of(1, ChronoUnit.DAYS);   // PT24H
 // etc...
 ```
+
+## Moment dans le temps
+
+Modélisée par la classe `Instant`.
+
+Un moment est fabriqué par une des méthode factory de la classe `Instant` ou à travers une instance de `ZonedDateTime`.
+
+```java
+var date = LocalDate.of(2022, 5, 25);
+var time = LocalTime.of(11, 55, 00);
+var zone = ZoneId.of("US/Eastern");
+var zonedDateTime = ZonedDateTime.of(date, time, zone);
+var instant = zonedDateTime.toInstant(); 
+System.out.println(zonedDateTime);  // 2022–05–25T11:55–04:00[US/Eastern]
+System.out.println(instant);        // 202–05–25T15:55:00Z
+```
+
+> [!NOTE]
+> Un moment est plus universel qu'un `LocalDateTime` ou un `ZonedDateTime`. \
+> Cf. https://stackoverflow.com/questions/32437550/whats-the-difference-between-instant-and-localdatetime
+
+### Chronométrer
+
+```java
+var now = Instant.now();
+// do something time consuming
+var later = Instant.now();
+
+var duration = Duration.between(now, later);
+System.out.println(duration.toMillis()); // Returns number milliseconds
+```
