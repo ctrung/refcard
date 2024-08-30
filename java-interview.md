@@ -28,6 +28,10 @@ Les deux sont des interfaces.
 - Depuis Java 1.5
 - Introduit avec la boucle améliorée, communémment appelée la for-each-loop
 
+## Permgen space
+
+https://stackoverflow.com/questions/27131165/what-is-the-difference-between-permgen-and-metaspace
+
 ## Précédence des opérateurs
 
 ![image](https://github.com/user-attachments/assets/ebc25d8d-a9c4-4d20-afea-ffe182886cde)
