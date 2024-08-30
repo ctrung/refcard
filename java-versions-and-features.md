@@ -43,7 +43,8 @@ See Project Coin.
 - Lambdas, reference methods
 - Default methods in interface
 - Stream API
-- Removal of permgen space
+- Removal of permgen space \
+  https://dzone.com/articles/java-8-permgen-metaspace
 - String deduplication, feature designed for G1 (`-XX:+UseG1GC -XX:+UseStringDeduplication`)
 
 ## Java 9
