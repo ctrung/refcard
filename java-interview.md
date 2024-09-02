@@ -14,6 +14,35 @@ Les deux sont des interfaces.
 - Possibilité de comparer des objets `null`
 - Méthode à implémenter : `compare(T o1, T o2)`
 
+## Covariance
+
+Définition Wikipedia : https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science) \
+Question Stackoverflow : https://stackoverflow.com/questions/18666710/why-are-arrays-covariant-but-generics-are-invariant
+
+*Traduction française de l'article Wikipedia* \
+La variance définit la relation de sous typage des types complexes par rapport à la relation de sous typages de ses composants.
+
+En Java :
+* Les tableaux sont covariants, cad `String[]` est un sous type de `Object[]`.
+* Les generics ne sont pas covariants, cad `List<String>` n'est pas un sous type de `List<Object>`.
+* Une méthode surchargée peut définir un sous type comme type de retour, aussi appelé **type de retour covariant**.
+
+> [!NOTE]
+> Les points 1. et 2. sont liés à l'implémentation sous-jacente du langage. En Java les tableaux sont réifiés, c'est à dire que le type est connu au runtime, ce qui n'est pas le cas pour les generics. Pour des raisons de compatibilité, Java a  pris le parti d'effacer les types paramétrés au moment de la compilatipon (type erasure).
+>
+> Exemples : 
+> ```java
+> // tableaux
+> Elephant[] elephants = new Elephant[5];
+> Mammal[] mammals = elephants;
+> mammals[0] = new Mammal();    // java.lang.ArrayStoreException
+> 
+> // generics
+> List<Dog> dogs = new List<Dog>();
+> List<Animal> animals = dogs;  // Interdit car si ça l'était, les lignes suivantes seraient problématiques...
+> animals.add(new Cat());       // Sans information sur le type sous-jacent, comment être sur que c'est autorisé ?
+> ```
+
 ## Iterator vs Iteratable
 
 Les deux sont des interfaces.
