@@ -174,9 +174,9 @@ String text = """
 
 https://blogs.oracle.com/javamagazine/post/the-hidden-gems-in-java-16-and-java-17-from-streammapmulti-to-hexformat
 
-- Records (preview)
 - ZGC enhancements ([JEP 376](https://openjdk.org/jeps/376))
 - `Stream.mapMulti()`
+- Les membres static sont désormais autorisés dans les inner classes, principalement pour autoriser les nested record qui sont implicitement static.
 
 ### [JEP 394](https://openjdk.org/jeps/394) : Pattern matching for `instanceof`
 
