@@ -5,6 +5,8 @@ https://www.techtarget.com/whatis/
 CIL  : Common Intermediate Language (IL for C#), formerly called Microsoft Intermediate Language (MSIL)
 DM   : Direct Message (eg. sur Slack)
 DX   : Developer eXperience
+ELT  : Extract, Load, Transform
+ETL  : Extract, Trasnform, Load,  see https://www.techtarget.com/searchdatamanagement/definition/Extract-Load-Transform-ELT 
 FPS  : Frames Per Second (frontend)
 IAM  : Identity Access Management
 IAG  : Identity Access Governance
@@ -15,7 +17,7 @@ MVVM : Model-View-ViewModel
 NMT  : Native Memory Tracking
 NUMA : Non-Uniform Memory Access
 PAM  : Privileged Access Management (security)
-PSO  : Partial Store Ordering (processor architecture), see [link](https://docs.oracle.com/cd/E26502_01/html/E29051/hwovr-15.html))
+PSO  : Partial Store Ordering (processor architecture), see https://docs.oracle.com/cd/E26502_01/html/E29051/hwovr-15.html
 RACI : Responsability / Accountable / Consulted / Informed
 RBVM : Risk Based Vulnerability Management
 REST : Representational State Transfer
