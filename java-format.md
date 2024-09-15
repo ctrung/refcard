@@ -42,7 +42,31 @@ System.out.println(formatter.format(dateTime));   // 20/10/2022 06:15:30
 var g1 = DateTimeFormatter.ofPattern("MMMM dd', Party''s at' hh:mm");
 System.out.println(dt.format(g1)); // October 20, Party's at 06:15
 
+```
 
+### Localization
+
+D'autres méthodes sont disponibles pour formater en tenant compte de la locale : 
+- pour les dates : `DateTimeFormatter.ofLocalizedDate(FormatStyle dateStyle)`
+- pour l'heure : `DateTimeFormatter.ofLocalizedTime(FormatStyle timeStyle)`
+- pour les dates heure :
+  * DateTimeFormatter.ofLocalizedDateTime(FormatStyle dateStyle, FormatStyle timeStyle)
+  * DateTimeFormatter.ofLocalizedDateTime(FormatStyle dateTimeStyle)
+- pour changer la locale : `withLocale(Locale locale)`
+
+Exemples :
+```java
+var italy = new Locale("it", "IT");
+var dt = LocalDateTime.of(2022, Month.OCTOBER, 20, 15, 12, 34);
+
+var dtf = DateTimeFormatter.ofLocalizedDate(SHORT);
+System.out.println(dtf.withLocale(locale).format(dt));      // 20/10/22
+
+dtf = DateTimeFormatter.ofLocalizedTime(SHORT);
+System.out.println(dtf.withLocale(locale).format(dt));      // 15:12
+
+dtf = DateTimeFormatter.ofLocalizedDateTime(SHORT, SHORT);
+System.out.println(dtf.withLocale(locale).format(dt));      // 20/10/22, 15:12
 ```
 
 ## Nombres : classe `NumberFormat`
@@ -72,13 +96,40 @@ Caractères spéciaux de formatage :
 
 NB : `getInstance()` retourne une instance avec la `Locale` du système par défaut.
 
-- Générique : `NumberFormat.getInstance()`, `NumberFormat.getInstance(Locale locale)`
-- Identique à `getInstance` : `NumberFormat.getNumberInstance()`, `NumberFormat.getNumberInstance(Locale locale)`
-- Formater les montants : `NumberFormat.getCurrencyInstance()`, `NumberFormat.getCurrencyInstance(Locale locale)`
-- Formater les pourcentages : `NumberFormat.getPercentInstance()`, `NumberFormat.getPercentInstance(Locale locale)`
-- Formater les nombres décimaux : `NumberFormat.getIntegerInstance()`, `NumberFormat.getIntegerInstance(Locale locale)`
-- Formater les nombres de manière compact : `NumberFormat.getCompactNumberInstance()`, `NumberFormat.getCompactNumberInstance(Locale locale, NumberFormat.Style formatStyle)`
+- Générique :
+  * `NumberFormat.getInstance()`
+  * `NumberFormat.getInstance(Locale locale)`
+- Identique à `getInstance`
+  * `NumberFormat.getNumberInstance()`
+  * `NumberFormat.getNumberInstance(Locale locale)`
+- Formater les montants :
+  * `NumberFormat.getCurrencyInstance()`
+  * `NumberFormat.getCurrencyInstance(Locale locale)`
+- Formater les pourcentages :
+  * `NumberFormat.getPercentInstance()`
+  * `NumberFormat.getPercentInstance(Locale locale)`
+- Formater les nombres décimaux :
+  * `NumberFormat.getIntegerInstance()`
+  * `NumberFormat.getIntegerInstance(Locale locale)`
+- Formater les nombres de manière compact :
+  * `NumberFormat.getCompactNumberInstance()`
+  * `NumberFormat.getCompactNumberInstance(Locale locale, NumberFormat.Style formatStyle)`
 
+Exemples :
+
+```java
+var ca = NumberFormat.getInstance(Locale.CANADA_FRENCH);
+System.out.println(ca.format(attendeesPerMonth)); // 266 666
+
+double price = 48;
+var myLocale = NumberFormat.getCurrencyInstance();
+System.out.println(myLocale.format(price));       // 48,00 $ CA
+
+int nb = 7_123_456;
+System.out.println(NumberFormat.getCompactNumberInstance().format(nb));                                  // 7M
+System.out.println(NumberFormat.getCompactNumberInstance(Locale.getDefault(), Style.SHORT).format(nb));  // 7M
+System.out.println(NumberFormat.getCompactNumberInstance(Locale.getDefault(), Style.LONG).format(nb));   // 7 million
+```
 
 ## String : méthode d'instance `string.formatted()`
 
