@@ -1,4 +1,4 @@
-## String.format()
+## Affichage : méthode statique `System.out.format()`
 
 ```java
 var pi = 3.14159265359;
@@ -10,13 +10,42 @@ System.out.format("[%-12.2f]",pi);  // [3.14        ]
 System.out.format("[%.3f]",pi);     // [3.142]
 ```
 
-Caractères spéciaux de formatage :
-- %`x`  : longueur totale + padding gauche avec des espaces
-- %`-x` : longueur totale + padding droit avec des espaces
-- %`0x` : longueur totale + padding avec des zéros
-- .`x`f : nombre de chiffre après la virgule
+## Dates
 
-## NumberFormat
+```java
+
+// Formatage depuis les objets de l'api date
+
+LocalDate date = LocalDate.of(2022, Month.OCTOBER, 20);
+LocalTime time = LocalTime.of(11, 12, 34);
+LocalDateTime dt = LocalDateTime.of(date, time);
+
+System.out.println(date.format(DateTimeFormatter.ISO_LOCAL_DATE));
+System.out.println(time.format(DateTimeFormatter.ISO_LOCAL_TIME));
+System.out.println(dt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+
+// Personnaliser le format
+
+var f = DateTimeFormatter.ofPattern("MMMM dd, yyyy 'at' hh:mm");
+System.out.println(dt.format(f));
+
+// Formater depuis un DateTimeFormatter est équivalent
+
+var dateTime = LocalDateTime.of(2022, Month.OCTOBER, 20, 6, 15, 30);
+var formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm:ss");
+
+System.out.println(dateTime.format(formatter));   // 20/10/2022 06:15:30
+System.out.println(formatter.format(dateTime));   // 20/10/2022 06:15:30
+
+// Insérer du texte entre quote simple (')
+// Doubler le quote pour l'échapper    ('') 
+var g1 = DateTimeFormatter.ofPattern("MMMM dd', Party''s at' hh:mm");
+System.out.println(dt.format(g1)); // October 20, Party's at 06:15
+
+
+```
+
+## Nombres : classe `NumberFormat`
 
 `interface NumberFormat` \
 `class DecimalFormat implements NumberFormat`
@@ -38,3 +67,40 @@ System.out.println(f3.format(d)); // Votre solde €1 234.57
 Caractères spéciaux de formatage :
 - `#` : pas d'affichage si pas de chiffre à cette position
 - `0` : afiichage d'un zéro si pas de chiffre à cette position
+
+### Localization
+
+NB : `getInstance()` retourne une instance avec la `Locale` du système par défaut.
+
+- Générique : `NumberFormat.getInstance()`, `NumberFormat.getInstance(Locale locale)`
+- Identique à `getInstance` : `NumberFormat.getNumberInstance()`, `NumberFormat.getNumberInstance(Locale locale)`
+- Formater les montants : `NumberFormat.getCurrencyInstance()`, `NumberFormat.getCurrencyInstance(Locale locale)`
+- Formater les pourcentages : `NumberFormat.getPercentInstance()`, `NumberFormat.getPercentInstance(Locale locale)`
+- Formater les nombres décimaux : `NumberFormat.getIntegerInstance()`, `NumberFormat.getIntegerInstance(Locale locale)`
+- Formater les nombres de manière compact : `NumberFormat.getCompactNumberInstance()`, `NumberFormat.getCompactNumberInstance(Locale locale, NumberFormat.Style formatStyle)`
+
+
+## String : méthode d'instance `string.formatted()`
+
+```java
+String mesg = "Hello %s, order %d is ready".formatted(name, orderId);
+```
+
+## String : méthode statique `String.format()`
+
+```java
+String mesg = String.format("Hello %s, order %d is ready", name, orderId);
+```
+
+Symboles : 
+- `%s` : tout type, principalement valeurs de type `String`
+- `%d` : valeurs entières comme `int` ou `long`
+- `%f` : valeurs flottantes comme `float` ou `double`
+- `%n` : insère un saut de ligne
+
+
+Caractères spéciaux de formatage :
+- %`x`  : longueur totale + padding gauche avec des espaces
+- %`-x` : longueur totale + padding droit avec des espaces
+- %`0x` : longueur totale + padding avec des zéros
+- .`x`f : nombre de chiffre après la virgule
