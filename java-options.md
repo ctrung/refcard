@@ -71,8 +71,11 @@ jcmd <pid> VM.log what=gc*=trace decorators=uptimemillis,tid,hostname
 # current config and available options 
 jcmd <pid> help VM.log 
 
-# native async support (since Java 17)
-java -Xlog:async ...
+# Enable async logging (since Java 17)
+java -Xlog:async -Xlog:gc=debug:file=gc.log -Xlog:safepoint=trace ...
+
+# Show GC and TLAB logs
+java -Xlog:gc+tlab=trace
 
 ```
 
