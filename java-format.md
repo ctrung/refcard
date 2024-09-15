@@ -69,6 +69,39 @@ dtf = DateTimeFormatter.ofLocalizedDateTime(SHORT, SHORT);
 System.out.println(dtf.withLocale(locale).format(dt));      // 20/10/22, 15:12
 ```
 
+## Localization
+
+Pour les dates, voir le paragraphe [Date > Localization](#localization) sur cette page. \
+Pour les nombres, voir le paragraphe [Nombres : classe NumberFormat > Localization](#localization-2) sur cette page.
+
+Par ailleurs la classe `java.util.Locale` est composée d'options réparties dans des `java.util.Locale.Category`. Les deux `Category` existantes sont DISPLAY et FORMAT. Java supporte la configuration des catégories par une `Locale` distincte.
+
+Exemple :
+
+```java
+public static void main(String[] args) {
+
+    var spain = new Locale("es", "ES");
+    var money = 1.23;
+
+    // Affichage tout en en_US
+    Locale.setDefault(new Locale("en", "US"));
+    printCurrency(spain, money); // $1.23, Spanish
+    // Affichage display en es_ES, format en en_US
+    Locale.setDefault(Category.DISPLAY, spain);
+    printCurrency(spain, money); // $1.23, español
+    // Affichage tout en es_ES
+    Locale.setDefault(Category.FORMAT, spain);
+    printCurrency(spain, money); // 1,23 €, español
+}
+
+public static void printCurrency(Locale locale, double money) {
+    System.out.println(
+            NumberFormat.getCurrencyInstance().format(money)
+                    + ", " + locale.getDisplayLanguage());
+}
+```
+
 ## Nombres : classe `NumberFormat`
 
 `interface NumberFormat` \
