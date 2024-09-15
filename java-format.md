@@ -44,7 +44,7 @@ System.out.println(dt.format(g1)); // October 20, Party's at 06:15
 
 ```
 
-### Localization
+### Localisation
 
 D'autres méthodes sont disponibles pour formater en tenant compte de la locale : 
 - pour les dates : `DateTimeFormatter.ofLocalizedDate(FormatStyle dateStyle)`
@@ -69,10 +69,13 @@ dtf = DateTimeFormatter.ofLocalizedDateTime(SHORT, SHORT);
 System.out.println(dtf.withLocale(locale).format(dt));      // 20/10/22, 15:12
 ```
 
-## Localization
+## Localisation
 
-Pour les dates, voir le paragraphe [Date > Localization](#localization) sur cette page. \
-Pour les nombres, voir le paragraphe [Nombres : classe NumberFormat > Localization](#localization-2) sur cette page.
+Pour les dates, voir le paragraphe [Date > Localisation](#localisation) sur cette page.
+
+Pour les nombres, voir le paragraphe [Nombres : classe NumberFormat > Localisation](#localisation-2) sur cette page.
+
+### `Category`
 
 Par ailleurs la classe `java.util.Locale` est composée d'options réparties dans des `java.util.Locale.Category`. Les deux `Category` existantes sont DISPLAY et FORMAT. Java supporte la configuration des catégories par une `Locale` distincte.
 
@@ -84,13 +87,15 @@ public static void main(String[] args) {
     var spain = new Locale("es", "ES");
     var money = 1.23;
 
-    // Affichage tout en en_US
+    // Tout en en_US
     Locale.setDefault(new Locale("en", "US"));
     printCurrency(spain, money); // $1.23, Spanish
-    // Affichage display en es_ES, format en en_US
+
+    // Display en es_ES, format en en_US
     Locale.setDefault(Category.DISPLAY, spain);
     printCurrency(spain, money); // $1.23, español
-    // Affichage tout en es_ES
+
+    // Tout en es_ES
     Locale.setDefault(Category.FORMAT, spain);
     printCurrency(spain, money); // 1,23 €, español
 }
@@ -101,6 +106,74 @@ public static void printCurrency(Locale locale, double money) {
                     + ", " + locale.getDisplayLanguage());
 }
 ```
+
+### `ResourceBundle`
+
+- Fichier properties de la forme `<nom>_<locale>.properties` contenant des clés-valeurs 
+- Dans le code, appel de `ResourceBundle.getBundle(String nom)` ou `ResourceBundle.getBundle(String nom, Locale locale)` pour obtenir une instance de `ResourceBundle`
+- Appel de `resourceBundle.getString(String key)` pour obtenir la valeur
+- Une hiérarchie de resource bundles est constituée pour réutiliser une clé-valeur existante. Le resource bundle parent est déduit du nom en enlevant progressivement un bout (d'abord le pays, puis la langue)
+
+Exemple 
+
+**Zoo.properties**
+```properties
+name=Vancouver Zoo
+```
+
+**Zoo_en.properties**
+```properties
+hello=Hello
+open=is open
+```
+
+**Zoo_en_US.properties**
+```properties
+name=The Zoo
+```
+
+**Zoo_en_CA.properties**
+```properties
+visitors=Canada visitors
+```
+
+``` java
+Locale.setDefault(new Locale("en", "US"));
+Locale locale = new Locale("en", "CA");
+ResourceBundle rb = ResourceBundle.getBundle("Zoo", locale);
+System.out.print(rb.getString("hello"));      // [Hello] provenant de Zoo_en.properties
+System.out.print(". ");
+System.out.print(rb.getString("name"));       // [Vancouver Zoo] provenant de Zoo.properties
+System.out.print(" ");
+System.out.print(rb.getString("open"));       // [is open] provenant de Zoo_en.properties
+System.out.print(" ");
+System.out.print(rb.getString("visitors"));   // [Canada visitors] provenant de Zoo_en_CA.properties
+```
+
+Dans l'exemple, la hiérarchie constituée et l'ordre de priorité est : 
+1. `Zoo_en_CA.properties`
+2. `Zoo_en.properties`
+3. `Zoo.properties`
+A aucun moment, `Zoo_en_US.properties` n'est consulté. Attention, si une clé-valeur est absente, `MissingResourceException` est jetée.
+
+### Formatter les messages d'un resource bundle
+
+Utilisation d'emplacement réservé, exemple : `helloByName=Hello, {0} and {1}`.
+
+```java
+String format = rb.getString("helloByName");
+System.out.print(MessageFormat.format(format, "Tammy", "Henry"));
+```
+
+### `ResourceBundle` vs `Properties`
+
+https://stackoverflow.com/questions/14883000/why-not-use-resourcebundle-instead-of-properties
+
+Les deux classes ont des objectifs suffisamment distincts pour différencier leurs usages. 
+
+`ResourceBundle` sert principalement pour l'internalisation (i18n) et la localisation (i10n). Une hierarchie de fichiers est constituée pour trouver la valeur et en cas d'absence une `MissingResourceException` est jetée. 
+
+`Properties` a un usage plus générique (liste de clé-valeur) et ne gère pas l'internationalisation. La classe ressemble plus à une Map<String, String> chargeable à partir d'un fichier. De plus, il est possible de définir une valeur par défaut en l'absence d'une clé avec la méthode `getProperty(String key, String defaultValue)`
 
 ## Nombres : classe `NumberFormat`
 
@@ -125,7 +198,7 @@ Caractères spéciaux de formatage :
 - `#` : pas d'affichage si pas de chiffre à cette position
 - `0` : afiichage d'un zéro si pas de chiffre à cette position
 
-### Localization
+### localisation
 
 NB : `getInstance()` retourne une instance avec la `Locale` du système par défaut.
 
