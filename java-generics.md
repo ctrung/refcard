@@ -1,6 +1,6 @@
 
-Tutorial mis à jour : https://docs.oracle.com/javase/tutorial/java/generics/index.html
-Tutorial de 2005 quand Java 5 est sorti : https://docs.oracle.com/javase/tutorial/extra/generics/index.html
+Nouveau tuto : https://docs.oracle.com/javase/tutorial/java/generics/index.html \
+Ancien tuto de 2005 : https://docs.oracle.com/javase/tutorial/extra/generics/index.html
 
 ## Concepts
 
