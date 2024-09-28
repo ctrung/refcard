@@ -79,6 +79,47 @@ java -Xlog:gc+tlab=trace
 
 ```
 
+### `-Xmn`
+
+Sets the initial and maximum size (in bytes) of the heap for the young generation (nursery) in the generational collectors.
+
+Instead of the -Xmn option to set both the initial and maximum size of the heap for the young generation, you can use `-XX:NewSize` to set the initial size and `-XX:MaxNewSize` to set the maximum size.
+
+```
+-Xmn256m
+-Xmn262144k
+-Xmn268435456
+```
+
+### `-Xms`
+
+Sets the minimum and the initial size (in bytes) of the heap. Equivalent to `-XX:MaxHeapSize`.
+
+```
+-Xmn256m
+-Xmn262144k
+-Xmn268435456
+```
+
+### `-Xmx`
+
+Specifies the maximum size (in bytes) of the heap.
+```
+-Xmx83886080
+-Xmx81920k
+-Xmx80m
+```
+
+### `-Xss`
+
+Sets the thread stack size (in bytes). Similar to `-XX:ThreadStackSize`.
+
+```
+-Xss1m
+-Xss1024k
+-Xss1048576
+```
+
 ## `-XX:` (experimental)
 
 ### `-XX:NativeMemoryTracking`
