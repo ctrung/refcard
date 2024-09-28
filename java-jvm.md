@@ -129,9 +129,25 @@ Three criteria :
 
 ### Logging
 
+#### JVM options
+
 Till Java 8 : `-XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:<filepath>`
 
 From Java 9 : `-Xlog:gc*:file=<filepath>`
+
+`-XX:+DisableExplicitGC` : Disables `System.gc()` globally in the JVM.
+
+#### Analysis tools
+
+GCeasy : https://gceasy.io
+
+GC Viewer : https://github.com/chewiebug/GCViewer
+
+IBM GC & memory visualizer : https://developer.ibm.com/javasdk/tools
+
+HP Jmeter : https://support.hpe.com/hpesc/public/docDisplay?docId=c02905388&docLocale=en_US
+
+Google garbage cat : https://github.com/doctau/garbagecat
 
 ### Options
 
