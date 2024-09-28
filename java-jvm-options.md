@@ -122,6 +122,9 @@ Sets the thread stack size (in bytes). Similar to `-XX:ThreadStackSize`.
 
 ## `-XX:` (experimental)
 
+### `-XX:MetaspaceSize`
+
+
 ### `-XX:NativeMemoryTracking`
 `-XX:NativeMemoryTracking=[off | summary | detail]`
 
