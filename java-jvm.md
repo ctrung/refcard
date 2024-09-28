@@ -127,15 +127,22 @@ Three criteria :
 - Throughput : measures the number of operations that can be performed per second on a given system
 - Footprint : can be defined in two ways -> as optimizing the amount of data or objects that can fit into the available space and as removing redundant information to save space
 
-### -XX:ParallelGCThreads=<n>
+### Logging
+
+Till Java 8 : `-XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:<filepath>`
+
+From Java 9 : `-Xlog:gc*:file=<filepath>`
+
+### Options
+
+#### `-XX:ParallelGCThreads=<n>`
 
 Define the number of parallel GC threads for GC.
-
 
 Have an impact on tuning generational GCs like the Parallel GC and G1 GC. \
 Recent additions like Shenandoah and ZGC, also use multiple GC worker threads and perform garbage collection concurrently with the application threads to minimize pause times.
 
-### -XX:ConcGCThreads=<n>
+#### `-XX:ConcGCThreads=<n>`
 
 Specify the number of concurrent GC threads for specific GC algorithms that use concurrent collection phases. \
 This flag is particularly useful for tuning GCs like G1, which performs concurrent work during marking, and Shenandoah and ZGC, which aim to minimize STW pauses by executing concurrent marking, relocation, and compaction.
