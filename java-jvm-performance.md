@@ -149,6 +149,36 @@ HP Jmeter : https://support.hpe.com/hpesc/public/docDisplay?docId=c02905388&docL
 
 Google garbage cat : https://github.com/doctau/garbagecat
 
+### Monitoring and troubleshooting
+
+GC Tuning & Troubleshooting Crash Course by Ram Lakshmanan : https://www.youtube.com/watch?v=6G0E4O5yxks
+
+His products and company's blog : \
+- https://gceasy.io/
+- https://fastthread.io/
+- https://heaphero.io/
+- https://blog.gceasy.io/
+
+Micrometrics to forecast application performance: https://blog.gceasy.io/micrometrics-to-forecast-application-performance/
+
+
+#### Long GC pauses tips
+
+- System time greater than user time : not a healthy sign
+- Process swapping : lack of memory
+  > script to show all process that are being swapped : https://blog.gceasy.io/reduce-long-gc-pauses/
+- Real time > CPU time + Sys time : process is waiting for resources !
+- Background I/O traffic
+  > How to monitor I/O activity ? `sar -d -p 1` 
+  > 'System Activity Report' command reports read/write activity made every 1 second
+- Less GC threads : too many GC threads will consume more CPU and take away resources
+- Wrong ergonomics settings : try measure performance without any JVM flags
+- Disables explicit GC (ie. `System.gc()` globally in the JVM) : `-XX:+DisableExplicitGC` 
+
+About real time vs sys time vs user time :\
+https://stackoverflow.com/questions/556405/what-do-real-user-and-sys-mean-in-the-output-of-time1/
+
+
 ### Options
 
 #### `-XX:ParallelGCThreads=<n>`
