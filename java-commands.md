@@ -117,6 +117,8 @@ $ jps
 
 Threads dump and deadlocks if any, equivalent to [`jcmd <pid> Thread.print`](#jcmd).
 
+`jstack <pid>`
+
 <details>
   <summary>Example of deadlock due to circular initialization order (100 Java mistakes - chap 3.9.3)</summary>
 
