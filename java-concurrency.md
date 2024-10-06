@@ -118,6 +118,8 @@ The following threads are deadlocked:
 
 ## Lock framework
 
+- Interface `Lock`
+- Plusieurs implémentations : `ReentrantLock`, `ReentrantReadWriteLock`, etc...
 - Demande de verrou non bloquante, contrairement à `synchronized`
 - Chaque `lock()` doit être relâché par un `unlock()`, possibilité d'imbriquer un même verrou
 - Le constructeur de `ReentrantLock` supporte un booleen `fair` (par défaut, false) pour l'octroi du verrou dans l'ordre de demande des threads. Risque d'impact des performances.
@@ -181,3 +183,5 @@ if(lock.tryLock(10, TimeUnit.SECONDS)) {
 }
 ```
 </details>
+
+`ReentrantLock` implémente une paire de verrous, un optimisé pour les accès en lecture et un autre pour les accès en écriture. Convient aux applications où les accès en lectures sont plus nombreux qu'en écriture. 
