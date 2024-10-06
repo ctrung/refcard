@@ -76,9 +76,11 @@ while(!asleep) {
 }
 ```
 
-`volatile` s'utilise dans les programmes concurrents pour assurer la visibilité des variables. \
-C'est un mécanisme de synchronisation plus léger qu'une section critique puisqu'il ne bloque pas les threads. \
-Il est rendu nécessaire pour se prémunir des effets de visibilité rencontrés lors des optimisations de la JVM (caching, non atomicité des ops 64 bits, reordering). \
+`volatile` s'utilise dans les programmes concurrents pour assurer la visibilité des variables. 
+
+C'est un mécanisme de synchronisation léger qui ne bloque pas les threads. 
+
+Il est utilisé pour assurer la visibilité entre threads et se prémunir des optimisations de la JVM (cache CPU, non atomicité des opérations 64 bits, réordonnancement). En pratique, le mot clé `volatile` est suffisant si un seul thread écrit et les autres threads lisent la variable, sinon une synchronisation plus forte est nécessaire.
 
 > [!NOTE]
 > Une variable volatile a aussi un impact sur la visibilité des autres variable. \
@@ -87,3 +89,4 @@ Il est rendu nécessaire pour se prémunir des effets de visibilité rencontrés
 See : 
 - Java Concurrency in Practice (p.36, 37)
 - [java-volatile sur baeldung.com ](https://www.baeldung.com/java-volatile)
+- [JM Doudoux, accès concurrents](https://www.jmdoudoux.fr/java/dej/chap-acces_concurrents.htm#acces_concurrents-1)
