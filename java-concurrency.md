@@ -184,4 +184,4 @@ if(lock.tryLock(10, TimeUnit.SECONDS)) {
 ```
 </details>
 
-`ReentrantLock` implémente une paire de verrous, un optimisé pour les accès en lecture et un autre pour les accès en écriture. Convient aux applications où les accès en lectures sont plus nombreux qu'en écriture. 
+`ReentrantReadWriteLock` implémente une paire de verrous, un optimisé pour les accès en lecture et un autre pour les accès en écriture. Convient aux applications où les accès en lectures sont plus nombreux qu'en écriture. 
