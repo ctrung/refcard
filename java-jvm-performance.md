@@ -192,3 +192,7 @@ Recent additions like Shenandoah and ZGC, also use multiple GC worker threads an
 
 Specify the number of concurrent GC threads for specific GC algorithms that use concurrent collection phases. \
 This flag is particularly useful for tuning GCs like G1, which performs concurrent work during marking, and Shenandoah and ZGC, which aim to minimize STW pauses by executing concurrent marking, relocation, and compaction.
+
+### Weak and soft references
+
+[Brian Goatz - IBM articles : Plugging memory leaks with weak references (Wayback machine 2012/03/03](https://web.archive.org/web/20120303152804/http://www.ibm.com/developerworks/java/library/j-jtp11225/index.html#resources)
