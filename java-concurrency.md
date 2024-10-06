@@ -1,3 +1,57 @@
+## CyclicBarrier
+
+La classe `CyclicBarrier` permet de coordonner plusieurs threads. Elle est cyclique car elle est réutilisable.
+
+Usage 
+
+```java
+
+var service = Executors.newFixedThreadPool(4);
+try {
+  int n = 5;
+  var c1 = new CyclicBarrier(n);
+  var c2 = new CyclicBarrier(n, () -> System.out.println("*** Terminé !"));
+
+  for (int i = 0; i < n; i++)
+    service.submit(() -­> performTask(c1, c2));
+  }
+finally {
+  service.shutdown();
+}
+
+...
+
+void performTasks(CyclicBarrier c1, CyclicBarrier c2) {
+  try {
+    task1();
+    c1.await();
+    task2();
+    c2.await();
+  } catch (InterruptedException | BrokenBarrierException e) {
+    // gestion des exceptions
+  }
+}
+```
+
+<details>
+  <summary>Sortie console</summary>
+
+```
+task1
+task1
+task1
+task1
+task1
+task2
+task2
+task2
+task2
+task2
+*** Terminé !
+```
+
+</details>
+
 ## Deadlocks
 
 
