@@ -1,6 +1,8 @@
 ## Deadlocks
 
-### Example
+
+<details>
+  <summary>Code reproduisant un deadlock</summary>
 
 ```java
 final Object lock1 = new Object();
@@ -45,14 +47,16 @@ ExecutorService executorService = Executors.newFixedThreadPool(5);
 executorService.submit(task1);
 executorService.submit(task2);
 ```
+</details>
 
-### Detect deadlocks outside the JVM
+
+### Detection outside the JVM
 
 With `jconsole <pid>`, there's a **Detect deadlocks** button.
 
 With `jstack <pid>` or `jcmd <pid> Thread.print` to output a thread dump.
 
-### Detect deadlocks from within the code
+### Detection from within the code
 
 Spawn a periodic thread to run `ThreadMXBean.findDeadlockedThreads()`
 ```java
@@ -72,7 +76,9 @@ ScheduledExecutorService cronExecutorService = Executors.newScheduledThreadPool(
 cronExecutorService.scheduleAtFixedRate(detectDeadlocksTask, 5, 5, TimeUnit.SECONDS);
 ```
 
-Output :
+<details>
+  <summary>Output</summary>
+
 ```
 The following threads are deadlocked:
 "pool-1-thread-1" prio=5 Id=22 BLOCKED on java.lang.Object@126d0622 owned by "pool-1-thread-2" Id=23
@@ -106,5 +112,72 @@ The following threads are deadlocked:
 	Number of locked synchronizers = 1
 	- java.util.concurrent.ThreadPoolExecutor$Worker@4926097b
 ```
+</details>
 
-Remark : There's another method `findMonitorDeadlockedThreads()` that only detects object monitors (synchronized methods or blocks). `findDeadlockedThreads()` detects more types of monitors inside the JVM. 
+**NB** : There's another method `findMonitorDeadlockedThreads()` that only detects object monitors (synchronized methods or blocks). `findDeadlockedThreads()` detects more types of monitors inside the JVM. 
+
+## Lock framework
+
+- Demande de verrou non bloquante, contrairement à `synchronized`
+- Chaque `lock()` doit être relâché par un `unlock()`, possibilité d'imbriquer un même verrou
+- Le constructeur de `ReentrantLock` supporte un booleen `fair` (par défaut, false) pour l'octroi du verrou dans l'ordre de demande des threads. Risque d'impact des performances.
+- Appeler `unlock()` sur un verrou locké par un autre déclenche un `IllegalMonitorStateException`
+
+Méthodes
+```java
+void lock ()
+void unlock ()
+boolean tryLock ()
+boolean tryLock (long timeout, TimeUnit unit)
+```
+
+Usage
+
+<details>
+  <summary>lock()</summary>
+
+```java
+Lock lock = new ReentrantLock();
+try {
+  lock.lock();
+  ...
+} finally {
+  lock.unlock();
+}
+```
+</details>
+
+
+<details>
+  <summary>tryLock()</summary>
+
+```java
+Lock lock = new ReentrantLock();
+if(lock.tryLock()) {
+  try {
+    System.out.println("Verrou obtenu, début section critique...");
+  } finally {
+    lock.unlock();
+  }
+} else {
+  System.out.println("Verrou non obtenu, on fait autre chose...");
+}
+```
+</details>
+
+<details>
+  <summary>tryLock(long, TimeUnit)</summary>
+
+```java
+Lock lock = new ReentrantLock();
+if(lock.tryLock(10, TimeUnit.SECONDS)) {
+  try {
+    System.out.println("Verrou obtenu, début section critique...");
+  } finally {
+    lock.unlock();
+  }
+} else {
+  System.out.println("Verrou non obtenu, on fait autre chose...");
+}
+```
+</details>
