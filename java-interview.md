@@ -92,3 +92,7 @@ See :
 - Java Concurrency in Practice (p.36, 37)
 - [java-volatile sur baeldung.com ](https://www.baeldung.com/java-volatile)
 - [JM Doudoux, accès concurrents](https://www.jmdoudoux.fr/java/dej/chap-acces_concurrents.htm#acces_concurrents-1)
+
+## Weak and soft references
+
+[Brian Goatz - IBM articles : Plugging memory leaks with weak references (Wayback machine 2012/03/03)](https://web.archive.org/web/20120303152804/http://www.ibm.com/developerworks/java/library/j-jtp11225/index.html#resources)
