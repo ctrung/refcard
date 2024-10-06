@@ -32,6 +32,8 @@ En Java :
 >
 > Exemples : 
 > ```java
+> class Mammal {...}
+> class Elephant extends Mammal { ... }
 > // tableaux
 > Elephant[] elephants = new Elephant[5];
 > Mammal[] mammals = elephants;
