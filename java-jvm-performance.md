@@ -196,3 +196,5 @@ This flag is particularly useful for tuning GCs like G1, which performs concurre
 ### Weak and soft references
 
 [Brian Goatz - IBM articles : Plugging memory leaks with weak references (Wayback machine 2012/03/03](https://web.archive.org/web/20120303152804/http://www.ibm.com/developerworks/java/library/j-jtp11225/index.html#resources)
+
+[Brian Goatz - IBM articles : Plugging memory leaks with soft references (Wayback machine 2012/03/03)](https://web.archive.org/web/20120303180318/http://www.ibm.com/developerworks/java/library/j-jtp01246/index.html)
