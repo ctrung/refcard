@@ -198,6 +198,12 @@ The following threads are deadlocked:
 
 **NB** : There's another method `findMonitorDeadlockedThreads()` that only detects object monitors (synchronized methods or blocks). `findDeadlockedThreads()` detects more types of monitors inside the JVM. 
 
+## Livelock
+
+Cas spécifique de [starvation](#starvation).
+
+Deux threads sont dans une situation de deadlock. Ils décident de relâcher leurs ressources en même temps et vont vérouiller l'autre ressource en même temps aussi. Ils se retrouvent dans une nouvelle situation de deadlock et le scénario se rejoue à l'infini.   
+
 ## Lock framework
 
 - Interface `Lock`
@@ -267,3 +273,7 @@ if(lock.tryLock(10, TimeUnit.SECONDS)) {
 </details>
 
 `ReentrantReadWriteLock` implémente une paire de verrous, un optimisé pour les accès en lecture et un autre pour les accès en écriture. Convient aux applications où les accès en lectures sont plus nombreux qu'en écriture. 
+
+## Starvation
+
+Terme (anglais) sigifiant qu'un thread n'arrive jamais à accéder à une ressource synchronisée.
