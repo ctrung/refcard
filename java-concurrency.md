@@ -1,9 +1,37 @@
+## CountDownLatch
+
+Permet à des threads d'attendre d'autres threads via un compteur. Plus versatile à utiliser qu'un `CyclicBarrier` mais contrairement à lui n'est pas réutilisable.
+
+Mode d'emploi :
+- Instancier la classe `CountDownLatch` avec `n` = le compte de départ.
+- Appeler `countDownLatch.countDown()` pour décrémenter le compteur.
+- Appeler `countDownLatch.await()` pour être bloqué.
+
+Pour être débloqué, il faut que le compteur atteigne zéro.
+
+Les exemples suivants sont issus de la [javadoc](https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/concurrent/CountDownLatch.html).
+
+Exemple 1 : 
+1. Un CountDownLatch(1) est créé.
+2. Plusieurs threads attendent en appelant `countDownLatch.await()`.
+3. Un thread appelle `countDownLatch.countDown()` pour les libérer.
+
+Exemple 2 : 
+1. Un CountDownLatch(N) est créé.
+2. N threads appelent `countDownLatch.countDown()` quand ils ont fini.
+3. Un thread appelle `countDownLatch.await()` pour être débloqué quand tous les threads ont terminé.
+
 ## CyclicBarrier
 
-La classe `CyclicBarrier` permet de coordonner plusieurs threads. Elle est cyclique car elle est réutilisable.
+Permet à des threads d'attendre que tous soit arrivés à un point pour continuer (barrière). La barrière est réutilisable (cyclique) contrairement à la classe [CountDownLatch](https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/concurrent/CountDownLatch.html).
 
-Usage 
+Mode d'emploi :
+- Instancier la classe `CyclicBarrier` avec `n` = nombre de threads.
+- Passer l'instance de `CyclicBarrier` à chaque thread qui appelle `cyclicBarrier.await()` quand il arrive au point de synchronisation et veut être bloqué.
 
+Pour être débloqués, tous les threads doivent appeler `cyclicBarrier.await()`. 
+
+Exemple :
 ```java
 
 var service = Executors.newFixedThreadPool(4);
