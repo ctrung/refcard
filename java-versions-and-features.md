@@ -203,17 +203,47 @@ https://blogs.oracle.com/javamagazine/post/the-hidden-gems-in-java-16-and-java-1
 
 https://blogs.oracle.com/javamagazine/post/java-21-now-available
 
-- Méthode `List.reversed()` : évite de coder une boucle for en arrière
+
+### [JEP 431](https://openjdk.org/jeps/431) : Sequenced collections
+
+Stuart Marks (JDK Core Libraries project lead) à Devoxx Belgique 👍 \
+https://www.youtube.com/watch?v=fdFM5CFqv6o
+
+Nouvelles interfaces `SequencedCollection`, `SequencedSet`, `SequencedMap` pour apporter la richesse sémantique de `Deque` (opérations par les deux bouts) et `NavigableSet` (vue inversée) à l'ensemble des collections.
+
+Exemple, itérer une liste en arrière sans passer par un `ListIterator` : `liste.reversed()`
+
 
 ### [JEP 441](https://openjdk.org/jeps/441) : Pattern matching for `switch`
 
+TL;DR
 ```java
-if (obj instanceof First first) {
-    return checkFirst(first);
+// Prior to Java 21
+static String formatter(Object obj) {
+    String formatted = "unknown";
+    if (obj instanceof Integer i) {
+        formatted = String.format("int %d", i);
+    } else if (obj instanceof Long l) {
+        formatted = String.format("long %d", l);
+    } else if (obj instanceof Double d) {
+        formatted = String.format("double %f", d);
+    } else if (obj instanceof String s) {
+        formatted = String.format("String %s", s);
+    }
+    return formatted;
+}
+
+// As of Java 21
+static String formatterPatternSwitch(Object obj) {
+    return switch (obj) {
+        case Integer i -> String.format("int %d", i);
+        case Long l    -> String.format("long %d", l);
+        case Double d  -> String.format("double %f", d);
+        case String s  -> String.format("String %s", s);
+        default        -> obj.toString();
+    };
 }
 ```
-
-
 
 ## Java 22
 
