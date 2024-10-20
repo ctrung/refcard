@@ -1,4 +1,12 @@
 
+## Closeable vs AutoCloseable
+
+`Closeable` existe depuis 1.5 et concerne principalement les resources IO que l'on doit fermer après utilisation. \
+`AutoCloseable` a été introduit en 1.7 pour le try-with-resources.
+
+`Closeable` étends `AutoCloseable`.
+
+NB : `ExecutorService` implémente `AutoCloseable` depuis Java 19 (appelle `shutdown()`). 
 
 ## Comparable vs Comparator
 
