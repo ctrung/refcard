@@ -38,3 +38,20 @@ SHOW CREATE DATABASE database_name;
 
 USE database_name;
 ```
+
+## SELECT ... FOR SHARE
+
+https://dev.mysql.com/doc/refman/8.4/en/innodb-locking-reads.html
+
+Utilisé au sein d'une transaction, permet de se prémunir de certains écueils lors de mises à jour concurrentes. 
+Concrètement, d'autres transactions peuvent lire et l'écriture est bloquante le temps que la transaction se termine et que les mises à jour soient raffraichies. 
+
+Exemple :
+
+Tx 1 exécute un SELECT ... FOR SHARE
+Tx 2 tente un UPDATE mais est bloqué tant que Tx 1 n'a pas fini
+Tx 1 exécute un UPDATE
+Tx 1 commit ou rollback
+L'UPDATE de Tx 2 passe ensuite
+
+En pratique, cela permet de sérialiser les updates de Tx 1 et Tx 2.
