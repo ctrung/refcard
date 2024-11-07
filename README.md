@@ -23,8 +23,14 @@ https://cheat.sh/
 
 #### [MobaXterm](https://mobaxterm.mobatek.net/)
 
+## Librairies
 
-## Technos à voir
+### Résilience (retry, circuitbreaker)
+- [Hystrix](https://github.com/Netflix/Hystrix) (eol), [Resilience4j](https://github.com/resilience4j/resilience4j)
+- [Spring Retry](https://github.com/spring-projects/spring-retry)
+
+
+## Se former
 
 - Angular
 - Ansible 📓
@@ -45,6 +51,10 @@ https://cheat.sh/
 - Kubernetes
 - Python
 - React JS
+- Spring
+  * Batch
+  * CLI
+  * Cloud config
 - Terraform
 - Typescript
 - Vue JS
