@@ -203,6 +203,12 @@ https://blogs.oracle.com/javamagazine/post/the-hidden-gems-in-java-16-and-java-1
 
 https://blogs.oracle.com/javamagazine/post/java-21-now-available
 
+### [JEP 453](https://openjdk.org/jeps/453) : Structured concurrency
+
+Définition wiki : https://en.wikipedia.org/wiki/Structured_concurrency \
+Concurrency Java 21 : https://docs.oracle.com/en/java/javase/21/core/concurrency.html \
+Structured Concurrency in modern Java : https://youtube.com/playlist?list=PLZ9NgFYEMxp6-DE4NiIE2K1RBrfRxK_XC&si=XDBO44SZG7Cfzsxf \
+Discover Structured Concurrency : https://theboreddev.com/understanding-structured-concurrency
 
 ### [JEP 431](https://openjdk.org/jeps/431) : Sequenced collections
 
