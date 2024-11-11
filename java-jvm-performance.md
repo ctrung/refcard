@@ -198,3 +198,14 @@ This flag is particularly useful for tuning GCs like G1, which performs concurre
 [Brian Goatz - IBM articles : Plugging memory leaks with weak references (Wayback machine 2012/03/03](https://web.archive.org/web/20120303152804/http://www.ibm.com/developerworks/java/library/j-jtp11225/index.html#resources)
 
 [Brian Goatz - IBM articles : Plugging memory leaks with soft references (Wayback machine 2012/03/03)](https://web.archive.org/web/20120303180318/http://www.ibm.com/developerworks/java/library/j-jtp01246/index.html)
+
+### Native memory
+
+Native memory is the OS memory used by the JVM process, read this blog article that greatly explains how native memory and heap space relates inside the JVM : http://www.trevorsimonton.com/blog/2020/09/09/java-native-memory.html
+
+Meta-space (Java 8+) lives in native memory : https://www.infoq.com/articles/Java-PERMGEN-Removed
+
+Permgen space (Java 8-) was contiguous to the heap space.
+
+To enable native memory tracking (NMT) inside the JVM, add to command line `-XX:NativeMemoryTracking=summary`. \
+To get a native memory snapshot, run `jcmd <PID> VM.native_memory`.
