@@ -127,6 +127,8 @@ Sets the thread stack size (in bytes). Similar to `-XX:ThreadStackSize`.
 
 ### `-XX:NativeMemoryTracking`
 
+For an explanation of native memory, see [java-jvm-performance.md](java-jvm-performance.md#native-memory).
+
 To enable NMT, add `-XX:NativeMemoryTracking=[off | summary | detail]`. \
 For real-time insights, use `jcmd <pid> VM.native_memory [summary | detail]`
 
@@ -229,9 +231,6 @@ Total: reserved=5589178KB, committed=337926KB
                             (mmap: reserved=0KB, committed=0KB, peak=20KB)
 ```
 </details>
-
-See [java-jvm-performance.md > Native Memory paragraph](java-jvm-performance.md#native-memory)
-
 
 ### `–XX:+PrintFlagsFinal`
 To check which options are enabled by default.
