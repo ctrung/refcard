@@ -277,3 +277,8 @@ if(lock.tryLock(10, TimeUnit.SECONDS)) {
 ## Starvation
 
 Terme (anglais) sigifiant qu'un thread n'arrive jamais à accéder à une ressource synchronisée.
+
+## Virtual threads
+
+(Java 21) Non optimisé avec `synchronized`. Privilégier l'API Lock à la place. \
+Voir [JEP 491](https://openjdk.org/jeps/491) pour améliorer les perfs des virtual threads avec `sycnhronized`.
