@@ -1,8 +1,11 @@
 
 ## Connection
 ```
-mysql -u<username> -p
+mysql -u<username> -p <db_name>
 ```
+
+`-u` : username \
+`-p` : password
 
 
 ## Account and permissions
