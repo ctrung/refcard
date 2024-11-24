@@ -22,6 +22,7 @@ PSO  : Partial Store Ordering (processor architecture), see https://docs.oracle.
 RACI : Responsability / Accountable / Consulted / Informed
 RBVM : Risk Based Vulnerability Management
 REST : Representational State Transfer
+RMI-IIOP : (read as "RMI over IIOP") Denotes the Java Remote Method Invocation (RMI) interface over the Internet Inter-Orb Protocol (IIOP)
 SEO  : Search Engine Optimization
 SLA  : Service Level Agreement
 SLI  : Service Level Indicators 
