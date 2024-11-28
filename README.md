@@ -23,6 +23,10 @@ https://cheat.sh/
 
 #### [MobaXterm](https://mobaxterm.mobatek.net/)
 
+### Notepad++
+
+Installer la coloration syntaxique pour markdown manuellement : https://github.com/Edditoria/markdown-plus-plus?tab=readme-ov-file#download-manually
+
 ## Librairies
 
 ### Résilience (retry, circuitbreaker)
