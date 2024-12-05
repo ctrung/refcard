@@ -168,13 +168,37 @@ java CommandLineJobRunner io.spring.EndOfDayJobConfiguration endOfDay \
 
 Cette classe est un Spring Boot ApplicationRunner qui sait lancer des jobs Spring Batch.
 
-**NB** : `JobLauncherCommandLineRunner` est déprécié.
+**NB** : `JobLauncherCommandLineRunner` est déprécié (https://github.com/spring-projects/spring-boot/issues/19442).
 
+```
+# NB : job arg passé en CLI avec la vieille syntaxe spring batch v4, cf chap plus bas et plus haut pour des exemples avec la nouvelle syntaxe
+java -jar demo.jar name=Michael
+java -jar demo.jar executionDate(date)=2017/11/28                 # specify type for JobParameter conversion
+java -jar demo.jar executionDate(date)=2017/11/28 -name=Michael   # specify non identifying JobParameter
+```
+
+## Syntaxe passage des arguments du batch en mode CLI
+
+Le passage des arguments d'un job a changé de syntaxe entre spring batch v4 et v5 en raison de https://github.com/spring-projects/spring-boot/issues/19442 : \
+https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-5.0-Migration-Guide#default-job-parameter-conversion
+
+*Avant, en v4* :
+
+`[+|-]parameterName(parameterType)=value`
+
+Exemples 
 ```
 java -jar demo.jar name=Michael
 java -jar demo.jar executionDate(date)=2017/11/28                 # specify type for JobParameter conversion
 java -jar demo.jar executionDate(date)=2017/11/28 -name=Michael   # specify non identifying JobParameter
 ```
+
+*Après, à partir de v5* :
+
+`parameterName=parameterValue,parameterType,identificationFlag` (simple) \
+`parameterName='{"value": "parameterValue", "type":"parameterType", "identifying": "booleanValue"}'` (étendue, par exemple pour tenir compte de la virgule)
+
+
 
 ## Depuis un container web, eg. via un appel WS-REST
 
