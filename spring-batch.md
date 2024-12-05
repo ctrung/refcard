@@ -1,31 +1,206 @@
-# JobInstance
+# Arrêt brutal d'un job
 
-`JobInstance` : uniquely identified by a job name and a set of identifying parameters
+En fonction de la situation, il faut potentiellement mettre à jour manuellement le statut du jobExecution à FAILED ou ABANDONED.
+
+FAILED : permettra le redémarrage du job (si supporté)
+ABANDONNED : interdit le redémarrage du job
+
+ABANDONNED est aussi supporté pour le stepExecution, auquel cas le job passe au step suivant.
+
+https://docs.spring.io/spring-batch/reference/job/advanced-meta-data.html#aborting-a-job
+
+# Personnaliser la configuration spring batch
+
+Annoter la configuration @EnableBatchProcessing \
+**ou** \
+étendre la configuration avec `DefaultBatchConfiguration`. 
+
+Il n'est pas possible de combiner les deux méthodes.
+
+```java
+
+@Configuration
+@EnableBatchProcessing(dataSourceRef = "batchDataSource",
+			transactionManagerRef = "batchTransactionManager"),
+			tablePrefix = "BATCH_", 
+			maxVarCharLength = 2500,
+			isolationLevelForCreate = "SERIALIZABLE")
+public class MyJobConfiguration {
+
+	@Bean
+	public DataSource batchDataSource() {
+		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL)
+				.addScript("/org/springframework/batch/core/schema-hsqldb.sql")
+				.generateUniqueName(true).build();
+	}
+
+	@Bean
+	public JdbcTransactionManager batchTransactionManager(DataSource dataSource) {
+		return new JdbcTransactionManager(dataSource);
+	}
+
+	@Bean
+	public Job job(JobRepository jobRepository) {
+		return new JobBuilder("myJob", jobRepository)
+				//define job flow as needed
+				.build();
+	}
+
+}
+
+
+@Configuration
+class MyJobConfiguration extends DefaultBatchConfiguration {
+
+	...
+
+	@Override
+	protected Charset getCharset() {
+		return StandardCharsets.ISO_8859_1;
+	}
+}
+```
+
+Il est possible d'éviter les clashs de noms en créant des espaces de noms distincts avec `@EnableBatchProcessing(modular=true)`. Sous le capot, un bean `AutomaticJobRegistrar` s'occupe de créer autant d'`ApplicationContext` enfants que voulus.
+
+```java
+@Configuration
+@EnableBatchProcessing(modular=true)
+public class AppConfig {
+
+	@Bean
+	public ApplicationContextFactory someJobs() {
+		 return new GenericApplicationContextFactory(SomeJobConfiguration.class);
+	}
+	
+	@Bean
+	public ApplicationContextFactory moreJobs() {
+		 return new GenericApplicationContextFactory(MoreJobConfiguration.class);
+	}
+	
+	...
+
+}
+```
+
+
+# JobLauncher
+
+Interface pour démarrer un `Job` + `JobParameters`. Retourne un `JobExecution`.
+
+```java
+public interface JobLauncher {
+
+	public JobExecution run(Job job, JobParameters jobParameters)
+				throws JobExecutionAlreadyRunningException, JobRestartException,
+					   JobInstanceAlreadyCompleteException, JobParametersInvalidException;
+	}
+}
+```
 
 `JobInstanceAlreadyCompleteException` : thrown if a job instance has already executed (can't run more than once)
+`JobRestartException` : indique qu'un job ne peut pas être redémarré parce que `jobBuilder.preventRestart()` a été configuré.
 
 
-# Job runner
+Personnaliser un job launcher pour qu'il retourne la main immédiatement (asynchrone) 
 
-Point d'entrée pour exécuter un job, appelle JobLauncher derrière.
+```java
 
-`CommandLineJobRunner` : utilisé pour les démarrages en ligne de commande
+@Bean
+public JobLauncher jobLauncher() {
+	TaskExecutorJobLauncher jobLauncher = new TaskExecutorJobLauncher();
+	jobLauncher.setJobRepository(jobRepository());
+	jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor());
+	jobLauncher.afterPropertiesSet();
+	return jobLauncher;
+}
+
+```
+
+# JobInstance et JobExecution
+
+`JobInstance` : uniquely identified by a job name and a set of identifying parameters
+`JobExecution` : exécution d'un `JobInstance`. Plusieurs exécutions sont attachées à un `JobInstance` en cas de redémarrage par exemple.
+
+Vérifier le statut d'un job : 
+
+```java
+jobExecution.getStatus() == BatchStatus.COMPLETED
+jobExecution.getStatus() == BatchStatus.FAILED
+jobExecution.getStatus() == BatchStatus.UNKNOWN   // statut si eg. lancement asynchrone
+```
+
+# Démarrer un job
+
+## Mode CLI sans Spring Boot : utiliser la classe `CommandLineJobRunner`. 
+
+Idéal lorsque les jobs sont lancés par un orchestrateur externe. 
+
+Syntaxe : `java CommandLineJobRunner <jobPath> <jobName> [...<jobParams>...]`
+
+Exemples 
+
+```sh
+# config xml
+java CommandLineJobRunner endOfDayJob.xml endOfDay \
+                                 schedule.date=2007-05-05,java.time.LocalDate,true \    #  <--- le 3ème paramètre booleen définit si le param est "identifying" ou non
+                                 vendor.id=123,java.lang.Long,false
+
+# java config
+java CommandLineJobRunner io.spring.EndOfDayJobConfiguration endOfDay \
+                                 schedule.date=2007-05-05,java.time.LocalDate,true \
+                                 vendor.id=123,java.lang.Long,false
+```
+
+## Mode CLI avec Spring Boot : utiliser la classe `JobLauncherApplicationRunner`
+
+Cette classe est un Spring Boot ApplicationRunner qui sait lancer des jobs Spring Batch.
+
+**NB** : `JobLauncherCommandLineRunner` est déprécié.
+
 ```
 java -jar demo.jar name=Michael
 java -jar demo.jar executionDate(date)=2017/11/28                 # specify type for JobParameter conversion
 java -jar demo.jar executionDate(date)=2017/11/28 -name=Michael   # specify non identifying JobParameter
-```	 
+```
 
-`JobLauncherApplicationRunner` : Spring Boot ApplicationRunner to launch Spring Batch jobs \
-NB : `JobLauncherCommandLineRunner` est déprécié
+## Depuis un container web, eg. via un appel WS-REST
 
-`JobParameters` : wrapper around java.util.Map<String, JobParameter>, supporte la conversion via les getters typés
+```java
+@Controller
+public class JobLauncherController {
+
+    @Autowired
+    JobLauncher jobLauncher;   // si le batch est long, il est recommandé d'utiliser un job launcher asynchrone, cf. chapitre plus haut sur le JobLauncher
+
+    @Autowired
+    Job job;
+
+    @RequestMapping("/jobLauncher.html")
+    public void handle() throws Exception{
+        jobLauncher.run(job, new JobParameters());
+    }
+}
+```
 
 
-# Accéder au JobParameters
+## Codes de retour du batch
 
-1. Soit via `chunkContext.getStepContext().getJobParemeters()` (nécessite un cast car c'est une `Map<String, Object>`)
-2. Soit via du late binding avec `@StepScope`
+Codes de retour supportés par défaut : 
+- 0 : succès
+- 1 : échec
+- 2 : erreurs spécifique au job runner, eg. job demandé non trouvé
+
+Implémenter `ExitCodeMapper` pour personnaliser d'autres codes de retour (mapping entre les valeurs de `ExitStatus` et des entiers).
+
+# JobParameters
+
+Wrapper autour de `java.util.Map<String, JobParameter>`, supporte la conversion via des getters typés.
+
+## Usages courants
+
+1. Via `chunkContext.getStepContext().getJobParemeters()` (nécessite un cast car c'est une `Map<String, Object>`)
+2. Via du late binding avec `@StepScope`
 ```java
 @Bean
 @StepScope
@@ -38,7 +213,7 @@ protected Callable<String> value(@Value("#{stepExecution.stepName}") final Strin
 public Tasklet helloWorldTasklet(@Value("#{jobParameters['name']}") String name) {
 ```
 
-# Validation des JobParameters
+## Validation des JobParameters
 
 https://docs.spring.io/spring-batch/reference/job/configuring.html#jobparametersvalidator
 
@@ -65,7 +240,7 @@ Utiliser `DefaultJobParametersValidator` de Spring pour définir les paramètres
 Il est aussi possible de composer plusieurs validators en un seul avec `CompositeJobParametersValidator`.
 
 
-# JobParametersIncrementer
+## JobParametersIncrementer
 
 Permet d'introduire un paramètre implicite qui s'incrémente à chaque exécution du job. Utile pour générer un nouveau `JobInstance`.
 
@@ -86,6 +261,82 @@ public class DailyJobTimestamper implements JobParametersIncrementer {
   }
 }
 ```
+
+# JobExplorer, JobOperator
+
+`JobExplorer` : (interface) couche d'accès bas niveau pour lire dans les metadata spring batch.
+
+```java
+public interface JobExplorer {
+
+    List<JobInstance> getJobInstances(String jobName, int start, int count);
+
+    JobExecution getJobExecution(Long executionId);
+
+    StepExecution getStepExecution(Long jobExecutionId, Long stepExecutionId);
+
+    JobInstance getJobInstance(Long instanceId);
+
+    List<JobExecution> getJobExecutions(JobInstance jobInstance);
+
+    Set<JobExecution> findRunningJobExecutions(String jobName);
+}
+```
+
+`JobOperator` : (interface) couche d'accès haut niveau pour effectuer des actions sur les jobs. 
+
+```java
+public interface JobOperator {
+
+    List<Long> getExecutions(long instanceId) throws NoSuchJobInstanceException;
+
+    List<Long> getJobInstances(String jobName, int start, int count)
+          throws NoSuchJobException;
+
+    Set<Long> getRunningExecutions(String jobName) throws NoSuchJobException;
+
+    String getParameters(long executionId) throws NoSuchJobExecutionException;
+
+    Long start(String jobName, String parameters)
+          throws NoSuchJobException, JobInstanceAlreadyExistsException;
+
+    Long restart(long executionId)
+          throws JobInstanceAlreadyCompleteException, NoSuchJobExecutionException,
+                  NoSuchJobException, JobRestartException;
+
+    Long startNextInstance(String jobName)
+          throws NoSuchJobException, JobParametersNotFoundException, JobRestartException,
+                 JobExecutionAlreadyRunningException, JobInstanceAlreadyCompleteException;
+
+    boolean stop(long executionId)
+          throws NoSuchJobExecutionException, JobExecutionNotRunningException;
+
+    String getSummary(long executionId) throws NoSuchJobExecutionException;
+
+    Map<Long, String> getStepExecutionSummaries(long executionId)
+          throws NoSuchJobExecutionException;
+
+    Set<String> getJobNames();
+
+}
+```
+
+Exemple : arrêter un job proprement
+
+```java
+Set<Long> executions = jobOperator.getRunningExecutions("sampleJob");
+jobOperator.stop(executions.iterator().next());
+```
+
+https://docs.spring.io/spring-batch/reference/job/advanced-meta-data.html
+
+# JobRegistry
+
+Permet de trouver les jobs au sein du contexte Spring, notamment si ceux ci sont répartis dans des contextes enfants. 
+
+Utile aussi pour manipuler les propriétés des jobs.
+
+https://docs.spring.io/spring-batch/reference/job/advanced-meta-data.html#jobregistry
 
 # JobExecutionListener
 
