@@ -9,6 +9,18 @@ ABANDONNED est aussi supporté pour le stepExecution, auquel cas le job passe au
 
 https://docs.spring.io/spring-batch/reference/job/advanced-meta-data.html#aborting-a-job
 
+# `BatchStatus` vs `ExitStatus`
+
+`BatchStatus` : propriété de `JobExecution` et `StepExecution`.
+
+`ExitStatus` : utilisé dans le code pour par ex. personnaliser le workflow du job (au sein des `listener.after()` et dans la définition du job avec la clause `on()`).
+
+Règles : 
+- pour les steps, fonction de ce qui a été défini dans le code
+- pour le job, fonction de ce qui a été configuré dans la définition, soit en utilisant `end()` = SUCCESS, `fail()` = FAILED ou `stop()` = STOPPED, soit en se basant sur le `ExitStatus` du dernier step. Si `ExitStatus` du dernier step est FAILED, alors le job est FAILED, sinon il est COMPLETED.
+
+https://docs.spring.io/spring-batch/reference/step/controlling-flow.html#batchStatusVsExitStatus
+
 # Personnaliser la configuration spring batch
 
 Annoter la configuration @EnableBatchProcessing \
