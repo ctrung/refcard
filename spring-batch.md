@@ -450,3 +450,16 @@ En fonction de la phase du chunk, le comportement diffère :
 * read : on continue à lire le suivant en appelant `next()`
 * process : on relance le chunk en écartant l'élément incriminé
 * write : on relance les écritures cette fois une par une pour identifier l'élément incriminé 
+
+# Serialiser en l'executionContext en JSON
+
+Depuis la v5, la sérialisation est en base 64. Pour revenir en JSON : 
+
+```java
+    @Bean
+    public ExecutionContextSerializer executionContextSerializer() {
+        return new Jackson2ExecutionContextStringSerializer();
+    }
+```
+
+Attention, spring batch risque de ne pas démarrer si des executionContexts en base 64 sont déjà présents dans la base de données.
