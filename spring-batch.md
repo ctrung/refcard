@@ -427,3 +427,26 @@ public Step step1(JobRepository jobRepository, PlatformTransactionManager transa
 	.build();
 }
 ```
+
+# Filtrage
+
+https://docs.spring.io/spring-batch/reference/processor.html#filteringRecords
+
+Renvoyer `null` au sein de `processor.process(T ...)`.
+
+# Skip
+https://docs.spring.io/spring-batch/reference/step/chunk-oriented-processing/configuring-skip.html
+
+```java
+new StepBuilder()
+  ...
+  .faultTolerant()
+  .skipLimit(100)
+  .skip(MonException.class)
+  ...
+```
+
+En fonction de la phase du chunk, le comportement diffère :
+* read : on continue à lire le suivant en appelant `next()`
+* process : on relance le chunk en écartant l'élément incriminé
+* write : on relance les écritures cette fois une par une pour identifier l'élément incriminé 
