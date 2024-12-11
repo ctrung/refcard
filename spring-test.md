@@ -11,8 +11,6 @@ https://docs.spring.io/spring-boot/reference/testing/index.html
 
 [@DirtiesContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.html) : Indique que le contexte Spring a été corrompu, ce qui provoque son éviction du cache de test et permettra d'en réinitialiser un nouveau pour le test suivant. 
 
-[@TestConfiguration](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/context/TestConfiguration.html) : Configuration spécifique pour les tests Spring. Permet d'ajouter ou redéfinir certains beans.
-
 [@TestPropertySource](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestPropertySource.html) : Sert à configurer les properties d'un test Spring.
 
 ## Spring Batch
@@ -26,6 +24,10 @@ https://docs.spring.io/spring-boot/reference/testing/index.html
 [@MockBean](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/mock/mockito/MockBean.html) : Ajoute un mock au contexte Spring.
 
 [@SpringBootTest](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/context/SpringBootTest.html) : Contient `@ExtendWith(SpringExtension.class)` (JUnit 5), démarre tout le contexte Spring. Voir les slices (`@*Test`) pour démarrer un contexte partiel.
+
+[@TestComponent](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/context/TestComponent.html) : Equivalent à `@Component` mais pour les tests. Non scanné par `@SpringBootApplication`, il l'est cependant par `@ComponentScan`.
+
+[@TestConfiguration](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/context/TestConfiguration.html) : Configuration spécifique pour les tests Spring (cad non scanné par `@SpringBootApplication`). Permet d'ajouter ou redéfinir certains beans (`spring.main.allow-bean-definition-overriding` nécessaire).
 
 [@WebMvcTest](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/autoconfigure/web/servlet/WebMvcTest.html) : Slice pour tester Spring MVC à la place de `@SpringBootTest`. Fournit notamment un bean `MockMvc`.
 
