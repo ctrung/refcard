@@ -11,6 +11,8 @@ https://docs.spring.io/spring-boot/reference/testing/index.html
 
 [@DirtiesContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.html) : Indique que le contexte Spring a été corrompu, ce qui provoque son éviction du cache de test et permettra d'en réinitialiser un nouveau pour le test suivant. 
 
+@DynamicPropertySource : Utile pour surcharger dynamiquement des propriétés, eg. issues d'un container dynamique. Voir article https://mkyong.com/spring-boot/spring-boot-dynamicpropertysource-example pour un cas d'usage.
+
 [@TestPropertySource](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestPropertySource.html) : Sert à configurer les properties d'un test Spring.
 
 ## Spring Batch
@@ -23,6 +25,8 @@ https://docs.spring.io/spring-boot/reference/testing/index.html
 
 [@MockBean](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/mock/mockito/MockBean.html) : Ajoute un mock au contexte Spring.
 
+@ServiceConnection : Support Spring Boot de `@DynamicPropertySource`. Voir article https://mkyong.com/spring-boot/spring-boot-dynamicpropertysource-example pour un cas d'usage.
+
 [@SpringBootTest](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/context/SpringBootTest.html) : Contient `@ExtendWith(SpringExtension.class)` (JUnit 5), démarre tout le contexte Spring. Voir les slices (`@*Test`) pour démarrer un contexte partiel.
 
 [@TestComponent](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/context/TestComponent.html) : Equivalent à `@Component` mais pour les tests. Non scanné par `@SpringBootApplication`, il l'est cependant par `@ComponentScan`.
@@ -31,6 +35,21 @@ https://docs.spring.io/spring-boot/reference/testing/index.html
 
 [@WebMvcTest](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/autoconfigure/web/servlet/WebMvcTest.html) : Slice pour tester Spring MVC à la place de `@SpringBootTest`. Fournit notamment un bean `MockMvc`.
 
+# Spring Boot TestContainers support
+
+https://docs.spring.io/spring-boot/reference/testing/testcontainers.html
+
+https://github.com/testcontainers/testcontainers-java-spring-boot-quickstart
+
+Dependency
+
+```xml
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-testcontainers</artifactId>
+      <scope>test</scope>
+    </dependency>
+```
 
 # Exemples
 
