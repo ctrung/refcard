@@ -114,7 +114,7 @@ A la manière de configtree, il est possible d'implémenter son propre type d'im
 
 ```properties
 spring.config.import=classpath:example1.properties,classpath:example2.properties
-spring.config.import=${user.home}/demo/ext[.properties]
+spring.config.import=file:${user.home}/demo/ext[.properties]
 spring.config.import=optional:configtree:${user.home}/demos/tree/
 ```
 
