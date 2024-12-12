@@ -14,7 +14,8 @@ https://start.spring.io
 2.3 : [Prez par Phil Webb](https://www.youtube.com/watch?v=WL7U-yGfUXA) \
 2.4 : [Prez par Phil Webb](https://www.youtube.com/watch?v=lgyO9C9zdrg) \
 2.6 : [Prez par Dan Vega](https://www.youtube.com/watch?v=4L4LEnawcO8) \
-3.0-SNAPSHOT (26 oct 2022) : [Mini préz avant 1ère par Josh Long](https://www.youtube.com/watch?v=aUm5WZjh8RA)
+3.0-SNAPSHOT (26 oct 2022) : [Mini préz avant 1ère par Josh Long](https://www.youtube.com/watch?v=aUm5WZjh8RA) \
+3.2 : [Tips by Josh Long](https://www.youtube.com/watch?v=dMhpDdR6nHw)
 
 ## Tips
 
@@ -30,7 +31,14 @@ URLs de quelques endpoints :
 - `/actuator/configprops`
 - `/actuator/env/<prop>` 
 
-### ConfigurationProperties pojo
+### Arrêt graceful du serveur web
+
+Depuis 2.3, nouvelle propriété `server.shutdown=immediate` (par défaut) \
+ou plus user-friendly `server.shutdown=graceful` en combinaison avec `spring.lifecycle.timeout-per-shutdown-phase=20s`
+
+### ConfigurationProperties POJO
+
+Prendre exemple sur `ServerProperties` au sein de Spring Boot.
 
 ```java
 import org.springframework.boot.convert.DurationUnit;
@@ -71,6 +79,24 @@ SpringApplication springApplication = new SpringApplication(DemoApplication.clas
 Properties properties = new Properties();
 properties.put("spring.batch.job.enabled", false);
 application.setDefaultProperties(properties);
+```
+
+### Probe support
+
+Depuis la 2.3, https://www.youtube.com/watch?v=WL7U-yGfUXA&t=1566s.
+
+Endpoint actuator : 
+- `/actuator/health`
+- `/actuator/health/liveliness`
+- `/actuator/health/readiness`
+
+Il est possible de changer l'état
+```java
+@Autowired
+private ApplicationEventPublisher publisher;
+
+AvailabilityChangeEvent.publish(publisher, this, ReadinessState.REFUSING_TRAFFIC);
+AvailabilityChangeEvent.publish(publisher, this, ReadinessState.ACCEPTING_TRAFFIC);
 ```
 
 
