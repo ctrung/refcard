@@ -18,6 +18,36 @@ https://start.spring.io
 
 ## Tips
 
+### Actuator
+
+```
+management.endpoints.web.exposure.include=*
+management.endpoints.web.exposure.exclude=*
+```
+
+URLs de quelques endpoints : 
+- `/actuator`
+- `/actuator/configprops`
+- `/actuator/env/<prop>` 
+
+### ConfigurationProperties pojo
+
+```java
+import org.springframework.boot.convert.DurationUnit;
+import org.springframework.boot.context.properties.bind.Name;
+
+@ConfigurationProperties("my.service")
+
+@DefaultValue("USER") List<String> roles
+@DefaultValue Security security                  // utile pour avoir une instance au lieu de null
+
+@ConstructorBinding                              // utile si plusieurs constructeurs
+
+@DurationUnit(ChronoUnit.SECONDS) Duration forTime   // unité par défaut si non spécifié dans la config
+
+@Name("for") Duration forUnit                    // utile pour nommer une propriété sans contrainte de mot clé java
+```
+
 ### Démarrage
 
 `SpringApplication.run(DemoApplication.class, args)` est un raccourci de `new SpringApplication(DemoApplication.class).run(args)`.
@@ -30,6 +60,10 @@ springApplication.setApplicationStartup(new FlightRecorderApplicationStartup());
 springApplication.run(args);
 ```
 
+```sh
+java -XX:StartFlightRecording:filename=recording.jfr,duration=10s -jar app.jar
+```
+
 Ou encore d'attacher des properties programatiquement : 
 
 ```java
@@ -38,3 +72,67 @@ Properties properties = new Properties();
 properties.put("spring.batch.job.enabled", false);
 application.setDefaultProperties(properties);
 ```
+
+
+### Properties
+
+#### Imports
+
+Depuis la 2.4, `spring.config.import` pour splitter la configuration qui est plus souple que les profils à cet effet. 
+
+L'extension est aussi optionnelle grâce à la syntaxe `[.extension]`. Dans l'exemple, les deux fichiers ext et ext.properties sont acceptés.
+
+Aussi, les propriétés peuvent provenir d'une arborescence à la manière d'Ansible ou de Kubernetes (niveau intermédiaire = dossier, feuille = fichier). L'arborescence doit exister par défaut, mais le mot clef `optional` permet de passer outre l'erreur.
+
+A la manière de configtree, il est possible d'implémenter son propre type d'import. S'inspirer des classes `ConfigTreeConfigDataLocationResolver implements ConfigDataLocationResolver<ConfigTreeConfigDataResource>` et `ConfigTreeConfigDataLoader implements ConfigDataLoader<ConfigTreeConfigDataResource>`. Vu dans https://www.youtube.com/watch?v=lgyO9C9zdrg&t=2451s.
+
+```properties
+spring.config.import=classpath:example1.properties,classpath:example2.properties
+spring.config.import=${user.home}/demo/ext[.properties]
+spring.config.import=optional:configtree:${user.home}/demos/tree/
+```
+
+Actuator insights : 
+- Pour les imports complexes (eg. chainés), `/actuator/configprops` affiche les propriétés et le fichier properties d'origine où elles sont définies. 
+- `/actuator/env/<prop>` donne le détail pour une propriété.
+
+#### Multi-docs
+
+```yaml
+spring:
+  application:
+    name: "test"
+---
+spring:
+  profiles: "prod"
+  application:
+    name: "test-prod"
+```
+
+Depuis la 2.4, construction multi docs supportée dans les fichiers properties. \
+La chaîne de caractère `#---` est l'équivalent de `---` en yaml. \
+Si plusieurs profils correspondent, la règle et que le dernier l'emporte, cad wait.for=5s dans l'exemple ci dessous. 
+Au passage, on remarque que l'on peut mettre une SpEL dans la propriété `spring.profiles`.
+
+```properties
+wait.for=1s
+spring.profiles.active=test
+
+#---
+
+spring.profiles=prod | test
+wait.for=10s
+
+#---
+
+spring.profiles=test
+wait.for=5s
+```
+
+#### Profiles
+
+Depuis la 2.4, la propriété `spring.profiles` est dépréciée au profit de `spring.config.activate.on-profile`, la raison étant que l'ancienne clé était un préfixe d'autres propriétés comme `spring.profiles.active`, ce qui est plus difficile à écrire en yaml par exemple.
+
+Plusieurs variantes : 
+- `spring.config.activate.on-profile=prod | test`
+- `spring.config.activate.on-cloud-platform=kubernetes`  (en combinaison avec `spring.main.cloud-platform`)
