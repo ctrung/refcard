@@ -7,6 +7,8 @@ https://docs.spring.io/spring-boot/reference/testing/index.html
 
 ## Spring
 
+[@ActiveProfiles](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html) : Définit les profils à activer pendant les tests.
+
 [@ContextConfiguration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ContextConfiguration.html) : Sert à configurer un contexte Spring pour les tests d'intégration.
 
 [@DirtiesContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.html) : Indique que le contexte Spring a été corrompu, ce qui provoque son éviction du cache de test et permettra d'en réinitialiser un nouveau pour le test suivant. 
@@ -65,6 +67,15 @@ class XmlApplicationContextTests {
 class ConfigClassApplicationContextTests {
 	// class body...
 }
+```
+
+`@SpringBootTest` chargeant tout le contexte applicatif, la combinaison suivante permet de tester que les `@ConfigurationProperties` avec Spring Boot.
+```java
+import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
+
+@ExtendWith(SpringExtension.class)
+@EnableConfigurationProperties(MaConfigProperties.class)
+@ContextConfiguration(initializers = ConfigDataApplicationContextInitializer.class)
 ```
 
 ## @TestConfiguration
