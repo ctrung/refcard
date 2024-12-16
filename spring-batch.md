@@ -463,3 +463,18 @@ Depuis la v5, la sérialisation est en base 64. Pour revenir en JSON :
 ```
 
 Attention, spring batch risque de ne pas démarrer si des executionContexts en base 64 sont déjà présents dans la base de données.
+
+# Late binding
+
+https://docs.spring.io/spring-batch/reference/step/late-binding.html
+
+```java
+@JobScope
+@StepScope
+
+@Value("#{jobParameters['input.file.name']}") String name
+@Value("#{jobExecutionContext['input.name']}") String name
+@Value("#{stepExecutionContext['input.file.name']}") String name
+
+@Value("${input.file.name}") String name  // -Dinput.file.name="file://outputs/file.txt"
+```
