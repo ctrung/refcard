@@ -15,6 +15,8 @@ https://docs.spring.io/spring-boot/reference/testing/index.html
 
 @DynamicPropertySource : Utile pour surcharger dynamiquement des propriétés, eg. issues d'un container dynamique. Voir article https://mkyong.com/spring-boot/spring-boot-dynamicpropertysource-example pour un cas d'usage.
 
+[SpringJUnitConfig](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/junit/jupiter/SpringJUnitConfig.html) : Annotation composée qui combine `@ExtendWith(SpringExtension.class)` de JUnit Jupiter avec `@ContextConfiguration` du Spring TestContext Framework.
+
 [@TestPropertySource](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestPropertySource.html) : Sert à configurer les properties d'un test Spring.
 
 ## Spring Batch
