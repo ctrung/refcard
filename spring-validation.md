@@ -69,6 +69,17 @@ Certains messages ne sont pas dynamiques, eg. `@NotNull`. Une alternative est de
 String name;
 ```
 
+Pour changer le resourceBundle par défaut, eg. par `messages.properties` qui est le choix par défaut dans Spring Boot : 
+
+```java
+@Bean
+public Validator getValidator(MessageSource messageSource) {
+  LocalValidatorFactoryBean factory = new LocalValidatorFactoryBean();
+  factory.setValidationMessageSource(messageSource);
+  return factory;
+}
+```
+
 Jakarta Bean Validation - [Default message interpolation algorithm](https://jakarta.ee/specifications/bean-validation/3.0/jakarta-bean-validation-spec-3.0.html#validationapi-message-defaultmessageinterpolation-resolutionalgorithm) \
 Jakarta Bean Validation - [Appendix B: Standard ResourceBundle messages](https://jakarta.ee/specifications/bean-validation/3.0/jakarta-bean-validation-spec-3.0.html#standard-resolver-messages) \
 Spring Framework - [LocalValidatorFactoryBean.setValidationMessageSource(MessageSource)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/validation/beanvalidation/LocalValidatorFactoryBean.html#setValidationMessageSource(org.springframework.context.MessageSource)) (javadoc)
