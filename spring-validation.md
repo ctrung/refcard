@@ -84,4 +84,40 @@ Jakarta Bean Validation - [Default message interpolation algorithm](https://jaka
 Jakarta Bean Validation - [Appendix B: Standard ResourceBundle messages](https://jakarta.ee/specifications/bean-validation/3.0/jakarta-bean-validation-spec-3.0.html#standard-resolver-messages) \
 Spring Framework - [LocalValidatorFactoryBean.setValidationMessageSource(MessageSource)](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/validation/beanvalidation/LocalValidatorFactoryBean.html#setValidationMessageSource(org.springframework.context.MessageSource)) (javadoc)
 
+# Créer sa propre Constraint
+
+Avant de créer sa propre `Constraint`, vérifier qu'elle n'existe pas déjà dans :
+
+- https://github.com/nomemory/java-bean-validation-extension
+- ou via une composition : https://jakarta.ee/specifications/bean-validation/3.0/jakarta-bean-validation-spec-3.0.html#constraintsdefinitionimplementation-constraintcomposition
+
+Exemple sur un bean :
+
+```java
+
+@Documented
+@Constraint(validatedBy = AllNotNullValidator.class)
+@Target({ TYPE })
+@Retention(RUNTIME)
+@interface AllNotNull {
+  String message() default "{com.acme.constraint.MyConstraint.message}";
+  Class<?>[] groups() default {};
+  Class<? extends Payload>[] payload() default {};
+}
+
+class AllNotNullValidator implements ConstraintValidator<AllNotNull, Author> {
+  @Override
+  public boolean isValid(Author value, ConstraintValidatorContext context) {
+    return value.name != null && value.favoriteManga != null;
+  }
+}
+
+@AllNotNull
+record Author (String name, String favoriteManga) {
+}
+```
+
+Lecture utile : 
+
+https://jakarta.ee/specifications/bean-validation/3.0/jakarta-bean-validation-spec-3.0.html#constraintsdefinitionimplementation-constraintdefinition-properties
 
