@@ -89,6 +89,7 @@ Spring Framework - [LocalValidatorFactoryBean.setValidationMessageSource(Message
 
 Avant de créer sa propre `Constraint`, vérifier qu'elle n'existe pas déjà dans :
 
+- Hibernate validator additional constraints : https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#validator-defineconstraints-hv-constraints
 - https://github.com/nomemory/java-bean-validation-extension
 - ou via une composition : https://jakarta.ee/specifications/bean-validation/3.0/jakarta-bean-validation-spec-3.0.html#constraintsdefinitionimplementation-constraintcomposition
 
