@@ -2,7 +2,7 @@
 
 Bean Validation - [Homepage](https://beanvalidation.org/)
 
-Hibernate validator - [Doc](https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#validator-defineconstraints-hv-constraints)
+Hibernate validator - [Doc](https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single)
 
 Spring Framework - [Java Bean Validation](https://docs.spring.io/spring-framework/reference/core/validation/beanvalidation.html)
 
