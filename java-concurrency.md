@@ -288,7 +288,7 @@ Glossary :
 
 Best practices :
 - Do not pool virtual threads : pooling virtual threads is an error by design. To limit shared resource access, use semaphore instead of pooling. 
-- Use virtual threads if code is blocking often for a long time (benchmark is recommanded)
+- Use virtual threads if code is blocking often for a long time (run benchmarks to compare virtual threads vs platform threads)
 
 Usage
 ```java
