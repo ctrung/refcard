@@ -280,5 +280,41 @@ Terme (anglais) sigifiant qu'un thread n'arrive jamais à accéder à une ressou
 
 ## Virtual threads
 
-(Java 21) Non optimisé avec `synchronized`. Privilégier l'API Lock à la place. \
-Voir [JEP 491](https://openjdk.org/jeps/491) pour améliorer les perfs des virtual threads avec `sycnhronized`.
+Glossary :
+- Virtual thread (VT)
+- Carrier thread, aka platform thread, OS thread, system thread... VM option to set the number of carrier threads : `jdk.virtualThreadScheduler.parallelism=5`
+- Mounting/unmounting : mecanism of moving a virtual thread from a carrier thread when blocking occurs
+- Pinned virtual threads : VT that are not unmounted in synchronized blocks or JNI. See [JEP 491](https://openjdk.org/jeps/491) for future better support of VT with synchronized keyword. Extra carrier threads are temporarly created to overcome this limitation. Use JVM option `jdk.virtualThreadScheduler.maxPoolSize` to set the max number of carrier threads allowed (default is 256). Trace pinned threads with JVM option `jdk.tracePinnedThreads=short|full`.
+
+Best practices :
+- Do not pool virtual threads : pooling virtual threads is an error by design. To limit shared resource access, use semaphore instead of pooling. 
+- Use virtual threads if code is blocking often for a long time (benchmark is recommanded)
+
+Usage
+```java
+
+Runnable task = () -> System.out.println(“Hello, World!“);
+
+Thread.startVirtualThread(task);					// start immediately
+
+Thread.ofVirtual().name(“vt1“).start(task);				// use builder to set name and start immediately
+
+Thread unstarted = Thread.ofVirtual().name(“vt 2“).unstarted(task);	// not started
+unstarted.start();
+
+// factory for executor services
+ThreadFactory factory = Thread.ofVirtual().factory();
+ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(o, factory);
+Callable‹String› scheduledCallable = () -> {
+  System.out.println(“Done”);
+  return “Done”;
+};
+scheduledExecutorService.schedule(scheduledCallable, 1, TimeUnit.SECONDS);
+
+// executor service that uses virtual threads
+Runnable task = () -> System.out.println(“Hello, World!“);
+try(ExecutorService vte = Executors.newVirtualThreadPerTaskExecutor()){
+  vte.submit(task);
+}
+
+```
