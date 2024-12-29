@@ -198,6 +198,46 @@ The following threads are deadlocked:
 
 **NB** : There's another method `findMonitorDeadlockedThreads()` that only detects object monitors (synchronized methods or blocks). `findDeadlockedThreads()` detects more types of monitors inside the JVM. 
 
+## Future API
+
+Permet de lancer une tâche en asynchrone et de recupérer le résultat plus tard.
+
+### Future
+
+Obtention 
+```java
+Future<String> future = pool.submit(() -> getStockInfo("YHOO"));
+```
+
+### Completable future (java 8)
+
+[New Concurrency Utilities in Java 8 • Angelika Langer • GOTO 2014 (YouTube)](https://www.youtube.com/watch?v=Q_0_1mKTlnY)
+
+Classe `CompletableFuture` implémente l'interface `Future` et `CompletionStage`.  
+Même chose que future mais gestion asynchrone du résultat d'exécution du thread.
+
+Obtention d'un `CompletableFuture`
+```java
+<U> CompletableFuture<U> suplyAsync(Supplier<U> supplier)
+<U> CompletableFuture<U> suplyAsync(Supplier<U> supplier, Executor executor)
+
+CompletableFuture<Void> runAsync(Runnable runnable)
+CompletableFuture<Void> runAsync(Runnable runnable, Executor executor)
+```
+
+Usage
+```java
+
+// each method has 3 flavours, eg. normal, async with/without a executor service.
+<U> CompletableFuture<U>    thenApply[Async]  (Function<T,U> action[, Executor executor])
+    CompletableFuture<Void> thenAccept[Async] (Consumer<T>   action[, Executor executor])
+    CompletableFuture<Void> thenRun[Async]    (Runnable      action[, Executor executor])
+
+
+
+CompletableFuture<String> future = ...
+future.thenAccept(info -> System.out.println("info : " + info));
+```
 ## Livelock
 
 Cas spécifique de [starvation](#starvation).
