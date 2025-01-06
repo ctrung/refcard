@@ -1,14 +1,34 @@
+# Initialisation JDBC avec Spring Boot
+
+https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.using-basic-sql-scripts
+
+Par défaut, Spring Boot initialise seulement la base de données si elle est identifiée comme une BDD en-mémoire, cf. méthode `EmbeddedDatabaseConnection#isEmbeddedUrl()`.  
+
+Par défaut, les scripts reconnus sont `schema.sql` et `data.sql`. L'ensemble des propriétés cconfigurables sont `spring.sql.init.*`, cf. page [Spring Boot / Appendix / Common Application Properties](https://docs.spring.io/spring-boot/appendix/application-properties/index.html#application-properties.data-migration.spring.sql.init.continue-on-error).
+
+Classes clés
+```
+DatabaseInitializationSettings.java
+DataSourceScriptDatabaseInitializer.java
+EmbeddedDatabaseConnection.java 
+```
 
 # Logging JDBC 
 
-`logging.level.org.springframework.jdbc : debug`
+```
+logging.level.org.springframework.jdbc: DEBUG
+logging.level.org.springframework.test.context.jdbc: INFO
+logging.level.org.springframework.jdbc.datasource.init: INFO
+```
 
 
 # Logging Hibernate
 
-- `logging.level.org.hibernate.SQL : debug` to show queries
-- `logging.level.org.hibernate.orm.jdbc.bind : trace` to show parameter values (Hibernate 6 or after)
-- `logging.level.org.hibernate.type.descriptor.sql : trace` to show parameter values (Hibernate 5 or before)
+```
+logging.level.org.hibernate.SQL : DEBUG  		# to show queries
+logging.level.org.hibernate.orm.jdbc.bind: TRACE	# to show parameter values (Hibernate 6 or after)
+logging.level.org.hibernate.type.descriptor.sql: TRACE	# to show parameter values (Hibernate 5 or before)
+```
 
 See for others (stats, format sql) : https://www.jtips.info/Hibernate/Log
 
