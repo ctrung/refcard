@@ -123,3 +123,19 @@ Lecture utile :
 
 https://jakarta.ee/specifications/bean-validation/3.0/jakarta-bean-validation-spec-3.0.html#constraintsdefinitionimplementation-constraintdefinition-properties
 
+# Unit test
+
+```java
+
+@SpringJUnitConfig({LocalValidatorFactoryBean.class})
+public class ValidatorTest {
+    @Autowired
+    private Validator validator;
+
+    @Test
+    void checkXXX() {
+      ...
+    }
+}
+
+```
