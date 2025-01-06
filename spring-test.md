@@ -155,3 +155,48 @@ public class MonControllerTest {
   }
 }
 ```
+
+## Bean validation unit test
+
+https://docs.spring.io/spring-framework/reference/core/validation/beanvalidation.html#validation-beanvalidation-spring
+
+```java
+@SpringJUnitConfig({LocalValidatorFactoryBean.class})
+public class ValidatorTest {
+    @Autowired
+    private Validator validator;
+
+    @Test
+    void checkXXX() {
+      ...
+    }
+}
+```
+
+## Database support for integration test
+
+Spring framework :
+
+- Transaction Rollback and Commit Behavior : https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/tx.html#testcontext-tx-rollback-and-commit-behavior
+
+- JDBC Testing Support (`org.springframework.test.jdbc.JdbcTestUtils`) : https://docs.spring.io/spring-framework/reference/testing/support-jdbc.html
+- Testing Data Access Logic with an Embedded Database : https://docs.spring.io/spring-framework/reference/data-access/jdbc/embedded-database-support.html#jdbc-embedded-database-dao-testing
+- Executing SQL scripts (programmatiquement, déclarativemlent) : https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/executing-sql.html
+ 
+Spring Boot :
+
+- Embedded Database Support : https://docs.spring.io/spring-boot/reference/data/sql.html#data.sql.datasource.embedded
+- Initialize a Database Using Basic SQL Scripts : https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.using-basic-sql-scripts
+
+
+## Properties validation unit test
+
+https://docs.spring.io/spring-boot/reference/testing/test-utilities.html#testing.utilities.config-data-application-context-initializer
+
+```java
+@SpringJUnitConfig(classes = Config.class, initializers = ConfigDataApplicationContextInitializer.class)
+@EnableConfigurationProperties(MyProps.class)
+class ServiceTest {
+  ...
+}
+```
