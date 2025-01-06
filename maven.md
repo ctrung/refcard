@@ -1,3 +1,17 @@
+## Options tests Surefire et Failsafe
+
+Options utiles [Surefire](https://maven.apache.org/surefire/maven-surefire-plugin) (TU) : 
+- Exécuter un seul test : `-Dtest=MonTest`
+- Désactiver les tests : `-DskipTests`
+- Inclusions, exclusions : `-Dsurefire.includes=MonTest`, `-Dsurefire.excludes=MonTest` \
+  https://maven.apache.org/surefire/maven-surefire-plugin/examples/inclusion-exclusion.html
+
+Options utiles [Failsafe](https://maven.apache.org/surefire/maven-failsafe-plugin/) (TI) :
+- Exécuter un seul test : `-Dit.test=MonIT`
+- Désactiver les tests : `-DskipITs`
+- Inclusions, exclusions : `-Dfailsafe.includes=MonIT`, `-Dfailsafe.excludes=MonIT` \
+  https://maven.apache.org/surefire/maven-failsafe-plugin/examples/inclusion-exclusion.html
+
 ## Default version of plugins
 
 See : https://maven.apache.org/ref/X.Y.Z/maven-model-builder/super-pom.html \
