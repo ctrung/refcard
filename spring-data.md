@@ -21,6 +21,7 @@ logging.level.org.springframework.test.context.jdbc: INFO
 logging.level.org.springframework.jdbc.datasource.init: INFO
 ```
 
+https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/executing-sql.html#testcontext-executing-sql-declaratively-logging
 
 # Logging Hibernate
 
