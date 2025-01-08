@@ -10,7 +10,9 @@ Classes clés
 ```
 DatabaseInitializationSettings.java
 DataSourceScriptDatabaseInitializer.java
-EmbeddedDatabaseConnection.java 
+EmbeddedDatabaseConnection.java
+
+BatchDataSourceScriptDatabaseInitializer # dans autoconfigure spring boot pour spring batch
 ```
 
 # Logging JDBC 
