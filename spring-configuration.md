@@ -4,7 +4,7 @@ External Configuration : https://docs.spring.io/spring-boot/reference/features/e
 
 External Application Properties : https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.files
 
-# Fichiers de configuration multiples
+# Configuration multiples
 
 Par défaut, le fichier de config Spring Boot est `application.[properties|yaml]`.
 
@@ -27,3 +27,24 @@ Propriété `spring.config.import` avec les fonctionnalités suivantes supporté
 - Plusieurs (le dernier gagne) : `spring.config.import=optional:file:./dev1.properties,optional:file:./dev2.properties`
 - Hint fichier sans extension (utile cloud) : `spring.config.import=file:/etc/config/myconfig[.yaml]`
 - Configuration tree (utile cloud) : `spring.config.import=optional:configtree:/etc/config/`
+
+# Configuration typée dans le code (Spring Boot)
+
+Utilisation de l'annotation `org.springframework.boot.context.properties.ConfigurationProperties`. 
+
+```java 
+// Méthode 1 : avec @Bean
+@Bean
+@ConfigurationProperties("spring.batch.datasource")
+public DataSourceProperties batchDataSourceProperties() {
+    return new DataSourceProperties();
+}
+
+// Méthode 2 : avec @EnableConfigurationProperties
+@EnableConfigurationProperties(DataSourceProperties)
+```
+
+Pour supporter les `ConfigurationProperties` dans un test unitaire Spring : `@SpringJUnitConfig(initializers = ConfigDataApplicationContextInitializer.class)`. \
+See [org.springframework.boot.test.context.ConfigDataApplicationContextInitializer](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/context/ConfigDataApplicationContextInitializer.html).
+
+Pour supporter de nouveaux types dans les `ConfigurationProperties`, se référer à la doc https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.typesafe-configuration-properties.conversion. Un exemple d'implémentation dans spring-batch 5.2 : `org.springframework.batch.core.converter.DefaultJobParametersConverter`.
