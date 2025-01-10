@@ -28,9 +28,7 @@ Propriété `spring.config.import` avec les fonctionnalités suivantes supporté
 - Hint fichier sans extension (utile cloud) : `spring.config.import=file:/etc/config/myconfig[.yaml]`
 - Configuration tree (utile cloud) : `spring.config.import=optional:configtree:/etc/config/`
 
-# Configuration typée dans le code (Spring Boot)
-
-Utilisation de l'annotation `org.springframework.boot.context.properties.ConfigurationProperties`. 
+# @ConfigurationProperties (Spring Boot)
 
 ```java 
 // Méthode 1 : avec @Bean
