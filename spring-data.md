@@ -1,3 +1,39 @@
+# JdbcClient
+
+Nouvelle classe (spring 6+) qui combine `JdbcTemplate` et `NamedParameterJdbcTemplate` avec une fluent API et qui est plus facile à utiliser.
+
+Exemples :
+
+```java
+JdbcClient jdbcClient = ...
+
+// query : named param + clause in 
+return jdbcClient.sql("SELECT ... FROM XXX WHERE COL IN (:collection)")
+	.param("collection", collection)
+	.query(Pojo.class)
+	.list();
+
+// updates
+return jdbcClient.sql("UPDATE XXX SET COL = ... WHERE COL IN (:collection)")
+	.param("collection", collection)
+	.update();
+return jdbcClient.sql("DELETE FROM XXX WHERE COL IN (:collection)")
+	.param("collection", collection)
+	.update();
+```
+
+NB : Pour les clauses in, il faut fournir un `Iterable<>`. Attention à ne pas fournir un tableau qui n'est pas un `Iterable<>`.
+
+Code source sur spring-jdbc 6.2.1 :
+```java
+substituteNamedParameters:306, NamedParameterUtils (org.springframework.jdbc.core.namedparam)
+getPreparedStatementCreatorFactory:499, NamedParameterJdbcTemplate (org.springframework.jdbc.core.namedparam)
+getPreparedStatementCreator:468, NamedParameterJdbcTemplate (org.springframework.jdbc.core.namedparam)
+getPreparedStatementCreator:446, NamedParameterJdbcTemplate (org.springframework.jdbc.core.namedparam)
+query:218, NamedParameterJdbcTemplate (org.springframework.jdbc.core.namedparam)
+list:366, DefaultJdbcClient$DefaultStatementSpec$NamedParamMappedQuerySpec (org.springframework.jdbc.core.simple)
+```
+
 # Initialisation JDBC avec Spring Boot
 
 https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.using-basic-sql-scripts
