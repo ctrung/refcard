@@ -62,6 +62,8 @@ $ findmnt -l | grep noexec
 
 ## Redirect DISPLAY
 
+https://www.virtualcuriosities.com/articles/1777/how-to-run-a-program-as-a-different-user-in-linux-mint
+
 User 1 : authorize user2
 ```shell
 $ xhost +si:localuser:user2
