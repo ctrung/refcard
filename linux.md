@@ -60,6 +60,23 @@ ps -eLf | wc -l     # -e = all process, -L = show threads, -f = full format
 $ findmnt -l | grep noexec
 ```
 
+## Redirect DISPLAY
+
+User 1 : authorize user2
+```shell
+$ xhost +si:localuser:user2
+$ echo $DISPLAY
+:0
+
+$ xhost -si:localuser:user2  # undo authorize
+```
+
+User 2 : redirect display 
+```shell
+$ su - user2
+$ export DISPLAY=:0
+```
+
 ## Remove password expiration
 
 ```sh
