@@ -54,11 +54,19 @@
 
 ```
 
-## Change remote
+## Remote ops
 
 ``` sh
-git remote set-url ORIGIN URL
-git checkout BRANCH; git fetch; git reset --hard ORIGIN/BRANCH # update branch state
+
+# add
+git remote add <origin> <url>
+
+# remove
+git remote rm <origin>
+
+# modify
+git remote set-url <origin> <url>
+git checkout <branch>; git fetch; git reset --hard <origin>/<branch> # update branch state
 ```
 
 ## Config
