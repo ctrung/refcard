@@ -318,6 +318,47 @@ if(lock.tryLock(10, TimeUnit.SECONDS)) {
 
 Terme (anglais) sigifiant qu'un thread n'arrive jamais à accéder à une ressource synchronisée.
 
+## Structured Concurrency
+
+Aim : Give the developer more control over threads lifecycle. It is an alternative to Completable futures and reactive programming.
+
+```java
+try (var scope = new StructuredTaskScope‹String›()) {
+  Supplier‹String› subtask1 = scope.fork(this::getXXX);
+  Supplier‹String› subtask2 = scope.fork(this::getYYY);
+  Supplier‹String› subtask3 = scope.fork(this::getZZZ);
+
+  scope.join();
+
+  return new Result(subtask1.get(),
+                    subtask2.get(),
+                    subtask3.get());
+}
+```
+
+**NB**
+
+`public <U extends T> Subtask<U> fork(Callable<? extends U> task)` returns a `SubTask` instance. Because `SubTask` extends `Supplier`, one can also use the second interface if only the abstraction of getting a result is needed.  
+
+By default, `StructuredTaskScope` uses virtual threads. It is also possible to use platform threads.
+
+```java
+/**
+* Creates an unnamed structured task scope that creates virtual threads. The task
+* scope is owned by the current thread.
+*
+* @implSpec This constructor is equivalent to invoking the 2-arg constructor with a
+* name of {@code null} and a thread factory that creates virtual threads.
+*/
+public StructuredTaskScope() {
+  this(null, Thread.ofVirtual().factory());
+}
+
+public StructuredTaskScope(String name, ThreadFactory factory) {
+  ...
+}
+```
+
 ## Virtual threads
 
 Glossary :
