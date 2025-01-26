@@ -1,5 +1,7 @@
 
-Guide des versions Java et nouvelles fonctionnalités (Marco Behler) \
+Guide des versions Java et nouvelles fonctionnalités (Marco Behler)
+
+https://en.wikipedia.org/wiki/Java_version_history \
 https://www.marcobehler.com/guides/a-guide-to-java-versions-and-features
 
 ## Java 1.2
