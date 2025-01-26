@@ -342,16 +342,16 @@ Thread.ofVirtual().name(“vt1“).start(task);				// use builder to set name an
 Thread unstarted = Thread.ofVirtual().name(“vt 2“).unstarted(task);	// not started
 unstarted.start();
 
-// factory for executor services
+// Factory for executor services
 ThreadFactory factory = Thread.ofVirtual().factory();
-ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(o, factory);
+ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(corePoolSize, factory);
 Callable‹String› scheduledCallable = () -> {
   System.out.println(“Done”);
   return “Done”;
 };
 scheduledExecutorService.schedule(scheduledCallable, 1, TimeUnit.SECONDS);
 
-// executor service that uses virtual threads
+// Executor service that uses virtual threads
 Runnable task = () -> System.out.println(“Hello, World!“);
 try(ExecutorService vte = Executors.newVirtualThreadPerTaskExecutor()){
   vte.submit(task);
