@@ -2,7 +2,8 @@
 
 Javadoc (java 21) : https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/package-summary.html \
 Github : https://github.com/ThreeTen/threeten \
-Réponse référence sur Stackoverflow : https://stackoverflow.com/a/32443004
+Réponse référence sur Stackoverflow : https://stackoverflow.com/a/32443004 \
+Article blog : https://introvertreader.medium.com/understanding-java-8s-datetime-api-your-guide-to-simplified-date-and-time-handling-3188673c6e12
 
 ## Valeurs temporelles
 
