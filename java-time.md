@@ -1,3 +1,9 @@
+## Reference
+
+Javadoc (java 21) : https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/package-summary.html \
+Github : https://github.com/ThreeTen/threeten \
+Réponse référence sur Stackoverflow : https://stackoverflow.com/a/32443004
+
 ## Valeurs temporelles
 
 ### LocalDate
