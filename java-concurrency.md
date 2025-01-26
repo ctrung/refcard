@@ -361,6 +361,12 @@ public StructuredTaskScope(String name, ThreadFactory factory) {
 }
 ```
 
+Two subclasses of StructuredTaskScope are defined to implement policy for common cases :
+- StructuredTaskScope.ShutdownOnSuccess : First thread to complete triggers the StructuredTaskScope to shutdown.
+- StructuredTaskScope.ShutdownOnFailure : First thread to fail triggers the StructuredTaskScope to shutdown.
+
+`StructuredTaskScope`s can also be nested to support parent-child relationships. 
+
 ## Virtual threads
 
 Glossary :
