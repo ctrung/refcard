@@ -215,7 +215,11 @@ Discover Structured Concurrency : https://theboreddev.com/understanding-structur
 Stuart Marks (JDK Core Libraries project lead) à Devoxx Belgique 👍 \
 https://www.youtube.com/watch?v=fdFM5CFqv6o
 
-Nouvelles interfaces `SequencedCollection`, `SequencedSet`, `SequencedMap` pour apporter la richesse sémantique de `Deque` (opérations par les deux bouts) et `NavigableSet` (vue inversée) à l'ensemble des collections.
+Nouvelles interfaces `SequencedCollection`, `SequencedSet`, `SequencedMap` pour uniformiser la notion d'ordre/de séquence au sein de l'API Collection (premier, dernier, vue inversée).
+
+![image](https://github.com/user-attachments/assets/35344cdd-5480-47de-85d2-a431b2515a37)
+
+![image](https://github.com/user-attachments/assets/f0e22564-4ae9-4e94-9b01-29c72f2bc782)
 
 Exemple, itérer une liste en arrière sans passer par un `ListIterator` : `liste.reversed()`
 
