@@ -320,6 +320,8 @@ Terme (anglais) sigifiant qu'un thread n'arrive jamais à accéder à une ressou
 
 ## Structured Concurrency
 
+Javadoc (Java 21) : https://docs.oracle.com/en/java/javase//21/docs/api/java.base/java/util/concurrent/StructuredTaskScope.html
+
 Aim : Give the developer more control over threads lifecycle. It is an alternative to Completable futures and reactive programming.
 
 ```java
