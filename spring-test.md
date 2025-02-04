@@ -25,6 +25,8 @@ https://docs.spring.io/spring-boot/reference/testing/index.html
 
 ## Spring Boot
 
+[@AutoConfigureTestDatabase](https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html#testing.spring-boot-applications.autoconfigured-jdbc) : Permet de reconfigurer la base de données en test. Par exemple, `@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)` est utile pour tenir compte d'une URL H2 mode Oracle qui serait configurée dans un test/application.properties en désactivant la base H2 mem qui s'applique par défaut.
+
 [@JdbcTest](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/autoconfigure/jdbc/JdbcTest.html) :  Slice pour tester Spring JDBC à la place de `@SpringBootTest`. Les tests deviennent transactionnels et effectuent un rollback à la fin. Une base de données en mémoire configurée automatiquement est démarrée.
 
 [@MockBean](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/mock/mockito/MockBean.html) : Ajoute un mock au contexte Spring.
