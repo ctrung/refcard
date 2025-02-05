@@ -46,3 +46,21 @@ Pour supporter les `ConfigurationProperties` dans un test unitaire Spring : `@Sp
 See [org.springframework.boot.test.context.ConfigDataApplicationContextInitializer](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/context/ConfigDataApplicationContextInitializer.html).
 
 Pour supporter de nouveaux types dans les `ConfigurationProperties`, se référer à la doc https://docs.spring.io/spring-boot/reference/features/external-config.html#features.external-config.typesafe-configuration-properties.conversion. Un exemple d'implémentation dans spring-batch 5.2 : `org.springframework.batch.core.converter.DefaultJobParametersConverter`.
+
+# InitializingBean
+
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/InitializingBean.html
+
+Vu sur https://youtu.be/SwKrrLCVTH0?t=782, InitializingBean en valeur de retour de @Bean :
+
+```java
+@Bean
+InitializingBean populateTestData(DodgeUserRepository userRepository) {
+  return () -> {
+    userRepository.save(...);
+    userRepository.save(...);
+    userRepository.findAll().forEach(System.err::println);
+  }
+}
+```
+
