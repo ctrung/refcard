@@ -376,7 +376,8 @@ Glossary :
 - Pinned virtual threads : VT that are not unmounted in synchronized blocks or JNI. See [JEP 491](https://openjdk.org/jeps/491) for future better support of VT with synchronized keyword. Extra carrier threads are temporarly created to overcome this limitation. Use JVM option `jdk.virtualThreadScheduler.maxPoolSize` to set the max number of carrier threads allowed (default is 256). Trace pinned threads with JVM option `jdk.tracePinnedThreads=short|full`.
 
 Best practices :
-- Do not pool virtual threads : pooling virtual threads is an error by design. To limit shared resource access, use semaphore instead of pooling. 
+- Do not pool virtual threads : pooling virtual threads is an error by design. To limit shared resource access, use semaphore instead of pooling.
+  https://stackoverflow.com/questions/77750151/should-virtual-thread-die-fast
 - Use virtual threads if code is blocking often for a long time (run benchmarks to compare virtual threads vs platform threads)
 
 Usage
