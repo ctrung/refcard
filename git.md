@@ -54,9 +54,12 @@
 
 ```
 
-## Remote ops
+## Remote
 
 ``` sh
+# Check remotes
+$ git remote
+$ git remote -v
 
 # add
 git remote add <origin> <url>
@@ -68,6 +71,78 @@ git remote rm <origin>
 git remote set-url <origin> <url>
 git checkout <branch>; git fetch; git reset --hard <origin>/<branch> # update branch state
 ```
+
+Branches and remotes \
+Great explanation with lot of commands : https://stackoverflow.com/questions/16408300/what-are-the-differences-between-local-branch-local-tracking-branch-remote-bra
+
+Vocabulary for local branches :
+* Local non-tracking branch
+* Local tracking branch
+* Remote tracking branch (~ cache for a remote branch locally on your machine)
+
+Local branches are in `.git/refs/heads/`. \
+Local tracking branches are useful for `git push` and `git pull` to have a default remote branch (defined in `.git/config`). \
+Remote tracking branches are defined inside `.git/refs/remotes/<remote>/`.
+
+```java
+
+# Check local branch
+$ git branch
+master
+new-feature
+
+# Create a local tracking branch
+git branch --track <branchname> [<start-point>]
+
+# Manually define remote and branch for an op, ex. pull here
+$ git pull <remote> <branch>
+# To set tracking information for a branch
+$ git branch --set-upstream new-feature <remote>/<branch>
+
+# Check local tracking branches
+$ git branch -vv
+master      b31f87c85 [origin/master] Example commit message    <-- tracking branch
+new-feature b760e04ed Another example commit message            <-- non tracking branch
+
+# Check remote tracking branches
+$ git branch -r
+bitbucket/master
+origin/master
+origin/new-branch
+
+# Delete a local ref, ex. a remote tracking branch here (low level)
+$ git update-ref -d refs/remotes/origin/dev
+
+# Check branches on a remote
+$ git remote show origin
+* remote origin
+  Fetch URL: git@github.com:Flimm/example.git
+  Push  URL: git@github.com:Flimm/example.git
+  HEAD branch: master
+  Remote branches:
+    io-socket-ip            new (next fetch will store in remotes/origin)
+    master                  tracked
+    new-branch              tracked
+  Local ref configured for 'git pull':
+    master     merges with remote master
+    new-branch merges with remote new-branch
+  Local ref configured for 'git push':
+    master     pushes to master     (up to date)
+    new-branch pushes to new-branch (fast-forwardable)
+
+# Delete a remote tracking branch
+$ git branch -rd <remote>/<branchname>
+
+# Delete a branch on a remote
+$ git push --delete <remote> <branchname>
+
+# Delete all remote tracking branches that are stale (that is the corresponding branch on the remote no longer exists)
+$ git remote prune <remote> 
+```
+
+Syntax tips : 
+* `<remote>/<branch>` : the slashy syntax is used to denote a remote tracking branch (locally on your machine)
+* `<remote> <branch>` : points to a branch on a remote machine over the network 
 
 ## Config
 
