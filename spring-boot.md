@@ -8,7 +8,10 @@ https://start.spring.io
 [Chaîne YT SpringDeveloper](https://www.youtube.com/user/SpringSourceDev) \
 [Chaîne YT Spring I/O](https://www.youtube.com/c/SpringIOConference)
 
-## Présentation nouvelles releases
+## Releases
+
+![image](https://github.com/user-attachments/assets/c48da473-02ee-4574-91be-bb4a1baa66e1)
+
 
 2.0 : [Prez par Phil Webb et Madhura Bhave](https://www.youtube.com/watch?v=TasMZsZxLCA) \
 2.3 : [Prez par Phil Webb](https://www.youtube.com/watch?v=WL7U-yGfUXA) \
@@ -16,6 +19,8 @@ https://start.spring.io
 2.6 : [Prez par Dan Vega](https://www.youtube.com/watch?v=4L4LEnawcO8) \
 3.0-SNAPSHOT (26 oct 2022) : [Mini préz avant 1ère par Josh Long](https://www.youtube.com/watch?v=aUm5WZjh8RA) \
 3.2 : [Tips by Josh Long](https://www.youtube.com/watch?v=dMhpDdR6nHw)
+
+Retrospective (2025-01-30) : [Spring Boot co-creator Phil Webb and its biggest fan Josh Long look at its first ten whole years!](https://www.youtube.com/watch?v=SwKrrLCVTH0)
 
 ## Tips
 
