@@ -10,6 +10,8 @@ https://start.spring.io
 
 ## Releases
 
+![image](https://github.com/user-attachments/assets/517549e6-04c4-427b-bcda-8a46af2d830a)
+
 ![image](https://github.com/user-attachments/assets/c48da473-02ee-4574-91be-bb4a1baa66e1)
 
 
