@@ -21,9 +21,17 @@ Examples :
 - maven-release-plugin 2.5.3 for maven 3.5.3
 - maven-release-plugin 2.3.2 for maven 3.5.0
 
-## maven-assembly-plugin
+## Plugins
 
-### No filters for binary files
+### git-commit-id-maven-plugin
+
+https://github.com/git-commit-id/git-commit-id-maven-plugin
+
+Le fichier `git.properties` est supporté par Spring Boot ([source](https://docs.spring.io/spring-boot/how-to/build.html#howto.build.generate-git-info)).
+
+### maven-assembly-plugin
+
+#### No filters for binary files
 
 Since 3.3.0+ (https://issues.apache.org/jira/browse/MASSEMBLY-849)
 
@@ -63,7 +71,7 @@ Before 3.3.0
 </fileSet>	
 ```
 
-## maven-deploy-plugin
+### maven-deploy-plugin
 
 **A savoir** : L'option `<skip>` est supportée par le goal deploy-file depuis la version **3.1.0**. Si `<skip>` est défini au niveau de la `<configuration>` du plugin, il sera propagé au goal.
 
@@ -119,7 +127,7 @@ Exemple : pour déployer plusieurs assembly, on désactive le goal par défaut e
 </plugin>
 ```
 
-## maven-release-plugin
+### maven-release-plugin
 
 ```sh
 mvn \
@@ -175,10 +183,7 @@ settings.xml
 </settings>
 ```
 
-
-
-
-## versions-maven-plugin
+### versions-maven-plugin
 
 https://stackoverflow.com/questions/5726291/updating-version-numbers-of-modules-in-a-multi-module-maven-project
 
