@@ -1,65 +1,17 @@
 
-https://docs.spring.io/spring-framework/reference/testing.html
-
-https://docs.spring.io/spring-boot/reference/testing/index.html
-
 # Annotations
 
 ## Spring
 
-[@ActiveProfiles](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html) : Définit les profils à activer pendant les tests.
+https://docs.spring.io/spring-framework/reference/testing.html
 
-[@ContextConfiguration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ContextConfiguration.html) : Sert à configurer un contexte Spring pour les tests d'intégration.
+### [@ActiveProfiles](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ActiveProfiles.html)
 
-[@DirtiesContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.html) : Indique que le contexte Spring a été corrompu, ce qui provoque son éviction du cache de test et permettra d'en réinitialiser un nouveau pour le test suivant. 
+Définit les profils à activer pendant les tests.
 
-@DynamicPropertySource : Utile pour surcharger dynamiquement des propriétés, eg. issues d'un container dynamique. Voir article https://mkyong.com/spring-boot/spring-boot-dynamicpropertysource-example pour un cas d'usage.
+### [@ContextConfiguration](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/ContextConfiguration.html)
 
-[SpringJUnitConfig](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/junit/jupiter/SpringJUnitConfig.html) : Annotation composée qui combine `@ExtendWith(SpringExtension.class)` de JUnit Jupiter avec `@ContextConfiguration` du Spring TestContext Framework.
-
-[@TestPropertySource](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestPropertySource.html) : Sert à configurer les properties d'un test Spring.
-
-## Spring Batch
-
-[@SpringBatchTest](https://docs.spring.io/spring-batch/docs/5.1.1-SNAPSHOT/org/springframework/batch/test/context/SpringBatchTest.html) : Fournit les beans `JobLauncherTestUtils`, `JobRepositoryTestUtils`, `StepScopeTestExecutionListener` et `JobScopeTestExecutionListener`.
-
-## Spring Boot
-
-[@AutoConfigureTestDatabase](https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html#testing.spring-boot-applications.autoconfigured-jdbc) : Permet de reconfigurer la base de données en test. Par exemple, `@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)` est utile pour tenir compte d'une URL H2 mode Oracle qui serait configurée dans un test/application.properties en désactivant la base H2 mem qui s'applique par défaut.
-
-[@JdbcTest](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/autoconfigure/jdbc/JdbcTest.html) :  Slice pour tester Spring JDBC à la place de `@SpringBootTest`. Les tests deviennent transactionnels et effectuent un rollback à la fin. Une base de données en mémoire configurée automatiquement est démarrée.
-
-[@MockBean](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/mock/mockito/MockBean.html) : Ajoute un mock au contexte Spring.
-
-@ServiceConnection : Support Spring Boot de `@DynamicPropertySource`. Voir article https://mkyong.com/spring-boot/spring-boot-dynamicpropertysource-example pour un cas d'usage.
-
-[@SpringBootTest](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/context/SpringBootTest.html) : Contient `@ExtendWith(SpringExtension.class)` (JUnit 5), démarre tout le contexte Spring. Voir les slices (`@*Test`) pour démarrer un contexte partiel.
-
-[@TestComponent](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/context/TestComponent.html) : Equivalent à `@Component` mais pour les tests. Non scanné par `@SpringBootApplication`, il l'est cependant par `@ComponentScan`.
-
-[@TestConfiguration](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/context/TestConfiguration.html) : Configuration spécifique pour les tests Spring (cad non scanné par `@SpringBootApplication`). Permet d'ajouter ou redéfinir certains beans (`spring.main.allow-bean-definition-overriding` nécessaire).
-
-[@WebMvcTest](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/autoconfigure/web/servlet/WebMvcTest.html) : Slice pour tester Spring MVC à la place de `@SpringBootTest`. Fournit notamment un bean `MockMvc`.
-
-# Spring Boot TestContainers support
-
-https://docs.spring.io/spring-boot/reference/testing/testcontainers.html
-
-https://github.com/testcontainers/testcontainers-java-spring-boot-quickstart
-
-Dependency
-
-```xml
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-testcontainers</artifactId>
-      <scope>test</scope>
-    </dependency>
-```
-
-# Exemples
-
-## @ContextConfiguration
+Sert à configurer un contexte Spring pour les tests.
 
 ```java
 @ContextConfiguration("/test-config.xml") 
@@ -73,16 +25,83 @@ class ConfigClassApplicationContextTests {
 }
 ```
 
-`@SpringBootTest` chargeant tout le contexte applicatif, la combinaison suivante permet de tester que les `@ConfigurationProperties` avec Spring Boot.
-```java
-import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
+Voir paragraphe ci dessous [Unit testing `ConfigurationProperties`](https://github.com/ctrung/refcard/edit/main/spring-test.md#unit-testing-configurationproperties) pour une utilisation de la propriété `initializers` de `@ContextConfiguration`.
 
-@ExtendWith(SpringExtension.class)
-@EnableConfigurationProperties(MaConfigProperties.class)
-@ContextConfiguration(initializers = ConfigDataApplicationContextInitializer.class)
+### [@DirtiesContext](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/annotation/DirtiesContext.html)
+
+Indique que le contexte Spring a été corrompu, ce qui provoque son éviction du cache de test et permet d'en recharger un nouveau lors du test suivant. 
+
+### @DynamicPropertySource
+
+Utile pour surcharger dynamiquement des propriétés, eg. issues d'un container dynamique. Voir article https://mkyong.com/spring-boot/spring-boot-dynamicpropertysource-example pour un cas d'usage.
+
+### [@SpringJUnitConfig](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/junit/jupiter/SpringJUnitConfig.html)
+
+Annotation composée qui combine `@ExtendWith(SpringExtension.class)` de JUnit Jupiter et `@ContextConfiguration` du Spring TestContext Framework.
+
+### [@TestPropertySource](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/test/context/TestPropertySource.html)
+
+Sert à configurer les properties d'un test Spring.
+
+```java
+@ContextConfiguration
+@TestPropertySource("/test.properties") 
+class MyIntegrationTests {
+	// class body...
+}
+
+@ContextConfiguration
+@TestPropertySource(properties = { "timezone = GMT", "port: 4242" }) 
+class MyIntegrationTests {
+	// class body...
+}
 ```
 
-## @TestConfiguration
+## Spring Boot
+
+https://docs.spring.io/spring-boot/reference/testing/index.html
+
+### [@AutoConfigureTestDatabase](https://docs.spring.io/spring-boot/reference/testing/spring-boot-applications.html#testing.spring-boot-applications.autoconfigured-jdbc)
+
+Permet de reconfigurer la base de données en test, eg. utiliser l'url de test/application.properties à la place de H2 mem par défaut. 
+
+```java
+@JdbcTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+```
+
+### [@JdbcTest](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/autoconfigure/jdbc/JdbcTest.html)
+
+Slice pour tester Spring JDBC. \
+Par défaut, les tests sont transactionnels et effectuent un rollback à la fin. \
+Une base de données en mémoire est automatiquement configurée.
+
+### [@MockBean](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/mock/mockito/MockBean.html)
+
+Ajoute un mock au contexte Spring.
+
+### @ServiceConnection
+
+Support Spring Boot de `@DynamicPropertySource` : https://mkyong.com/spring-boot/spring-boot-dynamicpropertysource-example
+
+### [@SpringBootTest](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/context/SpringBootTest.html)
+
+Contient `@ExtendWith(SpringExtension.class)` (JUnit 5), démarre tout le contexte Spring. \
+Privilégier les slices (`@...Test`) pour avoir un contexte plus partiel.
+
+Supporte la définition de properties
+```java
+@SpringBootTest(properties = {"org=Spring", "name=Boot"})
+```
+
+### [@TestComponent](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/context/TestComponent.html)
+
+Equivalent à `@Component` pour les tests. Non scanné par `@SpringBootApplication`, il l'est cependant par `@ComponentScan`.
+
+### [@TestConfiguration](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/context/TestConfiguration.html)
+
+Configuration spécifique pour les tests Spring (cad non scanné par `@SpringBootApplication`). \
+Permet d'ajouter ou redéfinir certains beans (`spring.main.allow-bean-definition-overriding` nécessaire).
 
 ```java
 
@@ -113,23 +132,9 @@ publis class MesTests {
 }
 ```
 
-## @TestPropertySource
+### [@WebMvcTest](https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/autoconfigure/web/servlet/WebMvcTest.html)
 
-```java
-@ContextConfiguration
-@TestPropertySource("/test.properties") 
-class MyIntegrationTests {
-	// class body...
-}
-
-@ContextConfiguration
-@TestPropertySource(properties = { "timezone = GMT", "port: 4242" }) 
-class MyIntegrationTests {
-	// class body...
-}
-```
-
-## @WebMvcTest
+Slice pour tester Spring MVC à la place de `@SpringBootTest`. Fournit notamment un bean `MockMvc`.
 
 ```java
 import static org.hamcrest.Matchers.containsString;
@@ -158,7 +163,74 @@ public class MonControllerTest {
 }
 ```
 
-## Bean validation unit test
+## Spring Batch
+
+### [@SpringBatchTest](https://docs.spring.io/spring-batch/docs/5.1.1-SNAPSHOT/org/springframework/batch/test/context/SpringBatchTest.html)
+
+Fournit les beans `JobLauncherTestUtils`, `JobRepositoryTestUtils`, `StepScopeTestExecutionListener` et `JobScopeTestExecutionListener`.
+
+# Classes utilitaires
+
+https://docs.spring.io/spring-framework/reference/testing/unit.html#unit-testing-utilities
+
+https://docs.spring.io/spring-framework/reference/testing/support-jdbc.html#integration-testing-support-jdbc-test-utils
+
+* AopTestUtils
+* JdbcTestUtils
+* ReflectionTestUtils
+* TestSocketUtils
+
+* ModelAndViewAssert
+* MockHttpServletRequest
+* MockHttpSession
+
+# Database support
+
+Spring framework :
+
+- Transaction Rollback and Commit Behavior : https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/tx.html#testcontext-tx-rollback-and-commit-behavior
+
+- JDBC Testing Support (`org.springframework.test.jdbc.JdbcTestUtils`) : https://docs.spring.io/spring-framework/reference/testing/support-jdbc.html
+- Testing Data Access Logic with an Embedded Database : https://docs.spring.io/spring-framework/reference/data-access/jdbc/embedded-database-support.html#jdbc-embedded-database-dao-testing
+- Executing SQL scripts (programmatiquement, déclarativemlent) : https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/executing-sql.html
+ 
+Spring Boot :
+
+- Embedded Database Support : https://docs.spring.io/spring-boot/reference/data/sql.html#data.sql.datasource.embedded
+- Initialize a Database Using Basic SQL Scripts : https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.using-basic-sql-scripts
+
+# TestContainers support
+
+https://docs.spring.io/spring-boot/reference/testing/testcontainers.html
+
+https://github.com/testcontainers/testcontainers-java-spring-boot-quickstart
+
+Dependency
+
+```xml
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-testcontainers</artifactId>
+      <scope>test</scope>
+    </dependency>
+```
+
+# TestPropertyValues.java
+
+https://docs.spring.io/spring-boot/reference/testing/test-utilities.html#testing.utilities.test-property-values
+
+https://docs.spring.io/spring-boot/api/java/org/springframework/boot/test/util/TestPropertyValues.html
+
+Cette classe manipule les propriétés de l'environnement Spring. Voir question Stackoverflow [Appropriate usage of TestPropertyValues in Spring Boot Tests](https://stackoverflow.com/a/54758610) pour 
+un exemple d'usage avec `@ContextConfiguration(initializers = ...)`.
+
+# TestRestTemplate
+
+Comme `RestTemplate` mais plus facile pour les assertions sur les erreurs 4XX et 5XXX lors des tests.
+
+https://docs.spring.io/spring-boot/reference/testing/test-utilities.html#testing.utilities.test-rest-template
+
+# Unit testing bean validation
 
 https://docs.spring.io/spring-framework/reference/core/validation/beanvalidation.html#validation-beanvalidation-spring
 
@@ -175,23 +247,7 @@ public class ValidatorTest {
 }
 ```
 
-## Database support for integration test
-
-Spring framework :
-
-- Transaction Rollback and Commit Behavior : https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/tx.html#testcontext-tx-rollback-and-commit-behavior
-
-- JDBC Testing Support (`org.springframework.test.jdbc.JdbcTestUtils`) : https://docs.spring.io/spring-framework/reference/testing/support-jdbc.html
-- Testing Data Access Logic with an Embedded Database : https://docs.spring.io/spring-framework/reference/data-access/jdbc/embedded-database-support.html#jdbc-embedded-database-dao-testing
-- Executing SQL scripts (programmatiquement, déclarativemlent) : https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/executing-sql.html
- 
-Spring Boot :
-
-- Embedded Database Support : https://docs.spring.io/spring-boot/reference/data/sql.html#data.sql.datasource.embedded
-- Initialize a Database Using Basic SQL Scripts : https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.using-basic-sql-scripts
-
-
-## Properties validation unit test
+# Unit testing `ConfigurationProperties`
 
 https://docs.spring.io/spring-boot/reference/testing/test-utilities.html#testing.utilities.config-data-application-context-initializer
 
@@ -201,4 +257,3 @@ https://docs.spring.io/spring-boot/reference/testing/test-utilities.html#testing
 class ServiceTest {
   ...
 }
-```
