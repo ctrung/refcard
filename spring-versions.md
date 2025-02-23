@@ -1,4 +1,80 @@
+# Spring Core
 
+## [Spring Framework 6.2: Core Container Revisited by Juergen Hoeller @ Spring I/O 2024](https://www.youtube.com/watch?v=GzX3C0sTFbw)
+
+Slides : https://2024.springio.net/slides/spring-framework-62-core-container-revisited-springio24.pdf
+
+- Fast path for bean name matching (before was occuring after by type matching as a last resort).
+  **NB** : needs `-parameters` compile option to preserve parameters name.
+
+Reminder on bean configuration ways (not new) :
+```java
+// by bean name
+@Bean
+public DataSource commonDataSource() {
+ ...
+}
+@Bean
+public MyRepository repository(DataSource commonDataSource) {
+ ...
+}
+
+// by qualifier
+@Bean @MyQualifier
+public DataSource commonDataSource() {
+ ...
+}
+@Bean
+public MyRepository repository(@MyQualifier DataSource ds) {
+ ...
+}
+
+// by bean name + qualifier
+@Bean
+public DataSource commonDataSource() {
+ ...
+}
+@Bean
+public MyRepository repository(
+ @Qualifier("commonDataSource") DataSource dataSource) {
+ ...
+}
+```
+
+- @Fallback (inverse of @Primary) : mostly useful in configurations where tierce modules beans are not under our responsabilities (ie. theirs as regular beans + ours as @Fallback beans).  
+```java
+@Bean
+public DataSource commonDataSource() { // only non-fallback
+ ...
+}
+@Bean @Fallback
+public DataSource otherDataSource() {
+ ...
+}
+```
+
+- Singleton initialization lock mecanism rewritten (from synchronized to reentrant lock based).
+
+
+
+Lifecycle management
+```java
+@Bean
+public ThreadPoolTaskExecutor taskExecutor() {
+ …
+ executor.setPhase(...);
+ …
+}
+
+@Bean
+public ThreadPoolTaskScheduler taskScheduler() {
+ …
+ scheduler.setPhase(...);
+ …
+}
+```
+
+# Spring Boot
 ## Liens 
 
 https://spring.io \
