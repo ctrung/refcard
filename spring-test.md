@@ -198,6 +198,8 @@ Spring Boot :
 
 - Embedded Database Support : https://docs.spring.io/spring-boot/reference/data/sql.html#data.sql.datasource.embedded
 - Initialize a Database Using Basic SQL Scripts : https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.using-basic-sql-scripts
+- `DataSourceProperties#determineUsername` sets a `sa` user by default if the database is "embedded" (see EmbeddedDatabaseConnection#isEmbeddedUrl(String url) for the definition)
+
 
 # TestContainers support
 
