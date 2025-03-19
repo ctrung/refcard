@@ -34,7 +34,7 @@ query:218, NamedParameterJdbcTemplate (org.springframework.jdbc.core.namedparam)
 list:366, DefaultJdbcClient$DefaultStatementSpec$NamedParamMappedQuerySpec (org.springframework.jdbc.core.simple)
 ```
 
-# Initialisation JDBC avec Spring Boot
+# Initialisation SQL avec Spring Boot
 
 https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.using-basic-sql-scripts
 
@@ -45,8 +45,14 @@ Par défaut, les scripts reconnus sont `schema.sql` et `data.sql`. L'ensemble de
 Classes clés
 ```
 DatabaseInitializationSettings.java
+
 DataSourceScriptDatabaseInitializer.java
+SqlDataSourceScriptDatabaseInitializer.java
+
+SqlInitializationProperties (ex: spring.sql.init.mode, etc.)
+
 EmbeddedDatabaseConnection.java
+
 
 BatchDataSourceScriptDatabaseInitializer # dans autoconfigure spring boot pour spring batch
 ```
