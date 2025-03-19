@@ -34,6 +34,17 @@ query:218, NamedParameterJdbcTemplate (org.springframework.jdbc.core.namedparam)
 list:366, DefaultJdbcClient$DefaultStatementSpec$NamedParamMappedQuerySpec (org.springframework.jdbc.core.simple)
 ```
 
+# Initialisation SQL avec Spring core
+
+https://docs.spring.io/spring-framework/reference/testing/testcontext-framework/executing-sql.html#testcontext-executing-sql-programmatically
+
+Classes clés : 
+
+- org.springframework.jdbc.datasource.init.ScriptUtils
+- org.springframework.jdbc.datasource.init.ResourceDatabasePopulator
+- org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests
+- org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests
+
 # Initialisation SQL avec Spring Boot
 
 https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.using-basic-sql-scripts
