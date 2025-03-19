@@ -45,6 +45,19 @@ Classes clés :
 - org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests
 - org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests
 
+Example 
+```java
+ResourceDatabasePopulator rdp = new ResourceDatabasePopulator();
+
+rdp.addScript(new ClassPathResource("/script.sql");
+
+String[] scripts = ...;
+rdp.addScripts(Arrays.stream(scripts).map(ClassPathResource::new).toArray(Resource[]::new));
+
+rdp.execute(datasource)
+```
+
+
 # Initialisation SQL avec Spring Boot
 
 https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.using-basic-sql-scripts
