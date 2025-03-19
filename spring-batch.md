@@ -29,6 +29,8 @@ Cf. classe `org.springframework.boot.autoconfigure.batch.BatchDataSourceScriptDa
 
 Propriété (classe `BatchProperties`) : `spring.batch.jdbc.initialize-schema: always|embedded(défaut)|never`
 
+Il y a aussi `spring.batch.jdbc.schema` qui est utilisé au sein du placeholder du script sql : (défaut) `classpath:org/springframework/batch/core/schema-@@platform@@.sql`
+
 # Personnaliser la configuration spring batch
 
 Annoter la configuration @EnableBatchProcessing \
