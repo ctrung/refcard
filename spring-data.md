@@ -45,7 +45,7 @@ Classes clés :
 - org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests
 - org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests
 
-Example 
+Exemple 
 ```java
 ResourceDatabasePopulator rdp = new ResourceDatabasePopulator();
 
