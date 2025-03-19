@@ -21,6 +21,14 @@ Règles :
 
 https://docs.spring.io/spring-batch/reference/step/controlling-flow.html#batchStatusVsExitStatus
 
+# Initialisation auto db
+
+Pour créer automatiquement les tables de spring batch au démarrage spring boot.
+
+Cf. classe `org.springframework.boot.autoconfigure.batch.BatchDataSourceScriptDatabaseInitialiser` appelée lors de l'autoconfigure de Spring Batch (`org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration`)
+
+Propriété (classe `BatchProperties`) : `spring.batch.jdbc.initialize-schema: always|embedded(défaut)|never`
+
 # Personnaliser la configuration spring batch
 
 Annoter la configuration @EnableBatchProcessing \
