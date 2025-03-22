@@ -294,4 +294,39 @@ try {
 }
 ```
 
+## Java 24 (19 mars 2025)
 
+### Stream gatherers [JEP 485](https://openjdk.org/jeps/485)
+
+API générique pour implémenter une opération intermédiaire au sein de l'API Stream (équivalent à l'API Collector pour les opérations finales).
+Supporte un état, la transformation et le parallélisme. 
+
+Composant d'un gatherer : initializer, integrator, combiner (optionnel, pour le //), finisher
+
+Gatherers déjà implémentés dans le JDK :
+- [fold](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/stream/Gatherers.html#fold(java.util.function.Supplier,java.util.function.BiFunction)) : réduction ordonnée, many-to-one
+- [mapConcurrent](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/stream/Gatherers.html#mapConcurrent(int,java.util.function.Function)) : transformation concurrente avec un nombre fini de virtual threads, one-to-one
+- [scan](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/stream/Gatherers.html#scan(java.util.function.Supplier,java.util.function.BiFunction)) : accumulation incrémentale, one-to-one
+- [windowFixed](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/stream/Gatherers.html#windowFixed(int)) : groupe par taille définie, many-to-many
+- [windowSliding](https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/stream/Gatherers.html#windowSliding(int)) : groupe par taille définie et sur une fenêtre glissante, many-to-many
+
+Actions sur les gatherers :
+- composition avec `andThen`
+
+Exemples : 
+
+Identifier les couples adjacents selon un critère déterminé  
+```java
+List<List<Reading>> findSuspicious(Stream<Reading> source) {
+    return source.gather(Gatherers.windowSliding(2))
+                 .filter(window -> (window.size() == 2
+                                    && isSuspicious(window.get(0),
+                                                    window.get(1))))
+                 .toList();
+}
+```
+Pour créer son propre gatherer :
+- Implémenter `Gatherer`
+- Utiliser `Gatherer.ofSequential(...)` (adhoc)
+
+Autres lectures : https://cr.openjdk.org/~vklang/Gatherers.html
