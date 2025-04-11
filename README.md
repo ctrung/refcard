@@ -5,12 +5,14 @@ https://cheat.sh/
 
 ## Useful Linux programs
 
+- [Brave](https://brave.com/) : an alternative web browser with add free capabilities
 - [Calibre](https://calibre-ebook.com/) : ebooks reader
 - [eza](https://github.com/eza-community/eza) : ls with super powers
 - [Flameshot](https://flameshot.org/docs/installation/installation-linux/) : capture screenshots
 - [Jump](https://github.com/gsamokovarov/jump) : jump to folder
 - [MP3 Diags](https://mp3diags.sourceforge.net/) : mp3 editor
 - [Powerline](https://github.com/powerline/powerline) : gorgeous CLI
+- [Terminator](https://github.com/gnome-terminator/terminator) : an elegant splittable terminal
 
 ## Useful Windows programs
 
