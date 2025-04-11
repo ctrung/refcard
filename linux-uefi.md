@@ -1,5 +1,11 @@
 
+## UEFI
+
+Stands for **U**nified **E**xtensible **F**irmware **I**nterface
+
 https://uefi.org/specifications
+
+https://www.happyassassin.net/posts/2014/01/25/uefi-boot-how-does-that-actually-work-then/
 
 ## efibootmgr
 
