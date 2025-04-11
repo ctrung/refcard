@@ -41,5 +41,6 @@ UMA  : Uniform Memory Access
 UUID : Universally Unique Identifier
 UX   : User eXperience
 VP   : Vice President (eg. vice president of engineering)
+VDI : Virtual Desktop Infrastructure
 VSR  : Vérification de service régulier
 ```
