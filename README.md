@@ -3,7 +3,16 @@
 https://tldr.inbrowser.app/ \
 https://cheat.sh/
 
-## Useful programs
+## Useful Linux programs
+
+- [Calibre](https://calibre-ebook.com/) : ebooks reader
+- [eza](https://github.com/eza-community/eza) : ls with super powers
+- [Flameshot](https://flameshot.org/docs/installation/installation-linux/) : capture screenshots
+- [Jump](https://github.com/gsamokovarov/jump) : jump to folder
+- [MP3 Diags](https://mp3diags.sourceforge.net/) : mp3 editor
+- [Powerline](https://github.com/powerline/powerline) : gorgeous CLI
+
+## Useful Windows programs
 
 ### Clients SSH, RDP, etc...
 
