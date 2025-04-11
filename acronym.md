@@ -9,6 +9,8 @@ DX   : Developer eXperience
 ELT  : Extract, Load, Transform
 ETL  : Extract, Trasnform, Load,  see https://www.techtarget.com/searchdatamanagement/definition/Extract-Load-Transform-ELT 
 FPS  : Frames Per Second (frontend)
+GPT  : GUID Partition Table
+GUID : Globally Unique Identifier
 IAM  : Identity Access Management
 IAG  : Identity Access Governance
 IARD : Incendies, Accidents et Risques Divers (assurances)
@@ -34,7 +36,9 @@ SRE  : Site Reliability Engineering
 TLAB : Thread Local Allocation Buffer, https://www.baeldung.com/java-jvm-tlab
 TSO  : Total Store Ordering (processor architecture), see https://docs.oracle.com/cd/E26502_01/html/E29051/hwovr-15.html
 QOS  : Quality of Service
+UEFI : Unified Extensible Firmware Interface
 UMA  : Uniform Memory Access
+UUID : Universally Unique Identifier
 UX   : User eXperience
 VP   : Vice President (eg. vice president of engineering)
 VSR  : Vérification de service régulier
