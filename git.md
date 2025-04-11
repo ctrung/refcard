@@ -268,6 +268,11 @@ Set the GCM_CREDENTIAL_STORE environment variable or the credential.credentialSt
 
 See https://aka.ms/gcm/credstores for more information.
 ```
+**A word on .netrc file**
+
+As a last resort, one can use the .netrc file authentication method. Simple but not the most secured.
+
+See paragraph on bitbucket website : https://confluence.atlassian.com/bitbucketserver080/permanently-authenticating-with-git-repositories-1115142281.html
 
 ## Debugger Git
 ```sh
