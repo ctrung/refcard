@@ -549,4 +549,35 @@ sudo add-apt-repository ppa:git-core/ppa -y  # add Ubuntu Git Maintainers PPA �
 sudo apt update                              # refresh apt cache
 apt-cache policy git                         # check available versions
 sudo apt install git -y                      # install latest version
-``` 
+```
+
+## Worktree
+
+`git worktree` est une alternative à `git stash` ou `git commit WIP` ou `git clone` pour gérer plusieurs branches en cours. \
+Elle permet d'avoir plusieurs copies de travail au sein d'un même repo ! \
+Cette commande fait pleinement son office lorsque les changements de branches sont fréquents et/ou longs ou lorsque l'on veut laisser la copie de travail intacte.
+
+Introduit en 2015 dans git 2.5 : [man](https://git-scm.com/docs/git-worktree), [one Git repository with multiple working trees](https://github.blog/open-source/git/git-2-5-including-multiple-worktrees-and-triangular-workflows/)
+
+Exemple :
+- Un repo et une copie de travail locale dans le dossier my-repo 
+- Deux branches master et feature
+- En cours de travail sur feature
+- Un bug urgent à corriger sur master
+
+-> `git worktree` pour éviter de stasher ou commiter le WIP sur feature ou de cloner une deuxième copie de travail
+
+```sh
+# créer une branche hotfix à partir de la branche master, checkout dans le dossier ../hotfix 
+$ git worktree add -b hotfix ../hotfix origin/master
+$ cd ../hotfix
+
+# une fois hotfix mergée dans master, supprimer le dossier et le worktree
+$ cd ../my-repo
+$ git worktree remove hotfix
+$ rm -rf ../hotfix
+```
+
+`git worktree` protège des désynchronisations d'une branche en n'autorisant le checkout d'une branche que dans un worktree à la fois.
+
+Si besoin, il est possible de checkouter en detached HEAD : `git worktree add --detach ../tests HEAD`
