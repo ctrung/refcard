@@ -35,6 +35,55 @@ Realtek driver files Github : https://github.com/Realtek-OpenSource/android_hard
 chfn -f 'Jenkins CI' jenkins
 ```
 
+## Change locale
+
+
+```sh
+
+# First check the current locale active on the system
+
+$ env | grep LANG
+LANGUAGE=
+LANG=fr_FR.UTF-8
+
+# or better 
+$ locale
+LANG=fr_FR.UTF-8
+LC_CTYPE="fr_FR.UTF-8"
+LC_NUMERIC="fr_FR.UTF-8"
+LC_TIME="fr_FR.UTF-8"
+LC_COLLATE="fr_FR.UTF-8"
+LC_MONETARY="fr_FR.UTF-8"
+LC_MESSAGES="fr_FR.UTF-8"
+LC_PAPER="fr_FR.UTF-8"
+LC_NAME="fr_FR.UTF-8"
+LC_ADDRESS="fr_FR.UTF-8"
+LC_TELEPHONE="fr_FR.UTF-8"
+LC_MEASUREMENT="fr_FR.UTF-8"
+LC_IDENTIFICATION="fr_FR.UTF-8"
+LC_ALL=
+
+# Then change it
+
+$ export LANG=en_US.utf8
+
+$ locale
+LANG=en_US.utf8
+LC_CTYPE="en_US.utf8"
+LC_NUMERIC="en_US.utf8"
+LC_TIME="en_US.utf8"
+LC_COLLATE="en_US.utf8"
+LC_MONETARY="en_US.utf8"
+LC_MESSAGES="en_US.utf8"
+LC_PAPER="en_US.utf8"
+LC_NAME="en_US.utf8"
+LC_ADDRESS="en_US.utf8"
+LC_TELEPHONE="en_US.utf8"
+LC_MEASUREMENT="en_US.utf8"
+LC_IDENTIFICATION="en_US.utf8"
+LC_ALL=
+```
+
 ## Count total number of threads
 
 https://stackoverflow.com/questions/268680/how-can-i-monitor-the-thread-count-of-a-process-on-linux
