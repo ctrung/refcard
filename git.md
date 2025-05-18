@@ -79,7 +79,42 @@ fi
 
 https://git-scm.com/book/en/v2/Git-Internals-Git-References
 
-## Remote
+## Revisions
+
+[gitrevisions man page](https://git-scm.com/docs/gitrevisions)
+
+```sh
+# Taken from https://stackoverflow.com/a/18605496
+
+----------------------------------------------------------------------
+|    Commit-ish/Tree-ish    |                Examples
+----------------------------------------------------------------------
+|  1. <sha1>                | dae86e1950b1277e545cee180551750029cfe735
+|  2. <describeOutput>      | v1.7.4.2-679-g3bee7fb
+|  3. <refname>             | master, heads/master, refs/heads/master
+|  4. <refname>@{<date>}    | master@{yesterday}, HEAD@{5 minutes ago}
+|  5. <refname>@{<n>}       | master@{1}
+|  6. @{<n>}                | @{1}
+|  7. @{-<n>}               | @{-1}
+|  8. <refname>@{upstream}  | master@{upstream}, @{u}
+|  9. <rev>^                | HEAD^, v1.5.1^0
+| 10. <rev>~<n>             | master~3
+| 11. <rev>^{<type>}        | v0.99.8^{commit}
+| 12. <rev>^{}              | v0.99.8^{}
+| 13. <rev>^{/<text>}       | HEAD^{/fix nasty bug}
+| 14. :/<text>              | :/fix nasty bug
+----------------------------------------------------------------------
+|       Tree-ish only       |                Examples
+----------------------------------------------------------------------
+| 15. <rev>:<path>          | HEAD:README, :README, master:./README
+----------------------------------------------------------------------
+|         Tree-ish?         |                Examples
+----------------------------------------------------------------------
+| 16. :<n>:<path>           | :0:README, :README
+----------------------------------------------------------------------
+```
+
+## Remote and refspecs
 
 ``` sh
 # Check remotes
@@ -98,7 +133,8 @@ git checkout <branch>; git fetch; git reset --hard <origin>/<branch> # update br
 ```
 
 Branches and remotes \
-Great explanation with lot of commands : https://stackoverflow.com/questions/16408300/what-are-the-differences-between-local-branch-local-tracking-branch-remote-bra
+Great explanation with lot of commands : https://stackoverflow.com/questions/16408300/what-are-the-differences-between-local-branch-local-tracking-branch-remote-bra \
+[The Refspec paragraph in Git book v2](https://git-scm.com/book/en/v2/Git-Internals-The-Refspec)
 
 Vocabulary for local branches :
 * Local non-tracking branch
