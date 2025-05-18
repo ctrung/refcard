@@ -1,6 +1,27 @@
 ## A voir
 
-[So You Think You Know Git - FOSDEM 2024](https://www.youtube.com/watch?v=aolI_Rz0ZqY)
+[So You Think You Know Git (Scott Chacon) - FOSDEM 2024](https://www.youtube.com/watch?v=aolI_Rz0ZqY)
+
+## Personnaliser le prompt du terminal
+[Liquidprompt](https://github.com/liquidprompt/liquidprompt)
+
+Installation en local
+
+1. Récupérer le source
+```sh
+cd ~/opt
+$ git clone --branch stable https://github.com/liquidprompt/liquidprompt.git
+```
+
+2. Activer dans .bashrc
+```
+# Only load Liquid Prompt in interactive shells, not from a script or from scp
+if [[ $- = *i* ]]; then
+  source ~/opt/liquidprompt/liquidprompt
+  source ~/opt/liquidprompt/themes/powerline/powerline.theme
+  lp_theme powerline
+fi
+```
 
 ## Aliases
 
