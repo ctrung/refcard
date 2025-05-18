@@ -75,6 +75,21 @@ fi
 
 ```
 
+## Reset
+
+https://git-scm.com/docs/git-reset
+
+- soft
+- mixed (default)
+- hard
+
+![image](https://github.com/user-attachments/assets/dbb56685-3675-4d65-82e6-7050e0c085db)
+
+2 autres spéciaux
+- merge
+- keep
+
+
 ## Refs
 
 https://git-scm.com/book/en/v2/Git-Internals-Git-References
