@@ -326,7 +326,7 @@ Global settings : core.autocrlf in .gitconfig file
 - false : no conversion (default)
 
 NB : les dernières versions de git ont introduit `core.eol` et `core.safecrlf`. \
-[Ancienne doc > paragraphe core.autocrlf](https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration)
+[Ancienne doc > paragraphe core.autocrlf](https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration) \
 [Doc à jour > paragraphe core.autocrlf](https://git-scm.com/docs/git-config#Documentation/git-config.txt-coreautocrlf)
 
 ```sh
