@@ -316,9 +316,33 @@ git config <--gloabl> http.sslVerify false
 
 ## Line endings (LF, CRLF)
 
-Great post explaining everything : [CRLF vs. LF: Normalizing Line Endings in Git](https://www.aleksandrhovhannisyan.com/blog/crlf-vs-lf-normalizing-line-endings-in-git/#:~:text=Whereas%20Windows%20follows%20the%20original,the%20era%20of%20the%20typewriter.)
+Github doc : [Configuration de Git pour traiter les fins de ligne](https://docs.github.com/fr/get-started/git-basics/configuring-git-to-handle-line-endings) \
+Great post : [CRLF vs. LF: Normalizing Line Endings in Git](https://www.aleksandrhovhannisyan.com/blog/crlf-vs-lf-normalizing-line-endings-in-git/#:~:text=Whereas%20Windows%20follows%20the%20original,the%20era%20of%20the%20typewriter.)
 
-TL;DR :
+
+Global settings : core.autocrlf in .gitconfig file
+- true : CRLF (working copy) <-> LF (index) conversion for windows users
+- input : CRLF (working copy) <-> LF (index) conversion for linux users
+- false : no conversion (default)
+
+NB : les dernières versions de git ont introduit `core.eol` et `core.safecrlf`. \
+[Ancienne doc > paragraphe core.autocrlf](https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration)
+[Doc à jour > paragraphe core.autocrlf](https://git-scm.com/docs/git-config#Documentation/git-config.txt-coreautocrlf)
+
+```sh
+# For projects both OS (windows and linux/mac)
+# This config is for windows developers only
+git config --global core.autocrlf true
+# This config is for linux/mac developers only
+git config --global core.autocrlf input
+
+# For projects only on windows
+git config --global core.autocrlf false
+```
+
+Repo settings : [.gitattributes file](https://git-scm.com/docs/gitattributes)
+
+Comparison
 ```
 Git config	        .gitattributes	        Index/Repo	Working Tree
 core.autocrlf=true	* text=auto eol=crlf	LF	        CRLF
