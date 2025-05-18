@@ -320,14 +320,17 @@ Github doc : [Configuration de Git pour traiter les fins de ligne](https://docs.
 Great post : [CRLF vs. LF: Normalizing Line Endings in Git](https://www.aleksandrhovhannisyan.com/blog/crlf-vs-lf-normalizing-line-endings-in-git/#:~:text=Whereas%20Windows%20follows%20the%20original,the%20era%20of%20the%20typewriter.)
 
 
-Global settings : core.autocrlf in .gitconfig file
-- true : CRLF (working copy) <-> LF (index) conversion for windows users
-- input : CRLF (working copy) <-> LF (index) conversion for linux users
-- false : no conversion (default)
+### Global config
 
-NB : les dernières versions de git ont introduit `core.eol` et `core.safecrlf`. \
+Les dernières versions de git ont introduit `core.eol` et `core.safecrlf`. \
+La description de `core.autocrlf` a aussi évolué au fil du temps : \
 [Ancienne doc > paragraphe core.autocrlf](https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration) \
 [Doc à jour > paragraphe core.autocrlf](https://git-scm.com/docs/git-config#Documentation/git-config.txt-coreautocrlf)
+
+#### core.autocrlf
+- true  : CRLF (working copy) <-> LF (index) conversion for windows users
+- input : CRLF (working copy) <-> LF (index) conversion for linux users
+- false : no conversion (default)
 
 ```sh
 # For projects both OS (windows and linux/mac)
@@ -340,7 +343,23 @@ git config --global core.autocrlf input
 git config --global core.autocrlf false
 ```
 
-Repo settings : [.gitattributes file](https://git-scm.com/docs/gitattributes)
+#### core.eol
+Default end of line of text files in the working directory (see .gitattributes file). Not compatible with `autocrlf=true` or `autocrlf=input`.
+- lf
+- crlf
+- native
+
+#### core.safecrlf
+
+- true
+- warn (défaut)
+
+Avertit (ou bloque) quand les sauts de lignes au sein de la copie de travail sont modifiés par Git. Voir `core.autocrlf` ou fichier `.gitattributes` pour les configurations possibles. \
+Utile pour détecter la corruption des fichiers binaires.
+
+### Repo config
+
+[.gitattributes file](https://git-scm.com/docs/gitattributes) that lives in the repo and standardize text files EOL.
 
 Comparison
 ```
