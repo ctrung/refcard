@@ -30,37 +30,9 @@ https://cheat.sh/
 - [Notepad++](https://notepad-plus-plus.org/)
   - Installer la coloration syntaxique pour markdown manuellement : https://github.com/Edditoria/markdown-plus-plus?tab=readme-ov-file#download-manually
 
-## Frameworks/librairies
+## Useful java librairies
 
-- Angular
-- Ansible 📓
 - Circuitbreaker
   - [Hystrix](https://github.com/Netflix/Hystrix) (eol)
   - [Resilience4j](https://github.com/resilience4j/resilience4j)
-- Elastic Search Kibana
-- Graphana
-- Helm charts
-- Java langage
-  * Gatherers :white_check_mark: 
-  * Generics :white_check_mark:
-  * Fork/Join API
-  * Modules (JPMS) :white_check_mark:
-  * Sequenced collections :white_check_mark:
-  * Stream API :white_check_mark:
-  * Value types
-  * Virtual threads :white_check_mark:
-- Java performance
-  * JDK Flight Recorder / JDK Mission Control
-  * Java Visual VM
-- Kotlin
-- Kubernetes
-- Python
-- React JS
-- Spring
-  * Batch :white_check_mark:
-  * CLI
-  * Cloud config
-  * Retry :white_check_mark:
-- Terraform
-- Typescript
-- Vue JS
+- [HtmlUnit](https://github.com/HtmlUnit/htmlunit)
