@@ -259,3 +259,13 @@ https://docs.spring.io/spring-boot/reference/testing/test-utilities.html#testing
 class ServiceTest {
   ...
 }
+
+# Capture output
+
+```java
+@ExtendWith(OutputCaptureExtension.class)
+
+@Autowired
+CapturedOutput captured;
+assertThat(captured.getOut().lines().toList().getLast()).isEqualTo("ABC");
+```
