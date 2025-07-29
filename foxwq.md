@@ -1,3 +1,5 @@
+## Install foxwq on Linux
+
 1. Install wine, winetricks
 2. Download install.exe at https://www.foxwq.com/soft.html
 3. Run `wine install.exe` to install
