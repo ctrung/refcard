@@ -12,7 +12,6 @@ https://cheat.sh/
 - [Jump](https://github.com/gsamokovarov/jump) : jump to folder
 - [Liquidprompt](https://github.com/liquidprompt/liquidprompt) : personnalisation du prompt (eg. git)
 - [MP3 Diags](https://mp3diags.sourceforge.net/) : mp3 editor
-- [Powerline](https://github.com/powerline/powerline) : gorgeous CLI
 - [Terminator](https://github.com/gnome-terminator/terminator) : an elegant splittable terminal
 
 ## Useful Windows programs
