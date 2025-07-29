@@ -35,7 +35,32 @@ Realtek driver files Github : https://github.com/Realtek-OpenSource/android_hard
 chfn -f 'Jenkins CI' jenkins
 ```
 
-## Change locale
+## Count total number of threads
+
+https://stackoverflow.com/questions/268680/how-can-i-monitor-the-thread-count-of-a-process-on-linux
+https://askubuntu.com/questions/88972/how-to-get-from-terminal-total-number-of-threads-per-process-and-total-for-al
+
+```sh
+# For a process
+ps -o nlwp <pid>    # nlwp = Number of Light Weight Processes
+ps -o thcount <pid> # thcount is an alias for nlwp
+ls /proc/<PID>/task | wc -l
+grep Threads /proc/<PID>/status
+
+# Watch it live
+watch ps -o thcount <pid>
+
+# For the whole system
+ps -eLf | wc -l     # -e = all process, -L = show threads, -f = full format
+```
+
+## Check noexec mounts
+
+```sh
+$ findmnt -l | grep noexec
+```
+
+## Locale
 
 
 ```sh
@@ -63,6 +88,41 @@ LC_MEASUREMENT="fr_FR.UTF-8"
 LC_IDENTIFICATION="fr_FR.UTF-8"
 LC_ALL=
 
+# List all available locales installed
+$ locale -a
+C
+C.utf8
+en_AG
+en_AG.utf8
+en_AU.utf8
+en_BW.utf8
+en_CA.utf8
+en_DK.utf8
+en_GB.utf8
+en_HK.utf8
+en_IE.utf8
+en_IL
+en_IL.utf8
+en_IN
+en_IN.utf8
+en_NG
+en_NG.utf8
+en_NZ.utf8
+en_PH.utf8
+en_SG.utf8
+en_US.utf8
+en_ZA.utf8
+en_ZM
+en_ZM.utf8
+en_ZW.utf8
+fr_BE.utf8
+fr_CA.utf8
+fr_CH.utf8
+fr_FR.utf8
+fr_LU.utf8
+POSIX
+zh_CN.utf8
+
 # Then change it
 
 $ export LANG=en_US.utf8
@@ -82,31 +142,6 @@ LC_TELEPHONE="en_US.utf8"
 LC_MEASUREMENT="en_US.utf8"
 LC_IDENTIFICATION="en_US.utf8"
 LC_ALL=
-```
-
-## Count total number of threads
-
-https://stackoverflow.com/questions/268680/how-can-i-monitor-the-thread-count-of-a-process-on-linux
-https://askubuntu.com/questions/88972/how-to-get-from-terminal-total-number-of-threads-per-process-and-total-for-al
-
-```sh
-# For a process
-ps -o nlwp <pid>    # nlwp = Number of Light Weight Processes
-ps -o thcount <pid> # thcount is an alias for nlwp
-ls /proc/<PID>/task | wc -l
-grep Threads /proc/<PID>/status
-
-# Watch it live
-watch ps -o thcount <pid>
-
-# For the whole system
-ps -eLf | wc -l     # -e = all process, -L = show threads, -f = full format
-```
-
-## Check noexec mounts
-
-```sh
-$ findmnt -l | grep noexec
 ```
 
 ## Redirect DISPLAY
