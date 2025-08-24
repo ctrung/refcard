@@ -1,7 +1,8 @@
 ## Linux commands
 
 https://tldr.inbrowser.app/ \
-https://cheat.sh/
+https://cheat.sh/ \
+https://github.com/dylanaraps/pure-bash-bible
 
 ## Useful Linux programs
 
@@ -12,6 +13,7 @@ https://cheat.sh/
 - [Jump](https://github.com/gsamokovarov/jump) : jump to folder
 - [Liquidprompt](https://github.com/liquidprompt/liquidprompt) : personnalisation du prompt (eg. git)
 - [MP3 Diags](https://mp3diags.sourceforge.net/) : mp3 editor
+- [Neofetch](https://github.com/dylanaraps/neofetch) : affiche les infos système (entièrement écrit en bash)
 - [Terminator](https://github.com/gnome-terminator/terminator) : an elegant splittable terminal
 
 ## Useful Windows programs
