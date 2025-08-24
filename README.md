@@ -33,6 +33,8 @@ https://github.com/dylanaraps/pure-bash-bible
 
 ## Useful java librairies
 
+- Assertions
+  - [AssertJ-DB](https://assertj.github.io/doc/#assertj-db)
 - Circuitbreaker
   - [Hystrix](https://github.com/Netflix/Hystrix) (eol)
   - [Resilience4j](https://github.com/resilience4j/resilience4j)
