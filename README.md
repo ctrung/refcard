@@ -33,8 +33,10 @@ https://github.com/dylanaraps/pure-bash-bible
 
 ## Useful java librairies
 
-- Assertions
-  - [AssertJ-DB](https://assertj.github.io/doc/#assertj-db)
+- Test DB
+  - [AssertJ-DB](https://assertj.github.io/doc/#assertj-db) : Fluent API ([présentation devoxx france 2025](https://youtu.be/XILu4r3rIEc?si=qJ0f-IhyEPUMnXEY)) 
+  - [DB SetUp](https://github.com/Ninja-Squad/DbSetup) : Setup, fluent API (plus maintenu depuis quelques années)
+  - [DB Unit](https://www.dbunit.org/) : Setup, XML
 - Circuitbreaker
   - [Hystrix](https://github.com/Netflix/Hystrix) (eol)
   - [Resilience4j](https://github.com/resilience4j/resilience4j)
