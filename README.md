@@ -16,6 +16,10 @@ https://github.com/dylanaraps/pure-bash-bible
 - [Neofetch](https://github.com/dylanaraps/neofetch) : affiche les infos système (entièrement écrit en bash)
 - [Terminator](https://github.com/gnome-terminator/terminator) : an elegant splittable terminal
 
+Try list :
+- [Helix editor](https://helix-editor.com/) : modern alternative to vim
+- [Jujutsu](https://jj-vcs.github.io/) : also known as jj, vcs that supports multiple backends like git
+
 ## Useful Windows programs
 
 - [mRemoteNG](https://github.com/mRemoteNG/mRemoteNG) : a multi-protocol client (ssh, remote desktop, ftp, etc.)
