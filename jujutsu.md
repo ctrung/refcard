@@ -2,11 +2,13 @@
 
 [Jujutsu docs website](https://jj-vcs.github.io/jj/latest/)
 
+[Jujutsu - A Git-compatible VCS - Martin von Zweigbergk | GitMerge 2024](https://www.youtube.com/watch?v=LV0JzI8IcCY)
+
 [Jujutsu (jj) - quand Google réinvente Git en mode ninja](https://korben.info/jj-jujutsu-version-control-alternative.html)
 
-# Commands
+[Jujutsu (jj) Tutorial - Git-compatible VCS](https://www.youtube.com/watch?v=MR6KSB6I_60) 
 
-From : [Jujutsu (jj) Tutorial - Git-compatible VCS](https://www.youtube.com/watch?v=MR6KSB6I_60) by Matthew Sanabria
+# Commands
 
 jj config file at : `~/.config/jj/config.toml`
 
@@ -30,15 +32,17 @@ jj diff --from main
 jj diff --from readme@sudomateo           # readme = bookmark, sudomateo = remote
 jj diff --to   main
 
-jj commit
+jj commit                                 # describe + new
 jj split                                  # commit a subset 
 
 jj undo                                   # undo previous op
-jj operation                              # show op
+
+jj op log --color=always                  # op logs
+jj op                                     # show last op 
 
 jj git tag                                # list tags 
 
-jj new bar                                # creates a branch from
+jj new bar                                # creates a new commit on top of head
 
 jj rebase -b foo -d bar
 jj edit                                   # conflict resolution
