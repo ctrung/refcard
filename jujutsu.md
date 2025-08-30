@@ -1,4 +1,10 @@
-# Tutorial
+# Links
+
+[Jujutsu docs website](https://jj-vcs.github.io/jj/latest/)
+
+[Jujutsu (jj) - quand Google réinvente Git en mode ninja](https://korben.info/jj-jujutsu-version-control-alternative.html)
+
+# Commands
 
 From : [Jujutsu (jj) Tutorial - Git-compatible VCS](https://www.youtube.com/watch?v=MR6KSB6I_60) by Matthew Sanabria
 
