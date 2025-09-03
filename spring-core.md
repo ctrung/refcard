@@ -133,3 +133,68 @@ ObjectProvider in Spring Framework 6.2
 
 ## Flexible Bean Definitions : from @Bean to BeanRegistrar
 [Dependency Injection Revisited by Juergen Hoeller @ Spring I/O 2025 @ 34m40s](https://youtu.be/AvZEoxH_wGo?t=2080)
+
+```java
+// DataSource in Configuration Class
+@Bean
+public DataSource dataSource() {
+  return new BasicDataSource(...);
+}
+
+
+// DataSource with Lazy Initialization
+@Bean @Lazy
+public DataSource dataSource() {
+  return new BasicDataSource(...);
+}
+
+
+// DataSource as Primary
+@Bean @Lazy @Primary
+public DataSource dataSource() {
+  return new BasicDataSource(...);
+}
+
+
+// DataSource with Qualifier Annotation
+@Bean @Lazy @MyQualifier
+public DataSource dataSource() {
+  return new BasicDataSource(...);
+}
+
+
+// DataSource with Qualifier Name
+@Bean @Lazy @Qualifier("myDataSource")
+public DataSource dataSource() {
+  return new BasicDataSource(...);
+}
+
+
+// DataSource with Qualified Bean Name
+@Bean @Lazy
+public DataSource myDataSource() {
+  return new BasicDataSource(...);
+}
+
+
+// Importing a Configuration Class
+@Configuration
+@Import(MyDatabaseConfig.class)
+public class MyRepositoryConfig {
+  ...
+}
+
+
+// Defining the DataSource in a BeanRegistrar
+public class MyDatabaseRegistrar implements BeanRegistrar {
+  @Override
+  public void register(BeanRegistry registry, Environment env) {
+    registry.registerBean("dataSource", DataSource.class,
+	  spec -> spec.lazyInit().primary().supplier(
+	    context -> new BasicDataSource(...)));
+  }
+}
+
+
+
+```
