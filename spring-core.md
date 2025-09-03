@@ -196,5 +196,38 @@ public class MyDatabaseRegistrar implements BeanRegistrar {
 }
 
 
+// Registering Multiple Beans in a BeanRegistrar
+public class MyDatabaseRegistrar implements BeanRegistrar {
+  @Override
+  public void register(BeanRegistry registry, Environment env) {
+    registry.registerBean("dataSource", DataSource.class,
+	  spec -> spec.lazyInit().primary().supplier(
+	    context -> new BasicDataSource(...)));
+    if (statisticsAvailable) {
+      registry.registerBean("dbStatistics", DbStatistics.class,
+        spec -> spec.lazyInit().supplier(
+	      context -> new DbStatistics(context.bean(DataSource.class))));
+    }
+  }
+}
 
+
+// Importing a BeanRegistrar
+@Configuration
+@Import(MyDatabaseRegistrar.class)
+public class MyRepositoryConfig {
+  ...
+}
 ```
+
+BeanRegistrar in Spring Framework 7.0
+* Importable unit of programmatic configuration
+* Structural flexibility : if conditions, for loops, etc...
+* AOT-friendly, tooling fridendly, building block for DSLs
+* Also via GenericApplicationContext.register(BeanRegistrar...)
+
+Configuration Classes vs. BeanRegistrar
+* BeanRegistrar is a DSL-style alternative to configuration classes
+* BeanRegistrar is primarly meant for reusable common beans
+* @Bean methods can declare custom qualifier annotations etc.
+* Most user configuration to be written as configuration classes
