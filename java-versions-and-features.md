@@ -330,3 +330,31 @@ Pour créer son propre gatherer :
 - Utiliser `Gatherer.ofSequential(...)` (adhoc)
 
 Autres lectures : https://cr.openjdk.org/~vklang/Gatherers.html
+
+## Java 25
+
+[Oracle Press Releases Java 25](https://www.oracle.com/news/announcement/oracle-releases-java-25-2025-09-16/)
+
+[Soirée Paris JUG 9 sept 2025](https://www.parisjug.org/events/2025/09-16-java-25/) 
+
+### Scoped Values - [JEP 506](https://openjdk.org/jeps/506)
+
+Alternative performante de ThreadLocal dans le cas classique d'un scénario où on cherche à récupérer la valeur issue d'une frame parente dans la pile d'exécution.
+
+### Stable Values - [JEP 502](https://openjdk.org/jeps/502) (Preview)
+
+API pour le [DCL](https://en.wikipedia.org/wiki/Double-checked_locking) qui est dur à implémenter correctement. Usage principal : économiser le coût du synchronized dans 99% des cas quand on veut implémenter du loazy loding ou le pattern singleton.
+
+### Virtual Threads
+
+Réécriture du synchronized en java 24 pour éviter d'épingler un thread virtuel.
+
+### Compact Object Headers - [JEP 519](https://openjdk.org/jeps/519)
+
+Fait parti du projet Lilliput v1
+
+Diminuer le header des objets de 96 à 64 octets. Option expérimentale qui fonctionne déjà car en place par défaut chez Amazon.
+
+### Primitive Types in Patterns, instanceof, and switch - [JEP 507](https://openjdk.org/jeps/507) (Third Preview)
+
+### Flexible Constructor Bodies - [JEP 513](https://openjdk.org/jeps/513)
