@@ -245,3 +245,16 @@ Depuis la 2.4, la propriété `spring.profiles` est dépréciée au profit de `s
 Plusieurs variantes : 
 - `spring.config.activate.on-profile=prod | test`
 - `spring.config.activate.on-cloud-platform=kubernetes`  (en combinaison avec `spring.main.cloud-platform`)
+
+# Spring Batch
+
+## Version 6
+
+[Coffe + Software with Spring Batch lead Mahmoud Ben Hassine - Sept 19th 2025](https://www.youtube.com/live/JOiGP7y60eA?si=nBbf2JUBAgHpY1nI)
+
+- retry lib moving to Spring core : legacy retry from Spring Batch still present for back compatibility and will be maintained this generation before removal  
+- by default state management will be opt in
+- api is nullability compliant with jspecify
+- redis repository coming in 6.1
+- new concurrency model to minimize locking => performance gain
+- metrics support with JFR
