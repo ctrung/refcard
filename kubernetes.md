@@ -22,15 +22,24 @@ Some Google figures :
 
 Kubernetes first version was released in july 2015 and it became an Open source project operated by the Cloud Native Computing Foundation (CNCF) in march 2016. 
 
-## Products
+## Commercial offerings
 
-Ecosystem around Kubernetes. 
+There's a big ecosystem around Kubernetes, open source or commercial. 
 
-Commercial offerings :
+Enterprise-quality Kubernetes products :
 - OpenShift (Redhat)
 - Pivotal Container Service (Pivotal, Broadcom now)
 - Rancher
 - etc.
+
+Commercial offerings in the cloud :
+- Google Kubernetes Engine (GKE)
+- Azure Kubernetes Service (AKS)
+- Amazon Elastic Kubernetes Service (EKS)
+- IBM Cloud Kubernetes Service
+- Red Hat OpenShift Online and Dedicated
+- VMware Cloud PKS
+- Alibaba Cloud Container Service for Kubernetes (ACK)
 
 
 ## Popularity
@@ -85,5 +94,7 @@ Everything in Kube is an object. Different types :
 Objects are described in one or many manifest files in YAML or JSON.
 
 <img width="649" height="507" alt="image" src="https://github.com/user-attachments/assets/c2a3bdb4-4eee-4507-af8f-bdca2bd74633" />
+
+Manifest files are submitted through **kubectl**, a CLI called kube-control, or kube-cuddle, or kube-C-T-L.
 
 
