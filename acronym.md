@@ -4,6 +4,7 @@ https://www.techtarget.com/whatis/
 ```
 ADR  : Archiecture Decision Record (http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions)
 CIL  : Common Intermediate Language (IL for C#), formerly called Microsoft Intermediate Language (MSIL)
+CNCF : Cloud Native Computing Foundation (is part of the Linux Foundation)
 DM   : Direct Message (eg. sur Slack)
 DX   : Developer eXperience
 ELT  : Extract, Load, Transform
