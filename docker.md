@@ -3,36 +3,27 @@
 Containers isolation comes from the following kernel features 
 
 1. Linux namespaces to control resources access
-   
-* Mount namespace (mnt) for file systems
-* Process ID namespace (pid)
-* Network namespace
-* Inter-process communication namespace
-* Unix Time-sharing System (UTS) namespace for hostname and Network Information Service (NIS) domain name
-* User ID namespace
-* Time namespace for system clock
-* Cgroup namespace
+   * Mount namespace (mnt) for file systems
+   * Process ID namespace (pid)
+   * Network namespace
+   * Inter-process communication namespace
+   * Unix Time-sharing System (UTS) namespace for hostname and Network Information Service (NIS) domain name
+   * User ID namespace
+   * Time namespace for system clock
+   * Cgroup namespace
 
 2. Linux Control Groups to limit resources consumption 
+   * CPU
+   * Memory
+   * Disk
+   * Network bandwidth
 
-* CPU
-* Memory
-* Disk
-* Network bandwidth
+3. Capabilities to limit privileges. Examples : 
+   * CAP_NET_ADMIN
+   * CAP_NET_BIND_SERVICE
+   * CAP_SYS_TIME
 
-3. Capabilities to limit privileges
-
-Examples 
-
-* CAP_NET_ADMIN
-* CAP_NET_BIND_SERVICE
-* CAP_SYS_TIME
-
-Docker supports the `--privileged` option at container creation. 
-
-For finer control, providing a seccomp profile is possible too.
-
-Containers can also be secured with two additional mandatory access control (MAC) mechanisms: 
+Along 3. to harden security, docker supports the `--privileged` option at container creation. For finer control, providing a seccomp profile is possible too. Containers can also be secured with two additional mandatory access control (MAC) mechanisms : 
 * SELinux (Security-Enhanced Linux)
 * AppArmor (Application Armor).
 
