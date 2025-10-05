@@ -2,7 +2,7 @@
 
 See env var `DOCKER_HOST` if Docker daemon is remote.
 
-```
+```sh
 docker CMD --help
 
 docker build -t kiada:latest .   # -t to set name and tag
@@ -28,7 +28,7 @@ permission denied while trying to connect to the Docker daemon socket at unix://
 Solution 1 : run with `docker` CLI with sudo.
 
 Solution 2 : add yourself to the docker group
-```
+```sh
 sudo groupadd docker            # if group does not exist yet
 sudo usermod -aG docker $USER
 newgrp docker
