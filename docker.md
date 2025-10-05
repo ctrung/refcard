@@ -1,3 +1,41 @@
+## Commands
+
+See env var `DOCKER_HOST` if Docker daemon is remote.
+
+```
+docker CMD --help
+
+docker build -t kiada:latest .   # -t to set name and tag
+docker history kiada:latest      # display layers of an image
+
+docker run CONTAINER_NAME -p HOST_PORT:CONTAINER_PORT -d IMAGE    # -p port, -d detached
+
+docker ps
+docker inspect CONTAINER_NAME    # container info (JSON)
+docker logs CONTAINER_NAME       # show stdout and stderr outputs
+
+```
+
+## Installation
+
+### Permission denied while trying to connect to the Docker daemon socket
+
+When running `docker` CLI, the error like this appears :
+```
+permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock
+```
+
+Solution 1 : run with `docker` CLI with sudo.
+
+Solution 2 : add yourself to the docker group
+```
+sudo groupadd docker            # if group does not exist yet
+sudo usermod -aG docker $USER
+newgrp docker
+```
+
+Reference : https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user
+
 ## Containers 
 
 ### Export a container's FS to a tarball
