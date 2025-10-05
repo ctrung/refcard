@@ -1,3 +1,42 @@
+## Concepts
+
+Containers isolation comes from the following kernel features 
+
+1. Linux namespaces to control resources access
+   
+* Mount namespace (mnt) for file systems
+* Process ID namespace (pid)
+* Network namespace
+* Inter-process communication namespace
+* Unix Time-sharing System (UTS) namespace for hostname and Network Information Service (NIS) domain name
+* User ID namespace
+* Time namespace for system clock
+* Cgroup namespace
+
+2. Linux Control Groups to limit resources consumption 
+
+* CPU
+* Memory
+* Disk
+* Network bandwidth
+
+3. Capabilities to limit privileges
+
+Examples 
+
+* CAP_NET_ADMIN
+* CAP_NET_BIND_SERVICE
+* CAP_SYS_TIME
+
+Docker supports the `--privileged` option at container creation. 
+
+For finer control, providing a seccomp profile is possible too.
+
+Containers can also be secured with two additional mandatory access control (MAC) mechanisms: 
+* SELinux (Security-Enhanced Linux)
+* AppArmor (Application Armor).
+
+
 ## Commands
 
 See env var `DOCKER_HOST` if Docker daemon is remote.
@@ -7,13 +46,25 @@ docker CMD --help
 
 docker build -t kiada:latest .   # -t to set name and tag
 docker history kiada:latest      # display layers of an image
+docker tag IMAGE ID/NAME:TAG     # create a tag referencing an existing image
 
-docker run CONTAINER_NAME -p HOST_PORT:CONTAINER_PORT -d IMAGE    # -p port, -d detached
+docker login -u ID docker.io
+docker push ID/NAME:TAG
+
+docker run CONTAINER -p HOST_PORT:CONTAINER_PORT -d IMAGE    # -p port, -d detached
+docker run --cpuset-cpus="1,2" ...                           # define CPU cores, other CPU time options : --cpus, --cpu-period, --cpu-quota and --cpu-shares 
+docker run --memory="100m" ...                               # other memory options : --memory-reservation, --kernel-memory, --memory-swap, and --memory-swappiness
 
 docker ps
-docker inspect CONTAINER_NAME    # container info (JSON)
-docker logs CONTAINER_NAME       # show stdout and stderr outputs
+docker inspect CONTAINER         # container info (JSON)
+docker logs CONTAINER            # show stdout and stderr outputs
+docker exec -it CONTAINER bash   # run a shell in the container, -i interactive and -t tty options are both required
 
+docker stop CONTAINER
+
+docker rm CONTAINER
+docker rmi IMAGE
+docker image prune               # remove all unused images 
 ```
 
 ## Installation
