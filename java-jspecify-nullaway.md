@@ -20,6 +20,14 @@ Ajouter la dépendance `org.jspecify:jspecify:1.0.0` pour bénéficier des annot
 |`@NullMarked`|Se positionne dans un package pour indiquer que les objets sont `@NonNull` par défaut et dans le cas contraire sont explicitement annotés avec `@Nullable`. C'est l'inverse du comportement par défaut en java|
 |`@NullUnmarked`|Equivalent au comportement classique en java| 
 
+Créer un `package-info.java` avec `@NullMarked` pour être `@NonNull` par défaut :
+```java
+@NullMarked
+package org.example
+
+import org.jspecify.annotations.NullMarked;
+```
+
 JSpecify supporte aussi les classes du JDK et est en cours d'adoption dans Spring 7.
 
 JSpecify n'est utile qu'en dev avec un IDE. Il permet de détecter/bloquer lors du build s'il est complété d'un plugin **ErrorProne** comme **NullAway**.
