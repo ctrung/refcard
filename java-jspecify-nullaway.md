@@ -168,11 +168,16 @@ https://github.com/uber/NullAway/wiki/JSpecify-Support#supported-jdk-versions \
 https://errorprone.info/docs/flags \
 https://errorprone.info/docs/installation#maven
 
-## Tips
+## Résolution des NPE
 
-Si une API retourne une valeur `@Nullable` mais que le cas d'utilisation ne renvoit jamais `null`, on peut utiliser `Objects.requireNonNull()`.
+JSpecify indique une erreur si un test de nullité a été oublié pour une valeur `@Nullable`. 
 
-Exemple avec Spring `RestClient` :
+Outre l'écriture d'un `if (object != null)`, on peut aussi : 
+
+1/ Utilser `Objects.requireNonNull` du JDK
+
+Exemple :
+
 ```java
 RestClient client = RestClient.builder()
                .baseUrl("https://example.org")
@@ -180,6 +185,8 @@ RestClient client = RestClient.builder()
 String body = client.get().uri("/never-empty").retrieve().body(String.class);
 System.out.println(Objects.requireNonNull(body).length);
 ```
+
+2/ Utiliser une méthode avec une annotation similaire à `@Contract` de Jetbrains, exemple avec `org.springframework.util.Assert` :
 
 Spring fournit aussi la classe `org.springframework.util.Assert` également reconnue par IntellijIDEA du fait de l'annotation `@Contract` : 
 ```java
@@ -192,6 +199,25 @@ public abstract class Assert {
   }
 }
 ```
+
+3/ Déclarer un faux positif
+
+`@SuppressWarnings("NullAway")` sur une classe ou une méthode. \
+`@SuppressWarnings("NullAway.Init")` sur une initialisation de champ oubliée.
+
+```
+public class PlayerRegistrar implements ApplicationEventPublisherAware {
+
+  @SuppressWarnings("NullAway.Init")
+  private ApplicationEventPublisher eventPublisher;
+
+  ...
+
+}
+```
+
+Doc : https://github.com/uber/NullAway/wiki/Suppressing-Warnings
+
 
 ## Références
 
