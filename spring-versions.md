@@ -1,4 +1,66 @@
-# Spring Core
+# Spring
+
+## Spring 7
+
+[Spring 7 - Release notes](https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-7.0-Release-Notes)
+
+[Blog - Road to GA (série d'articles sur les nouveautés)](https://spring.io/blog/2025/09/02/road_to_ga_introduction) 
+
+### @Retryable
+
+spring-retry est en fin de vie et certaines fonctionnalités sont incluse dans Spring core 7.
+
+Sur la méthode
+```java
+@Retryable(delayString = "300ms", multiplier = 1.5, jitterString = "200ms")
+PlayerStats getPlayerStats(String playerId) {
+  ...
+}
+```
+
+Activation dans la config
+```
+@EnableResilientMethods
+public class Application {
+  ...
+} 
+```
+
+### Versioning API REST
+
+Spring 7+ supporte le versioning des APIs REST :
+
+Niveau @Controller
+```java
+@RequestMapping(path="/api", produces=MediaType.APPLICATION_JSON_VALUE, version="1.0+")
+public class ApiController {
+  @GetMapping(path="/queue/stats", version="1.1")
+  public QueueStats queueStats() {
+    ...
+  }
+```
+
+Niveau config
+```java
+@Configuration(proxyBeanMethods = false)
+public class WebConfiguration implements WebMvcConfigurer {
+  @Override
+  public void configureApiVersioning(ApiVersionConfigurer configurer) {
+    // alternative 1 : par défaut
+    WebMvcConfigurer.super.configureApiVersioning(configurer);
+
+    // alternative 2 : manuel
+    configurer.useRequestHeader("API-Version")
+            .addSupportedVersions("1.0", "1.1")
+            .setDefaultVersion(1.1");
+  }
+} 
+```
+
+Source : 
+[Spring 7 Road to GA - API Versioning in Spring](https://spring.io/blog/2025/09/16/api-versioning-in-spring) \
+[Paris JUG - Spring Boot: Chapitre 4](https://youtu.be/687mwbaZo8g?t=2634)
+
 
 ## [Spring Framework 6.2: Core Container Revisited by Juergen Hoeller @ Spring I/O 2024](https://www.youtube.com/watch?v=GzX3C0sTFbw)
 
@@ -99,6 +161,10 @@ https://start.spring.io
 3.2 : [Tips by Josh Long](https://www.youtube.com/watch?v=dMhpDdR6nHw)
 
 Retrospective (2025-01-30) : [Spring Boot co-creator Phil Webb and its biggest fan Josh Long look at its first ten whole years!](https://www.youtube.com/watch?v=SwKrrLCVTH0)
+
+## Spring boot 4
+
+[Demo app Spring Boot 4 par Brian Clozel et ](https://github.com/bclozel/matchmaking)
 
 ## Tips
 
