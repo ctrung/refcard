@@ -41,6 +41,14 @@ Configuration du plugin errorprone :
 - option [NullAway:JSpecifyMode](https://github.com/uber/NullAway/wiki/Configuration#jspecify-mode) à `true`: indique que nullaway doit tenir compte des annotations jspecify
 - option [NullAway:CustomContractAnnotation](https://github.com/uber/NullAway/wiki/Configuration#custom-contract-annotations) à eg. `org.sprigframework.lang.Contract` : facultatif, renseigne la(les) annotation(s) `@Contract` custom utilisée pour résoudre les NPE (ex. org.springframework.util.Assert.notNull)
 
+## Prérequis
+
+Compiler avec :
+* java 22+
+* java 21.0.8+ et `-XDaddTypeAnnotationsToSymbol=true`
+
+Pour les applications qui s'exécutent sur une ancienne version de java, jouer avec le paramètre release/target. 
+
 ## Exemple configuration maven
 
 Projet `.mvn/jvm.config`
