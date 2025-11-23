@@ -1,13 +1,13 @@
 ## Introduction
 
-Par défaut, les objets sont "nullable" en java. Non contrôlé, un objet nullable provoque potentiellement un Null Pointer Exception (NPE) au runtime. 
+Par défaut, un objet java est "nullable", provoquant potentiellement un NPE à l'exécution si non contrôlé. 
 
-Il existe des solutions pour éviter les NPE :
-- L'API `Optional` mais celle ci est invasive et non généralisable à toutes les situations (concue pour les valeurs de retour comme dans l'API Stream)
-- Annotations reconnues par les IDE comme JSR-305, Jetbrains, Spring, etc...
+2 solutions pour éviter les NPE :
 
-**JSpecify** est une nouvelle librairie d'annotations de détection des NPE lors du dev qui complétée de **NullAway** (extension **ErrorProne**) bloque celles ci lors du build. \
-Contrairement aux autres librairies d'annotations, elle est standardisée et adoptée par la communauté java. Elle est plus puissante puisqu'on peut aussi annoter les objets d'un tableau ou un type paramétré d'un generic.  
+1/ L'API `Optional`. Inconvénients : invasive, non généralisable à tous les cas (concue principalement pour les valeurs de retour, cf. usage API Stream)
+
+2/ Un set d'annotations reconnues par les outils comme JSR-305, Jetbrains, Spring, etc... \
+**JSpecify** est une nouvelle librairie d'annotations qui si complétée de **NullAway** (optionnel), une extension **ErrorProne**, peut bloquer le build. Elle est standardisée et doit dévenir la référence à terme. Plus puissante, elle peut aussi annoter les objets d'un tableau ou les types paramétrés.  
 
 ## Fonctionnement
 
@@ -30,15 +30,21 @@ import org.jspecify.annotations.NullMarked;
 
 JSpecify supporte aussi les classes du JDK et est en cours d'adoption dans Spring 7.
 
-JSpecify n'est utile qu'en dev avec un IDE. Il permet de détecter/bloquer lors du build s'il est complété d'un plugin **ErrorProne** comme **NullAway**.
+JSpecify n'est utile qu'en dev avec un IDE. Pour détecter/bloquer lors du build, il faut installer un plugin **ErrorProne** comme **NullAway**.
 
 Les dépendances à ajouter au build sont : `com.google.errorprone:error_prone_core:2.37.0`, `com.uber.nullaway:nullaway:0.12.6`.
 
-Configurer errorprone :
-- disableAllChecks (pour ne garder que nullaway)
-- option `NullAway:OnlyNullMarked` à `true`
-- error `NullAway` pour bloquer au lieu d'afficher des warnings
-- option `NullAwayJSpecifyMode` à `true`
+Configuration du plugin errorprone :
+- disableAllChecks : désactive les checks par défaut d'erronprone
+- option [NullAway:OnlyNullMarked](https://github.com/uber/NullAway/wiki/Configuration#only-nullmarked-version-0123-and-after) à `true` : active nullaway
+- error `NullAway` : bloque le build au lieu d'avertir
+- option [NullAway:JSpecifyMode](https://github.com/uber/NullAway/wiki/Configuration#jspecify-mode) à `true`: indique que nullaway doit tenir compte des annotations jspecify
+- option [NullAway:CustomContractAnnotation](https://github.com/uber/NullAway/wiki/Configuration#custom-contract-annotations) à eg. `org.sprigframework.lang.Contract` : facultatif, renseigne la(les) annotation(s) `@Contract` custom utilisée pour résoudre les NPE (ex. org.springframework.util.Assert.notNull)
+
+Références : \
+https://github.com/uber/NullAway/wiki/Configuration \
+https://errorprone.info/docs/flags \
+https://errorprone.info/docs/installation#maven
 
 ## Tips
 
@@ -53,7 +59,7 @@ String body = client.get().uri("/never-empty").retrieve().body(String.class);
 System.out.println(Objects.requireNonNull(body).length);
 ```
 
-Spring fournit aussi la classe Assert qui est reconnue par IntellijIDEA du fait de l'annotation `@Contract` : 
+Spring fournit aussi la classe `org.springframework.util.Assert` également reconnue par IntellijIDEA du fait de l'annotation `@Contract` : 
 ```java
 Assert.state(body != null, "error message");
 
@@ -63,7 +69,6 @@ public abstract class Assert {
     ...
   }
 }
-
 ```
 
 ## Références
