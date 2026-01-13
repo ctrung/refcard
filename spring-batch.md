@@ -1,3 +1,17 @@
+# Liens intéressants
+
+[Revisit the chunk-oriented processing model implementation #3950 (closed)](https://github.com/spring-projects/spring-batch/issues/3950)
+
+[Revisit the mechanism of job registration #4547 (closed)](https://github.com/spring-projects/spring-batch/issues/4547)
+
+[Stackoverflow : Role of PlatformTransactionManager with Spring batch 5](https://stackoverflow.com/questions/75087558/role-of-platformtransactionmanager-with-spring-batch-5)
+
+# Guides de migration
+
+[Spring Batch 5](https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-5.0-Migration-Guide) (fin 2022)
+
+[Spring Batch 6](https://github.com/spring-projects/spring-batch/wiki/Spring-Batch-6.0-Migration-Guide) (fin 2025)
+
 # Arrêt brutal d'un job
 
 En fonction de la situation, il faut potentiellement mettre à jour manuellement le statut du jobExecution à FAILED ou ABANDONED.
