@@ -8,6 +8,16 @@ alter session set current schema=sys;
 select * from v$version;  -- version Oracle
 ```
 
+## Jdbc
+
+Formats url Jdbc
+
+|Thin style (SID)|Thin style (Service)|Oracle Net connection descriptor style (SID)|Oracle Net connection descriptor style (Service)|
+|---|---|---|---|
+|jdbc:oracle:thin:@[HOST][:PORT]:SID|jdbc:oracle:thin:@//[HOST][:PORT]/SERVICE|jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(COMMUNITY=TCP)(PROTOCOL=TCP)(Host=...)(Port=...))(CONNECT_DATA=(SID=...)(SERVER=DEDICATED)))|jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(COMMUNITY=TCP)(PROTOCOL=TCP)(Host=...)(Port=...))(CONNECT_DATA=(SERVICE_NAME=...)(SERVER=DEDICATED)))|
+
+[Doc de référence Oracle : Database URLs and Database Specifiers](https://docs.oracle.com/cd/B19306_01/java.102/b14355/urls.htm#BEIJFHHB)
+
 ## Joindre sur la première ligne seulement
 
 Oracle n'a pas le `distinct on` de postgres, donc il faut rendre unique de manière manuelle (row_number, max/min, fetch first 1 rows only, etc.)
