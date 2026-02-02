@@ -40,6 +40,13 @@ where
   and propriete_json_1 = ...     -- colonne issue de ma_table.ma_colonne_contenant_du_json.propriete_json_1
 ```
 
+## Privilèges
+
+```sql
+-- A faire sur les tables, vues, séquences, procédures stockées, etc.
+GRANT SELECT ON ... TO <user>;
+```
+
 ## Variables
 https://forums.oracle.com/ords/apexds/post/pl-sql-101-substitution-vs-bind-variables-6214 \
 https://stackoverflow.com/questions/5653423
