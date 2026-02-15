@@ -240,9 +240,13 @@ future.thenAccept(info -> System.out.println("info : " + info));
 ```
 ## Livelock
 
-Cas spécifique de [starvation](#starvation).
+Comme le deadlock, disfonctionnement d'un système à être vivace (liveness).
 
-Deux threads sont dans une situation de deadlock. Ils décident de relâcher leurs ressources en même temps et vont vérouiller l'autre ressource en même temps aussi. Ils se retrouvent dans une nouvelle situation de deadlock et le scénario se rejoue à l'infini.   
+Dans le cas d'un livelock, contrairement au deadlock, le système continue à fonctionner mais ne progresse pas en raison d'une boucle sans possibilité de sortie.
+
+Exemple 1 : Une erreur non récupérable survient sur une tâche (1). Celle ci est remise en tête de la pile des tâches (2). Elle est retraitée et on revient à l'étape (1). 
+
+Exemple 2 : Soit un système avec deux threads et deux locks. Chaque threads a besoin des deux locks pour accéder à une ressource partagée. Si chaque thread possède déjà un lock et décide de le relâcher en vue d'éviter un dealock mais qu'ils prennent l'autre lock en même temps, ils retomberont dans la situation de départ.   
 
 ## Lock framework
 
