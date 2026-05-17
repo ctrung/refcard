@@ -4,7 +4,7 @@ https://tldr.inbrowser.app/ \
 https://cheat.sh/ \
 https://github.com/dylanaraps/pure-bash-bible
 
-## Useful Linux programs
+## Linux programs
 
 - [Autojump](https://github.com/wting/autojump) : a faster way to navigate your filesystem
 - [Brave](https://brave.com/) : an alternative web browser with add free capabilities
@@ -20,7 +20,7 @@ Try list :
 - [Helix editor](https://helix-editor.com/) : modern alternative to vim
 - [Jujutsu](https://jj-vcs.github.io/) : also known as jj, vcs that supports multiple backends like git
 
-## Useful Windows programs
+## Windows programs
 
 - [mRemoteNG](https://github.com/mRemoteNG/mRemoteNG) : a multi-protocol client (ssh, remote desktop, ftp, etc.)
   - Show password utility (Menu Outils > Outils externes)
@@ -35,7 +35,7 @@ Try list :
 - [Notepad++](https://notepad-plus-plus.org/)
   - Installer la coloration syntaxique pour markdown manuellement : https://github.com/Edditoria/markdown-plus-plus?tab=readme-ov-file#download-manually
 
-## Useful java librairies
+## Java librairies
 
 - Test DB
   - [AssertJ-DB](https://assertj.github.io/doc/#assertj-db) : Fluent API ([présentation devoxx france 2025](https://youtu.be/XILu4r3rIEc?si=qJ0f-IhyEPUMnXEY)) 
