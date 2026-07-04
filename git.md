@@ -1,6 +1,7 @@
 ## A voir
 
 [So You Think You Know Git (Scott Chacon) - FOSDEM 2024](https://www.youtube.com/watch?v=aolI_Rz0ZqY)
+[Chaine YouTube GitButler de Scott Chacon](https://www.youtube.com/@gitbutlerapp/featured)
 
 ## Personnaliser le prompt du terminal
 [Liquidprompt](https://github.com/liquidprompt/liquidprompt)
@@ -453,6 +454,46 @@ git show ac8b4a7:bin/script.ksh | file -
 git show HEAD:bin/script.ksh | file -
 /dev/stdin: a /usr/bin/ksh script, UTF-8 Unicode text executable, with CRLF line terminators
 ```
+## Log
+
+```
+git log
+git log --oneline --graph --all
+``
+
+Chercher via une regex dans le message des commits : `git log -- :/message`
+
+Diff. entre des branches
+```sh
+git log --oneline branch-2 ^main             # caret means "not" here -> all commits on branch-2 but NOT on main
+git log --oneline main ^branch-2             # vice versa
+git log --oneline branch-1 branch-2 ^main    # multiple branches is possible
+
+# two dots syntax
+git log --oneline main..branch-2             # same as "git log --oneline branch-2 ^main", the first branch is the one that you don't want
+
+# triple dots syntax
+git log --oneline main...branch-2            # show all commits in main and branch-2 without the common ancestors
+```
+Les notations `..` et `...` sont décrites dans la section [SPECIFYING RANGES](https://git-scm.com/docs/gitrevisions#_specifying_ranges) de la documentation Git.
+
+
+## Reflog
+
+Historique d'une référence dans le temps au sein du repo local. Dit autrement, liste tous les SHA-1 des commits à chaque opération locale effectuée sur une référence (commit, merge, pull, etc.). \
+(cf. chapitre [refs](#refs) pour la définition d'une référence)
+
+```
+git reflog
+git reflog REV
+```
+
+Révisions au sein des reflogs
+```
+HEAD@{n} : n ème entrée au sein des reflogs
+HEAD@{yesterday} : dernière entrée an partant d'hier dans les reflogs
+```
+(cf. chapitre [Revisions](#revisions) pour les différentes notations de révisions) 
 
 
 ## Reset author and committer of previous commit
