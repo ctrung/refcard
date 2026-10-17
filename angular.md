@@ -8,4 +8,11 @@ ng serve                                                         # run the proje
 
 ng add @angular/material@16.0.0 --defaults  # angular-material is a styling module
                                             # https://fonts.google.com/icons
+
+npm install bootstrap@5.2.3
+
+ng config projects.Primer.architect.build.options.styles '["src/styles.css", "node_modules/bootstrap/dist/css/bootstrap.min.css"]'      # linux shell command
+ng config projects.Primer.architect.build.options.styles '[""src/styles.css"", ""node_modules/bootstrap/dist/css/bootstrap.min.css""]'  # windows powershell command
+
+ng serve --open  # also open the browser
 ```
